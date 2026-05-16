@@ -8,6 +8,10 @@ export const cloudimages = {
   icon_dryclean_2: `${BASE}/image/upload/v1778924226/icon_illust_4_p5a2bi.png`,
   icon_wash_1: `${BASE}/image/upload/v1778924226/icon_illust_2_asb905.png`,
   icon_wash_2: `${BASE}/image/upload/v1778924226/icon_illust_1_n0wi2r.png`,
+  stepbystep_1: `${BASE}/image/upload/v1778926660/stepbystep_illust_1_ng6t9i.png`,
+  stepbystep_2: `${BASE}/image/upload/v1778926660/stepbystep_illust_2_jbz0bf.png`,
+  stepbystep_3: `${BASE}/image/upload/v1778926660/stepbystep_illust_3_wmptue.png`,
+  stepbystep_4: `${BASE}/image/upload/v1778926660/stepbystep_illust_4_ruy7uj.png`,
 };
 
 
