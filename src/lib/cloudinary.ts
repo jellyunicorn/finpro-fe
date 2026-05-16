@@ -12,9 +12,15 @@ export const cloudimages = {
   stepbystep_2: `${BASE}/image/upload/v1778926660/stepbystep_illust_2_jbz0bf.png`,
   stepbystep_3: `${BASE}/image/upload/v1778926660/stepbystep_illust_3_wmptue.png`,
   stepbystep_4: `${BASE}/image/upload/v1778926660/stepbystep_illust_4_ruy7uj.png`,
+  bg_testimonial: `${BASE}/image/upload/v1778940552/bg-testimonial_qydlwb.webp`,
 };
 
-
+export const testi_icons = [
+  `${BASE}/image/upload/v1778924226/icon_illust_3_i4ad9a.png`,
+  `${BASE}/image/upload/v1778924226/icon_illust_4_p5a2bi.png`,
+  `${BASE}/image/upload/v1778924226/icon_illust_2_asb905.png`,
+  `${BASE}/image/upload/v1778924226/icon_illust_1_n0wi2r.png`,
+];
 
 export const cloudvideos = {
   heroBackground: `${BASE}/video/upload/v1778890512/background_landingpage_n9ltvx.mp4`,

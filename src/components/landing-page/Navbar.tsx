@@ -2,7 +2,7 @@ import mainLogoWhite from "../../img/svg/main_logo_white.svg";
 
 export default function Navbar() {
   return (
-    <div className="text-white border border-neutral-50/10 font-dmsans  z-10 inset-x-0 mt-10 mx-10 py-5 rounded-full px-8 bg-black/10 backdrop-blur-sm fixed">
+    <div className="text-white border border-neutral-50/10 font-dmsans  z-10 inset-x-0 mt-5 mx-10 py-5 rounded-full px-8 bg-black/10 backdrop-blur-sm fixed">
       <nav className=" flex justify-between  max-h-10 h-8">
         <div>
           <img src={mainLogoWhite} alt="" className="h-full mix-blend-difference" />

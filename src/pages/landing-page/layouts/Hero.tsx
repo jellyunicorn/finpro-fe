@@ -17,8 +17,8 @@ export default function Hero() {
         </div>
         <div className="w-full h-full p-10 flex relative z-2 flex-col justify-end">
           {" "}
-          <h1 className=" text-[#c4fff8] text-8xl font-medium">Fresh Laundy on time, zero effort.</h1>
-          <p className=" text-[#c4fff8] text-3xl">Schedule a pickup, track your order, and get fresh clothes back — all via the cloud.</p>
+          <h1 className=" text-[#c4fff8] text-5xl lg:text-7xl font-medium">Fresh Laundy on time, zero effort.</h1>
+          <p className=" text-[#c4fff8] lg:text-2xl">Schedule a pickup, track your order, and get fresh clothes back — all via the cloud.</p>
         </div>
       </div>
       <div className="w-[70%] flex-1 rounded-xl bg-[#296FDA] text-white px-8 py-4 flex items-center">test</div>

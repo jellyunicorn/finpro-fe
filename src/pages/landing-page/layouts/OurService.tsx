@@ -99,7 +99,7 @@ export default function OurService() {
                 <img
                   src={swoosh}
                   alt="wash-fold-icon"
-                  className="absolute z-0 w-50 -top-2 right-2"
+                  className="absolute z-0 w-50 -top-5 right-2 scale-y-[-1]"
                 />
               </div>
               <p className="text-lg relative z-1">

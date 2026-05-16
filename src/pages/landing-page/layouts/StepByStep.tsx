@@ -1,11 +1,21 @@
 import { cloudimages } from "../../../lib/cloudinary";
+import swoosh from "../../../img/svg/strokes.svg";
 
 export default function StepByStep() {
   return (
     <div className="w-full  bg-[#BAD6F5] flex flex-col py-40">
       <div className=" w-full h-full container mx-auto px-35 gap-10 flex flex-col">
         <div className="flex gap-10">
-          <h1 className="text-7xl font-medium text-[#296FDA]">Step By Step</h1>
+          <div className="relative ">
+            <img
+              src={swoosh}
+              alt="wash-fold-icon"
+              className="absolute z-0 w-[80%]"
+            />
+            <h1 className="text-7xl relative z-1 font-medium text-[#296FDA]">
+              Step By Step
+            </h1>
+          </div>
           <p className="text-md max-w-100">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
             tempora iure dolorem harum voluptas. Unde voluptate beatae fugiat!
