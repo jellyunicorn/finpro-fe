@@ -1,13 +1,13 @@
-import { images } from "../../../lib/cloudinary";
+import { cloudimages } from "../../../lib/cloudinary";
 
 export default function WhoWeAre() {
   return (
-    <section className="w-full h-150 bg-[#BAD6F5] px-30 py-15 grid grid-cols-2 justify-center items-center">
-      <div className=" max-h-125 h-full w-full flex py-15 flex-col justify-center gap-10 items-center">
+    <section className="w-full h-170 bg-[#BAD6F5] px-30 py-15 grid grid-cols-2 justify-center items-center">
+      <div className=" max-h-125 h-full container mx-auto w-full flex py-15 flex-col justify-center gap-10 items-center">
         <h1 className="text-5xl text-center text-[#296FDA] w-[85%] font-medium">
           Effortless laundry care, designed for busy lives.
         </h1>
-        <img src={images.whoWeAre} alt="who-we-are" className="w-[70%]" />
+        <img src={cloudimages.whoWeAre} alt="who-we-are" className="w-[70%]" />
       </div>
       <div className=" h-full max-h-125 w-full py-20 px-20 flex justify-center items-center flex-col">
         <article className=" max-w-100">
