@@ -3,7 +3,7 @@ import swoosh from "../../../img/svg/strokes.svg";
 
 export default function StepByStep() {
   return (
-    <div className="w-full  bg-[#BAD6F5] flex flex-col py-40">
+    <div className="w-full bg-[#BAD6F5] flex flex-col pt-20 pb-5">
       <div className=" w-full h-full container mx-auto px-35 gap-10 flex flex-col">
         <div className="flex gap-10">
           <div className="relative ">

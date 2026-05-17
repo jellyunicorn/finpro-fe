@@ -9,9 +9,9 @@ export default function WhoWeAre() {
         </h1>
         <img src={cloudimages.whoWeAre} alt="who-we-are" className="w-[70%]" />
       </div>
-      <div className=" h-full max-h-125 w-full py-20 px-20 flex justify-center items-center flex-col">
-        <article className=" max-w-100">
-          <h2 className="text-md text-left w-full text-[#296FDA] font-medium">
+      <div className=" h-full max-h-125 w-full py-20 px-20 flex justify-start  items-center flex-col">
+        <article className=" max-w-100 flex flex-col gap-5">
+          <h2 className="text-7xl text-left w-full text-[#296FDA] font-medium">
             Who we are
           </h2>
           <p className="text-sm max-h-70 line-clamp-30 text-[#1D1D1D]">

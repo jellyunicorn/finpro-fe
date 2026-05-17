@@ -7,3 +7,11 @@
 p, h1, h2, h3, span {
   font-family: var(--font-dmsans);
 }
+
+
+ul li {
+  cursor: pointer;
+}
+ul li:hover {
+  text-decoration: underline;
+}

@@ -23,5 +23,5 @@ export const testi_icons = [
 ];
 
 export const cloudvideos = {
-  heroBackground: `${BASE}/video/upload/v1778890512/background_landingpage_n9ltvx.mp4`,
+  heroBackground: `${BASE}/video/upload/v1778985704/loopable_hero_video_lzrf8a.mp4`,
 };

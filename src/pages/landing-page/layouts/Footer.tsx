@@ -1,4 +1,3 @@
-import { cloudimages } from "../../../lib/cloudinary";
 import logo_blue from "../../../img/svg/main_logo_blue.svg";
 
 export default function Footer() {
@@ -15,7 +14,7 @@ export default function Footer() {
             fresh, clean clothes right to your door.
           </p>
           <div className=" flex gap-15">
-            <ul className="flex flex-col font-dmsans gap-2">
+            <ul className="flex flex-col font-dmsans gap-2 ">
               <span className="font-bold">Get Started</span>
               <li>SIGN UP</li>
               <li>LOGIN</li>
@@ -55,13 +54,6 @@ export default function Footer() {
             className="scale-105 absolute -bottom-5"
           />
         </div>
-      </div>
-      <div className="w-full h-full absolute overflow-hidden z-0 inset-0">
-        <img
-          src={cloudimages.bg_testimonial}
-          alt="blue-laundry"
-          className="w-full h-full object-cover  scale-y-[-1]"
-        />
       </div>
     </footer>
   );

@@ -2,7 +2,7 @@ import { cloudvideos } from "../../../lib/cloudinary";
 
 export default function Hero() {
   return (
-    <section className="w-full  relative h-dvh p-5 flex flex-col items-center gap-4 bg-[#BAD6F5]">
+    <section id="hero" className="w-full  relative h-dvh p-5 flex flex-col items-center gap-4 bg-[#BAD6F5]">
       <div className=" relative bg-white w-full h-[90%] rounded-[20px] overflow-hidden flex">
         <div className="absolute w-full h-full">
           <div aria-label="overlay" className="absolute inset-0 w-full h-full bg-black/10 z-1"></div>
