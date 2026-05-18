@@ -2,12 +2,14 @@ type sidebarmenuprop = {
   icon: string;
   icon_dark: string;
   label: string;
+  minimize:boolean;
 };
 
 export default function SideBarMenu({
   icon,
   icon_dark,
   label,
+  minimize,
 }: sidebarmenuprop) {
   return (
     <div className="w-full h-15 p-2">
@@ -18,9 +20,9 @@ export default function SideBarMenu({
           alt=""
           className="absolute h-5 group-hover:opacity-0"
         />
-        <span className="font-dmsans group-hover:text-white font-medium text-[#296FDA] text-lg">
+{!minimize &&        <span className="font-dmsans group-hover:text-white font-medium text-[#296FDA] text-lg">
           {label}
-        </span>
+        </span>}
       </button>
     </div>
   );

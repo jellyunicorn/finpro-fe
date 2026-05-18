@@ -2,10 +2,16 @@ import { cloudvideos } from "../../../lib/cloudinary";
 
 export default function Hero() {
   return (
-    <section id="hero" className="w-full  relative h-dvh p-5 flex flex-col items-center gap-4 bg-[#BAD6F5]">
-      <div className=" relative bg-white w-full h-[90%] rounded-[20px] overflow-hidden flex">
+    <section
+      id="hero"
+      className="w-full  relative h-dvh p-5 flex flex-col items-center gap-4 bg-[#BAD6F5]"
+    >
+      <div className=" relative bg-white w-full h-dvh rounded-[20px] overflow-hidden flex">
         <div className="absolute w-full h-full">
-          <div aria-label="overlay" className="absolute inset-0 w-full h-full bg-black/10 z-1"></div>
+          <div
+            aria-label="overlay"
+            className="absolute inset-0 w-full h-full bg-black/10 z-1"
+          ></div>
           <video
             autoPlay
             muted
@@ -17,11 +23,21 @@ export default function Hero() {
         </div>
         <div className="w-full h-full p-10 flex relative z-2 flex-col justify-end">
           {" "}
-          <h1 className=" text-[#c4fff8] text-5xl lg:text-7xl font-medium">Fresh Laundy on time, zero effort.</h1>
-          <p className=" text-[#c4fff8] lg:text-2xl">Schedule a pickup, track your order, and get fresh clothes back — all via the cloud.</p>
+          <div className="justify-between flex items-center">
+            <div>
+              <h1 className=" text-[#c4fff8] text-5xl lg:text-7xl font-medium">
+                Fresh Laundy on time, zero effort.
+              </h1>
+              <p className=" text-[#c4fff8] lg:text-2xl">
+                Schedule a pickup, track your order, and get fresh clothes back
+                — all via the cloud.
+              </p>
+                          <button className="h-fit mt-5 hover:bg-white transition-all ease-in hover:text-blue-800 px-20 py-5 text-white border rounded-full border-white">SIGN UP</button>
+            </div>
+
+          </div>
         </div>
       </div>
-      <div className="w-[70%] flex-1 rounded-xl bg-[#296FDA] text-white px-8 py-4 flex items-center">test</div>
     </section>
   );
 }
