@@ -27,7 +27,7 @@ export default function Navbar() {
                 </div>
                 
                 <div className="flex items-center gap-5 ">
-<Link to="/user">
+<Link to="/login">
                       <span className="hover:underline hover:cursor-pointer animate-text-color">
                         LOGIN
                       </span>
