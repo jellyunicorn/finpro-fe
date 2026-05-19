@@ -8,6 +8,7 @@ import UserDashboard from "./pages/user-dashboard/UserDashboard.tsx";
 import Login from "./pages/login-register/layout/Login.tsx";
 import Register from "./pages/login-register/layout/Register.tsx";
 import AuthLayout from "./pages/login-register/AuthLayout.tsx";
+import VerifiedPage from "./pages/login-register/layout/VerifiedPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
     children:[
       {path: "/login", element:<Login/>},
       {path: "/register", element:<Register/>},
+      {path: "/verified", element:<VerifiedPage/>},
     ]
 
   },

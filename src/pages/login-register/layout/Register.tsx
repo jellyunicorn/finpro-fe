@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router";
 import appleLogo from "../../../img/svg/apple_logo.svg";
 import googleLogo from "../../../img/svg/google_logo.svg";
 import mainLogo from "../../../img/svg/main_logo_blue.svg";
-import { cloudimages } from "../../../lib/cloudinary";
 
 export default function Register() {
     const navigate = useNavigate();
@@ -10,8 +9,10 @@ export default function Register() {
   return (
     <main className="w-full md:w-[50%] h-full md:h-full  relative z-5 bg-white p-5  items-center justify-center font-dmsans  rounded-2xl flex">
       <div className="max-w-125 justify-between w-full  h-full flex flex-col md:gap-5  items-center ">
-        <Link to="/"><img src={mainLogo} alt="main-logo-blue" className="h-8" /></Link>
-        <div className="w-full flex flex-col items-center gap-5">
+       <div></div>
+        <div className="w-full flex flex-col  items-center gap-5">
+           <Link to="/"><img src={mainLogo} alt="main-logo-blue" className="h-8 mb-20" /></Link>
+          
           <h1 className="text-3xl">Create an Account</h1>
           <div className="flex flex-col gap-2 w-full mt-5">
             <button className="  hover:cursor-pointer border rounded-xl h-12 border-neutral-500 flex items-center justify-center gap-5 text-neutral-500">
