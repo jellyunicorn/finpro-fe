@@ -9,6 +9,7 @@ import Login from "./pages/login-register/layout/Login.tsx";
 import Register from "./pages/login-register/layout/Register.tsx";
 import AuthLayout from "./pages/login-register/AuthLayout.tsx";
 import VerifiedPage from "./pages/login-register/layout/VerifiedPage.tsx";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
@@ -32,5 +33,6 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RouterProvider router={router} />
+    <Toaster position="top-center" />
   </StrictMode>,
 );
