@@ -5,7 +5,11 @@ import { RouterProvider } from "react-router/dom";
 import "./index.css";
 import LandingPage from "./pages/landing-page/LandingPage.tsx";
 import UserDashboard from "./pages/user-dashboard/UserDashboard.tsx";
-import Login from "./pages/login/Login.tsx";
+import Login from "./pages/login-register/layout/Login.tsx";
+import Register from "./pages/login-register/layout/Register.tsx";
+import AuthLayout from "./pages/login-register/AuthLayout.tsx";
+import VerifiedPage from "./pages/login-register/layout/VerifiedPage.tsx";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
@@ -16,14 +20,19 @@ const router = createBrowserRouter([
     path: "/user",
     element: <UserDashboard/>
   },
-    {
-    path: "/login",
-    element: <Login/>
+  {element:<AuthLayout/>,
+    children:[
+      {path: "/login", element:<Login/>},
+      {path: "/register", element:<Register/>},
+      {path: "/verified", element:<VerifiedPage/>},
+    ]
+
   },
 ]);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RouterProvider router={router} />
+    <Toaster position="top-center" />
   </StrictMode>,
 );
