@@ -1,4 +1,4 @@
-import SideBar from "../../components/landing-page/SideBar"
+import SideBar from "../../components/SideBar"
 
 export default function UserDashboard() {
   return (

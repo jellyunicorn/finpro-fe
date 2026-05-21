@@ -1,11 +1,11 @@
 import { useState } from "react";
-import logo_home from "../../img/svg/home_menu_icon.svg";
-import logo_home_blue from "../../img/svg/home_menu_icon_blue.svg";
-import logo_logout from "../../img/svg/logout_logo.svg";
-import logo_blue from "../../img/svg/main_logo_blue.svg";
-import logo_settings from "../../img/svg/settings_menu_icon.svg";
-import logo_settings_blue from "../../img/svg/settings_menu_icon_blue.svg";
-import logo_sidebar from "../../img/svg/sidebar_icon.svg";
+import logo_home from "../img/svg/home_menu_icon.svg";
+import logo_home_blue from "../img/svg/home_menu_icon_blue.svg";
+import logo_logout from "../img/svg/logout_logo.svg";
+import logo_blue from "../img/svg/main_logo_blue.svg";
+import logo_settings from "../img/svg/settings_menu_icon.svg";
+import logo_settings_blue from "../img/svg/settings_menu_icon_blue.svg";
+import logo_sidebar from "../img/svg/sidebar_icon.svg";
 import SideBarMenu from "./SideBarMenu";
 import { Link } from "react-router";
 
