@@ -58,7 +58,7 @@ export default function VerifiedPage() {
 
   const activateAccount = async () => {
     const createUser = async () =>
-      await axiosInstance.post("/auth/createuser", registerForm);
+      await axiosInstance.post("/auth/create-user", registerForm);
     try {
       await toast.promise(createUser, {
         loading: "Processing..",
