@@ -4,7 +4,7 @@ import { Link, useNavigate, useSearchParams } from "react-router";
 import HidePasswordBtn from "../../../components/HidePasswordBtn";
 import mainLogo from "../../../img/svg/main_logo_blue.svg";
 import { axiosInstance } from "../../../lib/axios";
-import { passwordSchema } from "../../../lib/zodValidationSchema";
+import { passwordSchema } from "../../../schemas/zodValidationSchema";
 import toast from "react-hot-toast";
 
 type activationForm = {
