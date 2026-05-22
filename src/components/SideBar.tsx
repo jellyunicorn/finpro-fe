@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import logo_logout from "../img/svg/logout_logo.svg"
+import logo_logout from "../img/svg/logout_logo.svg";
 import logo_blue from "../img/svg/main_logo_blue.svg";
 import logo_sidebar from "../img/svg/sidebar_icon.svg";
 import SideBarMenu from "./SideBarMenu";
