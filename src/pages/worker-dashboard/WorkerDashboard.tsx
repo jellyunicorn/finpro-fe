@@ -1,4 +1,4 @@
-import { Outlet, useOutlet } from "react-router";
+import { useOutlet } from "react-router";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import SideBar from "../../components/SideBar";
 import logo_home from "../../img/svg/home_menu_icon.svg";
@@ -6,7 +6,7 @@ import logo_home_blue from "../../img/svg/home_menu_icon_blue.svg";
 import logo_settings from "../../img/svg/settings_menu_icon.svg";
 import logo_settings_blue from "../../img/svg/settings_menu_icon_blue.svg";
 
-export default function UserDashboard() {
+export default function WorkerDashboard() {
   const outlet = useOutlet();
 
   return (
