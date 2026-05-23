@@ -14,6 +14,8 @@ import VerifiedPage from "./pages/login-register/layout/VerifiedPage.tsx";
 import { authLoader } from "./loaders/auth.ts";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ResetPassword from "./pages/user-dashboard/layout/ResetPassword.tsx";
+import UserProfile from "./pages/user-dashboard/layout/UserProfile.tsx";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +28,10 @@ const router = createBrowserRouter([
     path: "/user",
     loader: authLoader(["USER"]),
     element: <UserDashboard />,
+    children: [
+      { path: "resetpassword", element: <ResetPassword /> },
+      { path: "profile", element: <UserProfile /> },
+    ],
   },
   {
     element: <AuthLayout />,

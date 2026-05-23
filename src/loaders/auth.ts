@@ -8,12 +8,12 @@ export const authLoader = (allowedRoutes?: String[]) => {
 
     
     if (!user) {
-      toast("Access denied, please Log in to enter")
+      toast.error("Access denied, please Log in to enter")
       return redirect("/login");
     }
 
-     if (user.verifiedAt === null) {
-      toast("Access denied, Email has not")
+     if (!user.verifiedAt || user.verifiedAt === null) {
+      toast.error("Please verify your email before continuing")
       return redirect("/login");
     }
 

@@ -1,3 +1,4 @@
+import { Outlet } from "react-router";
 import SideBar from "../../components/SideBar";
 import logo_home from "../../img/svg/home_menu_icon.svg";
 import logo_home_blue from "../../img/svg/home_menu_icon_blue.svg";
@@ -24,14 +25,7 @@ export default function UserDashboard() {
         ]}
       />
       <div className="  h-full flex flex-col flex-1">
-        <div className="border-b border-[#BAD6F5] text-neutral-400 font-medium w-full h-16 flex items-center px-10">
-          {" "}
-          Home /{" "}
-        </div>
-        <main className=" flex-1 flex justify-center items-center">
-          {" "}
-          content{" "}
-        </main>
+         <Outlet/>
       </div>
     </div>
   );
