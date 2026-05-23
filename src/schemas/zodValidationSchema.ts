@@ -9,3 +9,11 @@ export const passwordSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+  export const registerAccountSchema = z.object({
+    email: z.email(),
+    fullName: z
+      .string()
+      .min(1, "Your name must be more than 1 character")
+      .regex(/^[a-zA-Z\s]+$/, "Name can only contain letters and spaces")
+  })

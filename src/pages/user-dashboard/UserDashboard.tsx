@@ -1,4 +1,4 @@
-import { Outlet, useOutlet } from "react-router";
+import { useOutlet } from "react-router";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import SideBar from "../../components/SideBar";
 import logo_home from "../../img/svg/home_menu_icon.svg";
