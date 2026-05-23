@@ -20,6 +20,8 @@ import WorkerDashboard from "./pages/worker-dashboard/WorkerDashboard.tsx";
 import WorkerDashboardSettings from "./pages/worker-dashboard/WorkerDashboardSettings.tsx";
 import AdminDashboard from "./pages/admin-dashboard/AdminDashboard.tsx";
 import AdminDashboardSettings from "./pages/admin-dashboard/AdminDashboardSettings.tsx";
+import ResetPassword from "./pages/user-dashboard/layout/ResetPassword.tsx";
+import UserProfile from "./pages/user-dashboard/layout/UserProfile.tsx";
 
 const router = createBrowserRouter([
   {
@@ -27,10 +29,13 @@ const router = createBrowserRouter([
     element: <LandingPage />,
   },
   {
-    path: "/user-dashboard",
+    path: "/user-home",
     loader: authLoader(["USER"]),
     element: <UserDashboard />,
-    children: [{ path: "settings", element: "" }],
+    children: [
+      { path: "user-profile", element: <UserProfile /> },
+      { path: "reset-password", element: <ResetPassword /> },
+    ],
   },
   {
     path: "/driver-dashboard",

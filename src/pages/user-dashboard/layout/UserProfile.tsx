@@ -1,26 +1,41 @@
+import UserDetails from "../../../components/user-dashboard/UserDetails";
+
 export default function UserProfile() {
+  const data = "";
   return (
-    <div className="w-full h-full">
-      <div className="border-b border-[#BAD6F5] text-neutral-400 font-medium w-full h-16 flex items-center px-10">
-        {" "}
-        Home / Reset Password{" "}
-      </div>
-      <main className=" flex-1 flex px-10 py-10 flex-col">
-        <div className="border w-full h-fit flex gap-5">
-          <img
-            src=""
-            alt=""
-            className="w-15 h-15 rounded-full bg-neutral-400"
-          />
-          <div className="flex flex-col  justify-center">
-            <span className="text-2xl font-medium text-[#296FDA]">
-              User Name
-            </span>
-            <p className="italic text-neutral-400">member</p>
-          </div>
+    <main className=" flex-1 flex px-10 py-10 flex-col gap-5">
+      <div className=" w-full h-fit flex gap-5">
+        <img src="" alt="" className="w-15 h-15 rounded-full bg-neutral-400" />
+        <div className="flex flex-col  justify-center">
+          <h1 className="text-2xl font-medium text-[#296FDA]">User Name</h1>
+          <p className="italic text-neutral-400">member</p>
         </div>
-        <div className="h-100 rounded-2xl border"></div>
-      </main>
-    </div>
+      </div>
+      <div className=" rounded-2xl gap-5 flex flex-col min-w-[500px] h-fit w-[50%] bg-white  drop-shadow-lg shadow-black p-10 border-neutral-100 border ">
+        <h1 className="text-xl font-medium text-[#296FDA]">
+          Personal Information
+        </h1>
+        <div className="flex flex-col gap-2">
+          <UserDetails title="Full Name" content={data || "-"} />
+          <hr className="border-neutral-200" />
+          <UserDetails title="E-Mail" content={data || "-"} />
+          <hr className="border-neutral-200" />
+          <UserDetails title="Password" content={data || "-"} />
+          <hr className="border-neutral-200" />
+          <UserDetails title="Phone" content={data || "-"} />
+          <hr className="border-neutral-200" />
+          <UserDetails title="Birth date" content={data || "-"} />
+          <hr className="border-neutral-200" />
+        </div>
+        <div className="w-full flex justify-end gap-2">
+          <button className="bg-[#296FDA] px-5 py-1 rounded-full text-white">
+            Edit Details
+          </button>
+          <button className="bg-[#296FDA] px-5 py-1 rounded-full text-white">
+            Change Password
+          </button>
+        </div>
+      </div>
+    </main>
   );
 }
