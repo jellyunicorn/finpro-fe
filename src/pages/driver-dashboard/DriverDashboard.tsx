@@ -6,7 +6,7 @@ import logo_home_blue from "../../img/svg/home_menu_icon_blue.svg";
 import logo_settings from "../../img/svg/settings_menu_icon.svg";
 import logo_settings_blue from "../../img/svg/settings_menu_icon_blue.svg";
 
-export default function UserDashboard() {
+export default function DriverDashboard() {
   const outlet = useOutlet();
 
   return (
