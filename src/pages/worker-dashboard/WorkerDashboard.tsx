@@ -5,45 +5,49 @@ import logo_home from "../../img/svg/home_menu_icon.svg";
 import logo_home_blue from "../../img/svg/home_menu_icon_blue.svg";
 import logo_settings from "../../img/svg/settings_menu_icon.svg";
 import logo_settings_blue from "../../img/svg/settings_menu_icon_blue.svg";
+import WorkerDashboardStats from "./WorkerDashboardStats";
 
 export default function WorkerDashboard() {
   const outlet = useOutlet();
 
+  const menuItems = [
+    {
+      icon: logo_home,
+      iconDark: logo_home_blue,
+      label: "Dashboard",
+      to: "",
+    },
+    {
+      icon: logo_home,
+      iconDark: logo_home_blue,
+      label: "Attendance",
+      to: "attendance",
+    },
+    {
+      icon: logo_home,
+      iconDark: logo_home_blue,
+      label: "Orders",
+      to: "orders",
+      children: [
+        { label: "History", to: "" }
+      ],
+    },
+    {
+      icon: logo_settings,
+      iconDark: logo_settings_blue,
+      label: "Settings",
+      to: "settings",
+    },
+  ];
+
   return (
     <div className="w-full font-dmsans h-dvh bg-[#FBFDFF] flex">
-      <SideBar
-        menuItems={[
-          {
-            icon: logo_home,
-            iconDark: logo_home_blue,
-            label: "Dashboard",
-            to: "",
-          },
-          {
-            icon: logo_home,
-            iconDark: logo_home_blue,
-            label: "Attendance",
-            to: "attendance",
-          },
-          {
-            icon: logo_home,
-            iconDark: logo_home_blue,
-            label: "Orders",
-            to: "orders",
-          },
-          {
-            icon: logo_settings,
-            iconDark: logo_settings_blue,
-            label: "Settings",
-            to: "settings",
-          },
-        ]}
-      />
+      <SideBar menuItems={menuItems} />
       <div className="  h-full flex flex-col flex-1">
         <div className="border-b border-[#BAD6F5] text-neutral-400 font-medium w-full h-16 flex items-center px-10">
           <Breadcrumbs />
         </div>
-        {outlet || (<div>Content</div>)}
+        {outlet || <WorkerDashboardStats />}
       </div>
     </div>
   );
