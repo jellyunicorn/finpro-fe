@@ -1,5 +1,4 @@
-import { cloudimages, testi_icons } from "../../lib/cloudinary";
-
+import { testi_icons } from "../../lib/cloudinary";
 type dataprops = {
   name: string;
   city: string;

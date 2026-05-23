@@ -1,5 +1,4 @@
 import TestimonialCard from "../../../components/landing-page/TestimonialCard";
-import { cloudimages } from "../../../lib/cloudinary";
 import { testimonials } from "../../../lib/testimonials";
 
 export default function Testimonials() {
@@ -19,7 +18,6 @@ export default function Testimonials() {
       <div className="absolute w-full h-20 z-2 rounded-b-[80px] inset-0 bg-[#BAD6F5]"></div>
        {/* <div className="w-full h-full absolute inset-0">
         <img
-          src={cloudimages.bg_testimonial}
           alt="blue-laundry"
           className="w-full h-full object-cover"
         />

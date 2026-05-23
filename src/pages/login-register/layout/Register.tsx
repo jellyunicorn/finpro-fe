@@ -5,7 +5,6 @@ import mainLogo from "../../../img/svg/main_logo_blue.svg";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../../../lib/axios";
 import { useState } from "react";
-import axios from "axios";
 
 type RegisterForm = {
   fullName: string;

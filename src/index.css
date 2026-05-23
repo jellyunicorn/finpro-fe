@@ -2,6 +2,10 @@
 
 @theme {
   --font-dmsans: "DM Sans", sans-serif;
+
+  --color-claundry-primary: #296FDA;
+  --color-claundry-sidebar: #BAD6F5;
+  --color-claundry-bg: #FBFDFF;
 }
 
 p, h1, h2, h3, span {
