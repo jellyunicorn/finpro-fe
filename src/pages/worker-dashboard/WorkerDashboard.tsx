@@ -20,6 +20,18 @@ export default function WorkerDashboard() {
             to: "",
           },
           {
+            icon: logo_home,
+            iconDark: logo_home_blue,
+            label: "Attendance",
+            to: "attendance",
+          },
+          {
+            icon: logo_home,
+            iconDark: logo_home_blue,
+            label: "Orders",
+            to: "orders",
+          },
+          {
             icon: logo_settings,
             iconDark: logo_settings_blue,
             label: "Settings",
