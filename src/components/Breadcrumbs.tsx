@@ -23,7 +23,7 @@ export default function Breadcrumbs() {
         const isFirst = index === 0;
         return (
           <span key={crumb.pathname} className="flex items-center space-x-2">
-            {!isFirst && <span>/</span>}
+            {!isFirst && <span>&gt;</span>}
             {isLast ? (
               <span className="font-medium text-gray-700">
                 {crumb.breadcrumb}

@@ -10,6 +10,7 @@ type MenuItem = {
   iconDark: string;
   label: string;
   to: string;
+  children?: { label: string; to: string }[];
 };
 
 type SideBarProps = {
@@ -33,7 +34,11 @@ export default function SideBar({ menuItems }: SideBarProps) {
         >
           {!minimize && (
             <Link to="/" className="h-full flex items-center">
-              <img src={logo_blue} alt="main-logo" className="h-full max-h-10" />
+              <img
+                src={logo_blue}
+                alt="main-logo"
+                className="h-full max-h-10"
+              />
             </Link>
           )}
           <button
@@ -53,6 +58,7 @@ export default function SideBar({ menuItems }: SideBarProps) {
                 iconDark={item.iconDark}
                 label={item.label}
                 to={item.to}
+                children={item.children}
                 minimize={minimize}
               />
             ))}
