@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { cloudvideos } from "../../../lib/cloudinary";
 
 export default function Hero() {
@@ -32,7 +33,7 @@ export default function Hero() {
                 Schedule a pickup, track your order, and get fresh clothes back
                 — all via the cloud.
               </p>
-                          <button className="h-fit mt-5 hover:bg-white transition-all ease-in hover:text-blue-800 px-20 py-5 text-white border rounded-full border-white">SIGN UP</button>
+                         <Link to="/register"> <button className="h-fit mt-5 hover:bg-white transition-all ease-in hover:text-blue-800 px-20 py-5 text-white border rounded-full border-white">SIGN UP</button></Link>
             </div>
 
           </div>
