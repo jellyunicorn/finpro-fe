@@ -15,7 +15,6 @@ type loginState = {
 
 type AppActions = {
   setUser: (user: loginState["user"]) => void;
-  logout: () => void;
 };
 
 export const useLoginStore = create<loginState & AppActions>()(
@@ -23,11 +22,6 @@ export const useLoginStore = create<loginState & AppActions>()(
     (set) => ({
       user: null,
       setUser: (userdata) => set({ user : userdata  }),
-      logout: async () => {
-        await axiosInstance.post("/auth/logout");
-        set({ user: null });
-        window.location.href = "/";
-      },
     }),
     { name: "auth-store" },
   ),

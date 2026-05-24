@@ -4,6 +4,7 @@ import logo_logout from "../img/svg/logout_logo.svg";
 import logo_blue from "../img/svg/main_logo_blue.svg";
 import logo_sidebar from "../img/svg/sidebar_icon.svg";
 import SideBarMenu from "./SideBarMenu";
+import useLogout from "../hooks/useLogout";
 
 type MenuItem = {
   icon: string;
@@ -19,7 +20,7 @@ type SideBarProps = {
 
 export default function SideBar({ menuItems }: SideBarProps) {
   const [minimize, setMinimize] = useState<boolean>(false);
-
+  const handleLogout = useLogout();
   return (
     <aside
       className={`flex flex-col ${
@@ -67,7 +68,9 @@ export default function SideBar({ menuItems }: SideBarProps) {
       </div>
 
       <div className="h-20 border border-[#BAD6F5] flex p-3 bg-white">
-        <button className="hover:bg-black flex hover:text-white items-center justify-center gap-5 font-dmsans w-full h-full rounded-lg bg-white border-[#BAD6F5] border">
+        <button 
+        onClick={handleLogout}
+        className="hover:bg-black flex hover:text-white items-center justify-center gap-5 font-dmsans w-full h-full rounded-lg bg-white border-[#BAD6F5] border">
           <img
             src={logo_logout}
             alt="logout-logo"
