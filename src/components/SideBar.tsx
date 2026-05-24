@@ -5,6 +5,7 @@ import logo_blue from "../img/svg/main_logo_blue.svg";
 import logo_sidebar from "../img/svg/sidebar_icon.svg";
 import SideBarMenu from "./SideBarMenu";
 import useLogout from "../hooks/useLogout";
+import { useLoginStore } from "../store/useAppStore";
 
 type MenuItem = {
   icon: string;
@@ -21,6 +22,8 @@ type SideBarProps = {
 export default function SideBar({ menuItems }: SideBarProps) {
   const [minimize, setMinimize] = useState<boolean>(false);
   const handleLogout = useLogout();
+  const user = useLoginStore((state) => state.user);
+
   return (
     <aside
       className={`flex flex-col ${
@@ -67,17 +70,32 @@ export default function SideBar({ menuItems }: SideBarProps) {
         </nav>
       </div>
 
-      <div className="h-20 border border-[#BAD6F5] flex p-3 bg-white">
-        <button 
-        onClick={handleLogout}
-        className="hover:bg-black flex hover:text-white items-center justify-center gap-5 font-dmsans w-full h-full rounded-lg bg-white border-[#BAD6F5] border">
-          <img
-            src={logo_logout}
-            alt="logout-logo"
-            className="w-5 mix-blend-difference"
-          />
-          {!minimize && <span>LOG OUT</span>}
-        </button>
+      <div className="w-full ">
+        <Link to="/user-home/user-profile">
+          <div className="w-fit h-15 hover:cursor-pointer hover:underline flex items-center justify-start px-5 font-medium text-neutral-600 text-md  gap-5">
+            <img
+              src={user?.avatar}
+              referrerPolicy="no-referrer"
+              alt=""
+              className="w-10 h-10 bg-neutral-300 rounded-full "
+            />
+            {!minimize && <p>{user?.fullName}</p>}
+          </div>
+        </Link>
+
+        <div className="h-20 border border-[#BAD6F5] flex p-3 bg-white">
+          <button
+            onClick={handleLogout}
+            className="hover:bg-black flex hover:text-white items-center justify-center gap-5 font-dmsans w-full h-full rounded-lg bg-white border-[#BAD6F5] border"
+          >
+            <img
+              src={logo_logout}
+              alt="logout-logo"
+              className="w-5 mix-blend-difference"
+            />
+            {!minimize && <span>LOG OUT</span>}
+          </button>
+        </div>
       </div>
     </aside>
   );

@@ -25,6 +25,7 @@ import WorkerDashboardAttendance from "./pages/worker-dashboard/WorkerDashboardA
 import WorkerDashboardOrderHistory from "./pages/worker-dashboard/WorkerDashboardOrderHistory.tsx";
 import WorkerDashboardOrders from "./pages/worker-dashboard/WorkerDashboardOrders.tsx";
 import WorkerDashboardSettings from "./pages/worker-dashboard/WorkerDashboardSettings.tsx";
+import Settings from "./pages/user-dashboard/layout/Settings.tsx";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
         loader: userDataLoader,
       },
       { path: "reset-password", element: <ResetPassword /> },
+      { path: "settings", element: <Settings /> },
     ],
   },
   {

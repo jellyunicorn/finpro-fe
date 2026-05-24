@@ -23,7 +23,7 @@ export default function UserDashboard() {
             icon: logo_settings,
             iconDark: logo_settings_blue,
             label: "Settings",
-            to: "user-profile",
+            to: "settings",
           },
         ]}
       />
