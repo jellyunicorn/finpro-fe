@@ -28,15 +28,14 @@ export default function WorkerDashboard() {
       iconDark: logo_home_blue,
       label: "Orders",
       to: "orders",
-      children: [
-        { label: "History", to: "" }
-      ],
+      children: [{ label: "History", to: "" }],
     },
     {
       icon: logo_settings,
       iconDark: logo_settings_blue,
       label: "Settings",
       to: "settings",
+      children: [{ label: "Change Password", to: "settings/change-password" }],
     },
   ];
 
