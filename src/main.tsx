@@ -23,6 +23,8 @@ import WorkerDashboardOrders from "./pages/worker-dashboard/WorkerDashboardOrder
 import WorkerDashboardSettings from "./pages/worker-dashboard/WorkerDashboardSettings.tsx";
 import UserProfile from "./pages/user-dashboard/layout/UserProfile.tsx";
 import ResetPassword from "./pages/user-dashboard/layout/ResetPassword.tsx";
+import { axiosInstance } from "./lib/axios.ts";
+import { userDataLoader } from "./loaders/userDataLoader.ts";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -35,7 +37,11 @@ const router = createBrowserRouter([
     loader: authLoader(["USER"]),
     element: <UserDashboard />,
     children: [
-      { path: "user-profile", element: <UserProfile /> },
+      {
+        path: "user-profile",
+        element: <UserProfile />,
+        loader: userDataLoader,
+      },
       { path: "reset-password", element: <ResetPassword /> },
     ],
   },
@@ -50,7 +56,7 @@ const router = createBrowserRouter([
     children: [
       { path: "attendance", element: <WorkerDashboardAttendance /> },
       { path: "orders", element: <WorkerDashboardOrders /> },
-      { path: "settings", element: <WorkerDashboardSettings /> }
+      { path: "settings", element: <WorkerDashboardSettings /> },
     ],
   },
   {

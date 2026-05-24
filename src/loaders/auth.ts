@@ -28,3 +28,14 @@ export const authLoader = (allowedRoutes?: String[]) => {
   };
 };
 
+export const isLoggedInLoader = () => {
+  return async () => {
+    const { user } = useLoginStore.getState();
+
+    if (!user) {
+      return redirect("/login");
+    }
+    return;
+  };
+};
+

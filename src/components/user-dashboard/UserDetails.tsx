@@ -12,11 +12,11 @@ export default function UserDetails({ title, content }: detailprops) {
 
   return (
     <div>
-      <div className=" items-center  grid grid-cols-3">
-        <div>
+      <div className=" items-center  flex ">
+        <div className="w-30">
           <h2>{title}</h2>
         </div>
-        <div>
+        <div className="min-w-65 w-fit text-neutral-500">
           <input
             type={
               title === "Password" ? (isHidden ? "password" : "text") : "text"
@@ -26,7 +26,7 @@ export default function UserDetails({ title, content }: detailprops) {
             disabled={true}
           />
         </div>
-        <div className="flex justify-end">
+        <div className="flex flex-1 justify-end">
           {/* show password icon */}
           {title === "Password" && (
             <button onClick={() => setIsHidden(!isHidden)}>

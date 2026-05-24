@@ -50,7 +50,7 @@ export default function SideBar({ menuItems }: SideBarProps) {
           </button>
         </div>
 
-        <nav className="h-full">
+        <nav className="h-full p-2">
           <div className="font-dmsans h-full flex flex-col gap-2 justify-start w-full">
             {menuItems.map((item, idx) => (
               <SideBarMenu
