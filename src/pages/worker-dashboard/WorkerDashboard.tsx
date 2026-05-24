@@ -29,7 +29,7 @@ export default function WorkerDashboard() {
       label: "Orders",
       to: "orders",
       children: [
-        { label: "History", to: "" }
+        { label: "History", to: "orders/history" }
       ],
     },
     {
