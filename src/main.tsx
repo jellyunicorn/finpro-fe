@@ -7,6 +7,7 @@ import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import "./index.css";
 import { authLoader } from "./loaders/auth.ts";
+import { userDataLoader } from "./loaders/userDataLoader.ts";
 import AdminDashboard from "./pages/admin-dashboard/AdminDashboard.tsx";
 import AdminDashboardSettings from "./pages/admin-dashboard/AdminDashboardSettings.tsx";
 import DriverDashboard from "./pages/driver-dashboard/DriverDashboard.tsx";
@@ -16,15 +17,14 @@ import AuthLayout from "./pages/login-register/AuthLayout.tsx";
 import Login from "./pages/login-register/layout/Login.tsx";
 import Register from "./pages/login-register/layout/Register.tsx";
 import VerifiedPage from "./pages/login-register/layout/VerifiedPage.tsx";
+import ResetPassword from "./pages/user-dashboard/layout/ResetPassword.tsx";
+import UserProfile from "./pages/user-dashboard/layout/UserProfile.tsx";
 import UserDashboard from "./pages/user-dashboard/UserDashboard.tsx";
 import WorkerDashboard from "./pages/worker-dashboard/WorkerDashboard.tsx";
 import WorkerDashboardAttendance from "./pages/worker-dashboard/WorkerDashboardAttendance.tsx";
+import WorkerDashboardOrderHistory from "./pages/worker-dashboard/WorkerDashboardOrderHistory.tsx";
 import WorkerDashboardOrders from "./pages/worker-dashboard/WorkerDashboardOrders.tsx";
 import WorkerDashboardSettings from "./pages/worker-dashboard/WorkerDashboardSettings.tsx";
-import UserProfile from "./pages/user-dashboard/layout/UserProfile.tsx";
-import ResetPassword from "./pages/user-dashboard/layout/ResetPassword.tsx";
-import { axiosInstance } from "./lib/axios.ts";
-import { userDataLoader } from "./loaders/userDataLoader.ts";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -55,7 +55,11 @@ const router = createBrowserRouter([
     element: <WorkerDashboard />,
     children: [
       { path: "attendance", element: <WorkerDashboardAttendance /> },
-      { path: "orders", element: <WorkerDashboardOrders /> },
+      {
+        path: "orders",
+        element: <WorkerDashboardOrders />,
+      },
+      { path: "orders/history", element: <WorkerDashboardOrderHistory /> },
       { path: "settings", element: <WorkerDashboardSettings /> },
     ],
   },
