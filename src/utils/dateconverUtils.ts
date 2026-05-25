@@ -1,0 +1,1 @@
+  export const toDateInput = (iso: string | null) => iso?.slice(0, 10) ?? null;

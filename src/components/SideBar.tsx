@@ -71,7 +71,7 @@ export default function SideBar({ menuItems }: SideBarProps) {
       </div>
 
       <div className="w-full ">
-        <Link to="/user-home/user-profile">
+        <Link to="/dashboard/user-profile">
           <div className="w-fit h-15 hover:cursor-pointer hover:underline flex items-center justify-start px-5 font-medium text-neutral-600 text-md  gap-5">
             <img
               src={user?.avatar}

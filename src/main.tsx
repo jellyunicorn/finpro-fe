@@ -35,7 +35,7 @@ const router = createBrowserRouter([
     element: <LandingPage />,
   },
   {
-    path: "/user-home",
+    path: "/Dashboard",
     loader: authLoader(["USER"]),
     element: <UserDashboard />,
     children: [
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
         loader: userDataLoader,
       },
       { path: "reset-password", element: <ResetPassword /> },
-      { path: "settings", element: <Settings /> },
+      { path: "settings", element: <Settings />, loader: userDataLoader },
     ],
   },
   {
@@ -60,7 +60,10 @@ const router = createBrowserRouter([
       { path: "attendance", element: <WorkerDashboardAttendance /> },
       { path: "orders", element: <WorkerDashboardOrders /> },
       { path: "settings", element: <WorkerDashboardSettings /> },
-      { path: "settings/change-password", element: <WorkerDashboardChangePassword /> },
+      {
+        path: "settings/change-password",
+        element: <WorkerDashboardChangePassword />,
+      },
       {
         path: "orders",
         element: <WorkerDashboardOrders />,

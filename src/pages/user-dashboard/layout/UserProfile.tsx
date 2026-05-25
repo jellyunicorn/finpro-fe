@@ -1,5 +1,6 @@
 import { useLoaderData } from "react-router";
 import UserDetails from "../../../components/user-dashboard/UserDetails";
+import { toDateInput } from "../../../utils/dateconverUtils";
 
 export default function UserProfile() {
   const profiledata = useLoaderData().userdata;
@@ -21,21 +22,13 @@ export default function UserProfile() {
           <hr className="border-neutral-200" />
           <UserDetails title="E-Mail" content={profiledata.email || "-"} />
           <hr className="border-neutral-200" />
-          <UserDetails title="Password" content={profiledata.password || "-"} />
-          <hr className="border-neutral-200" />
           <UserDetails title="Phone" content={profiledata.phone || "-"} />
           <hr className="border-neutral-200" />
-          <UserDetails title="Birth date" content={profiledata.birthDate || "-"} />
+          <UserDetails title="Birth date" content={toDateInput(profiledata.birthDate) || "-"} />
           <hr className="border-neutral-200" />
           <UserDetails title="Login By" content={profiledata.provider || "-"} />
         </div>
         <div className="w-full flex justify-end gap-2">
-          <button className="bg-[#296FDA] px-5 py-1 rounded-full text-white">
-            Edit Details
-          </button>
-          <button className="bg-[#296FDA] px-5 py-1 rounded-full text-white">
-            Change Password
-          </button>
         </div>
       </div>
     </main>

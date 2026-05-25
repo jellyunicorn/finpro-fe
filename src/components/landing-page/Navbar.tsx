@@ -44,7 +44,7 @@ export default function Navbar() {
           )}
 
           {user && (
-            <Link to="/user-home">
+            <Link to="/dashboard">
               <button className="flex items-center gap-2 hover:underline hover:text-blue-300 hover:cursor-pointer animate-text-color">
                 <p>Hi , {user.fullName} </p>
                 <div className="h-8 w-8 rounded-full bg-neutral-200 overflow-hidden">
