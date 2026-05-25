@@ -44,7 +44,7 @@ const router = createBrowserRouter([
         element: <UserProfile />,
         loader: userDataLoader,
       },
-      { path: "reset-password", element: <ResetPassword /> },
+      { path: "reset", element: <ResetPassword /> },
       { path: "settings", element: <Settings />, loader: userDataLoader },
     ],
   },

@@ -1,13 +1,13 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useLoaderData } from "react-router";
-import { useMutation } from "@tanstack/react-query";
 import Verifylabel from "../../../components/Verifylabel";
 import editicon_white from "../../../img/svg/edit-white.svg";
 import type { profiledata, profilepersonalForm } from "../../../lib/types";
-import toast from "react-hot-toast";
-import { axiosInstance } from "../../../lib/axios";
-import { useLoginStore } from "../../../store/useAppStore";
 import { toDateInput } from "../../../utils/dateconverUtils";
+import useUpdateData from "../../../hooks/useUpdateData";
+import xicon from "../../../img/svg/x_icon.svg";
+import { useSendResetEmail } from "../../../hooks/useSendResetEmail";
+
 
 export default function Settings() {
   const profiledata = (useLoaderData() as { userdata: profiledata }).userdata;
@@ -18,58 +18,49 @@ export default function Settings() {
     phone: profiledata.phone,
     birthDate: toDateInput(profiledata.birthDate),
   });
-  const [selectedPicture, setSelectedPicture] = useState<File | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const updateUser = useLoginStore((state) => state.updateUser);
-
-  const { mutate: uploadAvatar, isPending } = useMutation({
-    mutationFn: (file?: File) => {
-      const form = new FormData();
-      if (file) form.append("avatar", file);
-      form.append("fullName", personalForm.fullName ?? "");
-      form.append("phone", personalForm.phone ?? "");
-      form.append("birthDate", personalForm.birthDate ?? "");
-      return axiosInstance.patch("/user/update", form);
-    },
-    onSuccess: (res) => {
-      setPersonalForm(() => ({
-        id: res.data.id,
-        fullName: res.data.fullName,
-        phone: res.data.phone,
-        birthDate: toDateInput(res.data.birthDate),
-        avatar: res.data.avatar,
-      }));
-      setSelectedPicture(null);
-      updateUser({ fullName: res.data.fullName, avatar: res.data.avatar });
-      toast.success("Profile Data updated!");
-    },
-    onError: (err: any) =>
-      toast.error(err.response?.data?.message || "Upload failed."),
+  const { handleFileSelect, handleFileUpload, isPending } = useUpdateData(
+    personalForm,
+    setPersonalForm,
+  );
+  const [isReset, setIsReset] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const handleResetEmail = useSendResetEmail({
+    fullName: profiledata.fullName,
+    email: profiledata.email,
   });
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-
-    if (!file) {
-      toast.error("No file selected");
-      return;
-    }
-
-    if (file.size > 1 * 1024 * 1024) {
-      toast.error("File size must be under 1MB");
-      return;
-    }
-
-    setSelectedPicture(file);
-    setPersonalForm((prev) => ({ ...prev, avatar: URL.createObjectURL(file) }));
-  };
-
-  const handleFileUpload = () => {
-    uploadAvatar(selectedPicture ?? undefined);
-  };
-
   return (
-    <main className=" flex-1 flex px-10 py-10 flex-col gap-5">
+    <main className=" relative flex-1 flex px-10 py-10 flex-col gap-5">
+      {/* //------> */}
+
+      {isReset && (
+        <div className="w-full h-full flex justify-center items-center bg-neutral-800/40 z-2 absolute inset-0">
+          <div className="w-100 h-70 bg-white rounded-xl border-blue-200 p-10 border shadow-lg flex flex-col justify-between pointer-event-none">
+            <div className="flex w-full justify-between">
+              {" "}
+              <h1 className="text-2xl">Reset Password</h1>{" "}
+              <button onClick={() => setIsReset(false)}>
+                <img
+                  src={xicon}
+                  alt=""
+                  className="w-6 translate-x-7 -translate-y-7"
+                />
+              </button>
+            </div>
+            <p>
+              We'll send a password reset link to your registered email. Click
+              the button below to proceed{" "}
+            </p>
+            <button 
+            onClick={()=>handleResetEmail()}
+            className="border hover:bg-blue-500 hover:text-white rounded-full border-blue-500 text-blue-500">
+              {" "}
+              Send Reset Link
+            </button>
+          </div>
+        </div>
+      )}
+      {/* //------> */}
       <div>
         <h1 className="text-2xl font-medium text-[#296FDA]">Settings</h1>
         <p className="text-sm text-neutral-400">
@@ -99,7 +90,6 @@ export default function Settings() {
               className="hidden"
               accept="image/jpeg,image/jpg, image/png, image/gif"
               onChange={(e) => handleFileSelect(e)}
-              ref={fileInputRef}
             />
             <label
               htmlFor="uploadpicture"
@@ -114,7 +104,7 @@ export default function Settings() {
           </p>
         </div>
         <div className="flex w-fit flex-col gap-5 justify-center ">
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 w-100">
             <h2>Full Name</h2>
             <input
               type="text"
@@ -122,8 +112,13 @@ export default function Settings() {
               onChange={(e) =>
                 setPersonalForm({ ...personalForm, fullName: e.target.value })
               }
-              className="border w-100 border-neutral-400 rounded-lg px-3 py-1"
+              className={
+                isEditing
+                  ? `border w-100 border-neutral-400 rounded-lg px-3 py-1`
+                  : `pointer-events-none  `
+              }
             />
+            {!isEditing && <hr className="border-neutral-200" />}
           </div>
           <div className="flex flex-col gap-1">
             <h2>Phone number</h2>
@@ -133,27 +128,47 @@ export default function Settings() {
               onChange={(e) =>
                 setPersonalForm({ ...personalForm, phone: e.target.value })
               }
-              className="border w-100 border-neutral-400 rounded-lg px-3 py-1"
+              className={
+                isEditing
+                  ? `border w-100 border-neutral-400 rounded-lg px-3 py-1`
+                  : `pointer-events-none `
+              }
             />
+            {!isEditing && <hr className="border-neutral-200" />}
           </div>
           <div className="flex flex-col gap-1">
             <h2>Birth Date</h2>
             <input
-              type="date"
+              type={isEditing ? "date" : "text"}
               value={personalForm.birthDate || ""}
               onChange={(e) =>
                 setPersonalForm({ ...personalForm, birthDate: e.target.value })
               }
-              className="border w-100 border-neutral-400 rounded-lg px-3 py-1"
+              className={
+                isEditing
+                  ? `border w-100 border-neutral-400 rounded-lg px-3 py-1`
+                  : `pointer-events-none`
+              }
             />
+            {!isEditing && <hr className="border-neutral-200" />}
           </div>
-          <button
-            onClick={handleFileUpload}
-            disabled={isPending}
-            className="bg-[#296FDA] mt-5 w-fit px-5 py-2 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isPending ? "Uploading..." : "Save Changes"}
-          </button>
+          <div className="flex items-center gap-5  justify-between">
+            <button
+              onClick={() => setIsEditing(!isEditing)}
+              className={`${isEditing ? "bg-red-300" : "bg-[#296FDA]"} mt-5 w-fit px-5 py-2 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed`}
+            >
+              {isEditing ? "Cancel Editing" : "Edit Details"}
+            </button>
+            {isEditing && (
+              <button
+                onClick={handleFileUpload}
+                disabled={isPending}
+                className="bg-[#296FDA] mt-5 w-fit px-5 py-2 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isPending ? "Uploading..." : "Save Changes"}
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -164,7 +179,7 @@ export default function Settings() {
         </div>
         <hr className="border-neutral-400" />
       </div>
-      <div className=" w-full  flex gap-5 items-center">
+      <div className=" w-full  flex gap-5 items-end">
         <div className="flex flex-col w-full  gap-1">
           <h2 className="text-lg">E-Mail</h2>
           <input
@@ -186,14 +201,19 @@ export default function Settings() {
           </button>
         )}
       </div>
-      <div className="flex justify-between items-center gap-1">
+      <hr className="border-neutral-200" />
+      <div className="flex justify-between items-end gap-1">
         <h2 className="text-lg">Password</h2>
         <div className="flex gap-5 items-center">
-          {profiledata.provider !== "CREDENTIALS" && 
-            <small className="text-red-400">Social logins are unable to change password</small>
-          }
-  
+          {profiledata.provider !== "CREDENTIALS" && (
+            <small className="text-red-400">
+              Social logins are unable to change password
+            </small>
+          )}
+
           <button
+            onClick={() => setIsReset(true)}
+            disabled={isReset ? true : false}
             className={`border w-fit px-5 py-2 border-neutral-400 rounded-lg whitespace-nowrap hover:bg-black hover:text-white ${profiledata.provider === "CREDENTIALS" ? "text-neutral-800 " : "bg-neutral-300 text-neutral-400 pointer-events-none"}`}
           >
             {" "}
@@ -201,6 +221,7 @@ export default function Settings() {
           </button>
         </div>
       </div>
+      <hr className="border-neutral-200" />
     </main>
   );
 }
