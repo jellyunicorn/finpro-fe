@@ -23,6 +23,10 @@ import WorkerDashboardOrders from "./pages/worker-dashboard/WorkerDashboardOrder
 import WorkerDashboardSettings from "./pages/worker-dashboard/WorkerDashboardSettings.tsx";
 import WorkerDashboardChangePassword from "./pages/worker-dashboard/WorkerDashboardChangePassword.tsx";
 import WorkerDashboardOrderHistory from "./pages/worker-dashboard/WorkerDashboardOrderHistory.tsx";
+import DriverDashboardAttendance from "./pages/driver-dashboard/DriverDashboardAttendance.tsx";
+import DriverDashboardChangePassword from "./pages/driver-dashboard/DriverDashboardChangePassword.tsx";
+import DriverDashboardDeliveries from "./pages/driver-dashboard/DriverDashboardDeliveries.tsx";
+import DriverDashboardDeliveryHistory from "./pages/driver-dashboard/DriverDashboardDeliveryHistory.tsx";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -39,22 +43,32 @@ const router = createBrowserRouter([
   {
     path: "/driver-dashboard",
     element: <DriverDashboard />,
-    children: [{ path: "settings", element: <DriverDashboardSettings /> }],
+    children: [
+      { path: "attendance", element: <DriverDashboardAttendance /> },
+      { path: "deliveries", element: <DriverDashboardDeliveries /> },
+      { path: "deliveries/history", element: <DriverDashboardDeliveryHistory /> },
+      { path: "settings", element: <DriverDashboardSettings /> },
+      {
+        path: "settings/change-password",
+        element: <DriverDashboardChangePassword />,
+      },
+    ],
   },
   {
     path: "/worker-dashboard",
     element: <WorkerDashboard />,
     children: [
       { path: "attendance", element: <WorkerDashboardAttendance /> },
-      { path: "orders", element: <WorkerDashboardOrders /> },
-      { path: "settings", element: <WorkerDashboardSettings /> },
-      { path: "settings/change-password", element: <WorkerDashboardChangePassword /> },
       {
         path: "orders",
         element: <WorkerDashboardOrders />,
       },
       { path: "orders/history", element: <WorkerDashboardOrderHistory /> },
       { path: "settings", element: <WorkerDashboardSettings /> },
+      {
+        path: "settings/change-password",
+        element: <WorkerDashboardChangePassword />,
+      },
     ],
   },
   {

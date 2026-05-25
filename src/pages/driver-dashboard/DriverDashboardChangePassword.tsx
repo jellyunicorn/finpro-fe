@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function WorkerDashboardChangePassword() {
+export default function DriverDashboardChangePassword() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
