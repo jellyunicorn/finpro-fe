@@ -29,6 +29,9 @@ export default function WorkerDashboard() {
       label: "Orders",
       to: "orders",
       children: [{ label: "History", to: "" }],
+      children: [
+        { label: "History", to: "orders/history" }
+      ],
     },
     {
       icon: logo_settings,
