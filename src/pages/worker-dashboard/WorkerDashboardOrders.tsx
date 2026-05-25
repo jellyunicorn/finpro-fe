@@ -4,7 +4,7 @@ export default function WorkerDashboardOrders() {
   const [activeOrders, setActiveOrders] = useState([
     {
       id: "ORD-001",
-      customer: "John Doe",
+      customer: "Budi",
       items: [
         { name: "Shirt", count: 5, confirmed: false },
         { name: "Pants", count: 2, confirmed: false },
@@ -15,7 +15,7 @@ export default function WorkerDashboardOrders() {
     },
     {
       id: "ORD-002",
-      customer: "Jane Smith",
+      customer: "Joko",
       items: [
         { name: "Dress", count: 3, confirmed: false },
         { name: "Towel", count: 4, confirmed: false },
