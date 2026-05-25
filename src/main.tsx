@@ -21,6 +21,7 @@ import WorkerDashboard from "./pages/worker-dashboard/WorkerDashboard.tsx";
 import WorkerDashboardAttendance from "./pages/worker-dashboard/WorkerDashboardAttendance.tsx";
 import WorkerDashboardOrders from "./pages/worker-dashboard/WorkerDashboardOrders.tsx";
 import WorkerDashboardSettings from "./pages/worker-dashboard/WorkerDashboardSettings.tsx";
+import WorkerDashboardChangePassword from "./pages/worker-dashboard/WorkerDashboardChangePassword.tsx";
 import WorkerDashboardOrderHistory from "./pages/worker-dashboard/WorkerDashboardOrderHistory.tsx";
 const queryClient = new QueryClient();
 
@@ -45,6 +46,9 @@ const router = createBrowserRouter([
     element: <WorkerDashboard />,
     children: [
       { path: "attendance", element: <WorkerDashboardAttendance /> },
+      { path: "orders", element: <WorkerDashboardOrders /> },
+      { path: "settings", element: <WorkerDashboardSettings /> },
+      { path: "settings/change-password", element: <WorkerDashboardChangePassword /> },
       {
         path: "orders",
         element: <WorkerDashboardOrders />,
