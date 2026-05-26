@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router";
+import NewEmailPopUp from "../../../components/user-dashboard/NewEmailPopUp";
+import ResetEmailPopUp, {
+  VerifyEmailPopUp
+} from "../../../components/user-dashboard/PopUpWindow";
 import Verifylabel from "../../../components/Verifylabel";
+import useUpdateData from "../../../hooks/useUpdateData";
 import editicon_white from "../../../img/svg/edit-white.svg";
 import type { profiledata, profilepersonalForm } from "../../../lib/types";
 import { toDateInput } from "../../../utils/dateconverUtils";
-import useUpdateData from "../../../hooks/useUpdateData";
-import xicon from "../../../img/svg/x_icon.svg";
-import { useSendResetEmail } from "../../../hooks/useSendResetEmail";
-
 
 export default function Settings() {
   const profiledata = (useLoaderData() as { userdata: profiledata }).userdata;
@@ -18,47 +19,26 @@ export default function Settings() {
     phone: profiledata.phone,
     birthDate: toDateInput(profiledata.birthDate),
   });
-  const { handleFileSelect, handleFileUpload, isPending } = useUpdateData(
+  const { handleFileSelect, handleFileUpload, isPending,handleCancelEdit } = useUpdateData(
     personalForm,
     setPersonalForm,
   );
   const [isReset, setIsReset] = useState<boolean>(false);
+  const [isVerifyEmail, setisVerifyEmail] = useState<boolean>(false);
+  const [isChangeMail, setIsChangeMail] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const handleResetEmail = useSendResetEmail({
-    fullName: profiledata.fullName,
-    email: profiledata.email,
-  });
 
   return (
     <main className=" relative flex-1 flex px-10 py-10 flex-col gap-5">
       {/* //------> */}
 
-      {isReset && (
-        <div className="w-full h-full flex justify-center items-center bg-neutral-800/40 z-2 absolute inset-0">
-          <div className="w-100 h-70 bg-white rounded-xl border-blue-200 p-10 border shadow-lg flex flex-col justify-between pointer-event-none">
-            <div className="flex w-full justify-between">
-              {" "}
-              <h1 className="text-2xl">Reset Password</h1>{" "}
-              <button onClick={() => setIsReset(false)}>
-                <img
-                  src={xicon}
-                  alt=""
-                  className="w-6 translate-x-7 -translate-y-7"
-                />
-              </button>
-            </div>
-            <p>
-              We'll send a password reset link to your registered email. Click
-              the button below to proceed{" "}
-            </p>
-            <button 
-            onClick={()=>handleResetEmail()}
-            className="border hover:bg-blue-500 hover:text-white rounded-full border-blue-500 text-blue-500">
-              {" "}
-              Send Reset Link
-            </button>
-          </div>
-        </div>
+      {isReset && <ResetEmailPopUp triggerfunction={setIsReset} userdata={profiledata} />}
+      {isChangeMail && <NewEmailPopUp triggerfunction={setIsChangeMail} userdata={profiledata} />}
+      {isVerifyEmail && (
+        <VerifyEmailPopUp
+          triggerfunction={setisVerifyEmail}
+          userdata={profiledata}
+        />
       )}
       {/* //------> */}
       <div>
@@ -89,7 +69,9 @@ export default function Settings() {
               id="uploadpicture"
               className="hidden"
               accept="image/jpeg,image/jpg, image/png, image/gif"
-              onChange={(e) => handleFileSelect(e)}
+              onChange={(e) => {handleFileSelect(e)
+                setIsEditing(true)
+              }}
             />
             <label
               htmlFor="uploadpicture"
@@ -154,8 +136,12 @@ export default function Settings() {
           </div>
           <div className="flex items-center gap-5  justify-between">
             <button
-              onClick={() => setIsEditing(!isEditing)}
-              className={`${isEditing ? "bg-red-300" : "bg-[#296FDA]"} mt-5 w-fit px-5 py-2 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed`}
+              onClick={() => {
+                handleCancelEdit();
+                setIsEditing(!isEditing)}
+                //----->
+              }
+              className={`${isEditing ? "bg-white border border-blue-700 text-blue-700" : "bg-[#296FDA] text-white"} mt-5 w-fit px-5 py-2  rounded-full disabled:opacity-50 disabled:cursor-not-allowed`}
             >
               {isEditing ? "Cancel Editing" : "Edit Details"}
             </button>
@@ -190,12 +176,17 @@ export default function Settings() {
         </div>
         <Verifylabel verifydata={profiledata.verifiedAt} />
         {profiledata.verifiedAt ? (
-          <button className="border w-fit px-5 py-2 border-neutral-400 rounded-lg text-neutral-800 whitespace-nowrap hover:bg-black hover:text-white">
+          <button
+          onClick={()=>setIsChangeMail(true)}
+          className="border w-fit px-5 py-2 border-neutral-400 rounded-lg text-neutral-800 whitespace-nowrap hover:bg-black hover:text-white">
             {" "}
             Change Email
           </button>
         ) : (
-          <button className="border w-fit px-5 py-2 border-neutral-400 rounded-lg text-neutral-800 whitespace-nowrap hover:bg-black hover:text-white">
+          <button
+            onClick={() => setisVerifyEmail(true)}
+            className="border w-fit px-5 py-2 border-neutral-400 rounded-lg text-neutral-800 whitespace-nowrap hover:bg-black hover:text-white"
+          >
             {" "}
             Verify E-Mail
           </button>
@@ -217,7 +208,7 @@ export default function Settings() {
             className={`border w-fit px-5 py-2 border-neutral-400 rounded-lg whitespace-nowrap hover:bg-black hover:text-white ${profiledata.provider === "CREDENTIALS" ? "text-neutral-800 " : "bg-neutral-300 text-neutral-400 pointer-events-none"}`}
           >
             {" "}
-            Change Password
+            Reset Password
           </button>
         </div>
       </div>

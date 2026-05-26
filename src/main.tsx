@@ -31,6 +31,8 @@ import DriverDashboardAttendance from "./pages/driver-dashboard/DriverDashboardA
 import DriverDashboardChangePassword from "./pages/driver-dashboard/DriverDashboardChangePassword.tsx";
 import DriverDashboardDeliveries from "./pages/driver-dashboard/DriverDashboardDeliveries.tsx";
 import DriverDashboardDeliveryHistory from "./pages/driver-dashboard/DriverDashboardDeliveryHistory.tsx";
+import ReverifyEmail from "./pages/user-dashboard/layout/ReverifyEmail.tsx";
+import MyAddresses from "./pages/user-dashboard/layout/MyAddresses.tsx";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -49,7 +51,9 @@ const router = createBrowserRouter([
         loader: userDataLoader,
       },
       { path: "reset", element: <ResetPassword /> },
+      { path: "verify-mail", element: <ReverifyEmail /> },
       { path: "settings", element: <Settings />, loader: userDataLoader },
+      { path: "my-addresses", element: <MyAddresses />, loader: userDataLoader },
     ],
   },
   {
