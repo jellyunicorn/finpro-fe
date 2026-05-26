@@ -7,6 +7,7 @@ import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import "./index.css";
 import { authLoader } from "./loaders/auth.ts";
+import { userDataLoader } from "./loaders/userDataLoader.ts";
 import AdminDashboard from "./pages/admin-dashboard/AdminDashboard.tsx";
 import AdminDashboardSettings from "./pages/admin-dashboard/AdminDashboardSettings.tsx";
 import DriverDashboard from "./pages/driver-dashboard/DriverDashboard.tsx";
@@ -16,11 +17,14 @@ import AuthLayout from "./pages/login-register/AuthLayout.tsx";
 import Login from "./pages/login-register/layout/Login.tsx";
 import Register from "./pages/login-register/layout/Register.tsx";
 import VerifiedPage from "./pages/login-register/layout/VerifiedPage.tsx";
+import ResetPassword from "./pages/user-dashboard/layout/ResetPassword.tsx";
+import UserProfile from "./pages/user-dashboard/layout/UserProfile.tsx";
 import UserDashboard from "./pages/user-dashboard/UserDashboard.tsx";
 import WorkerDashboard from "./pages/worker-dashboard/WorkerDashboard.tsx";
 import WorkerDashboardAttendance from "./pages/worker-dashboard/WorkerDashboardAttendance.tsx";
 import WorkerDashboardOrders from "./pages/worker-dashboard/WorkerDashboardOrders.tsx";
 import WorkerDashboardSettings from "./pages/worker-dashboard/WorkerDashboardSettings.tsx";
+import Settings from "./pages/user-dashboard/layout/Settings.tsx";
 import WorkerDashboardChangePassword from "./pages/worker-dashboard/WorkerDashboardChangePassword.tsx";
 import WorkerDashboardOrderHistory from "./pages/worker-dashboard/WorkerDashboardOrderHistory.tsx";
 import DriverDashboardAttendance from "./pages/driver-dashboard/DriverDashboardAttendance.tsx";
@@ -35,10 +39,18 @@ const router = createBrowserRouter([
     element: <LandingPage />,
   },
   {
-    path: "/user-dashboard",
+    path: "/Dashboard",
     loader: authLoader(["USER"]),
     element: <UserDashboard />,
-    children: [{ path: "settings", element: "" }],
+    children: [
+      {
+        path: "user-profile",
+        element: <UserProfile />,
+        loader: userDataLoader,
+      },
+      { path: "reset", element: <ResetPassword /> },
+      { path: "settings", element: <Settings />, loader: userDataLoader },
+    ],
   },
   {
     path: "/driver-dashboard",

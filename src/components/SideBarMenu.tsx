@@ -23,8 +23,8 @@ export default function SideBarMenu({
 
   return (
     <div className="w-full">
-      <div className="group rounded-lg relative hover:bg-[#296FDA] h-15 w-full px-5 flex items-center gap-5">
-        <Link to={to} className="flex items-center gap-5 flex-1">
+      <Link to={to} className="flex items-center gap-5 flex-1">
+        <div className="group rounded-lg relative hover:bg-[#296FDA] h-15 w-full px-5 flex items-center gap-5">
           <img src={icon} alt={`${label}-icon`} className="h-5" />
           <img
             src={iconDark}
@@ -36,21 +36,21 @@ export default function SideBarMenu({
               {label}
             </span>
           )}
-        </Link>
 
-        {hasChildren && !minimize && (
-          <button
-            onClick={() => setOpen(!open)}
-            className="ml-auto text-[#296FDA] group-hover:text-white transform transition-transform duration-300 ease-in-out"
-          >
-            <div
-              className={`${open ? "rotate-90" : "rotate-0"} text-lg inline-block transition-transform duration-300`}
+          {hasChildren && !minimize && (
+            <button
+              onClick={() => setOpen(!open)}
+              className="ml-auto text-[#296FDA] group-hover:text-white transform transition-transform duration-300 ease-in-out"
             >
-              &gt;
-            </div>
-          </button>
-        )}
-      </div>
+              <div
+                className={`${open ? "rotate-90" : "rotate-0"} text-lg inline-block transition-transform duration-300`}
+              >
+                &gt;
+              </div>
+            </button>
+          )}
+        </div>
+      </Link>
 
       {open && hasChildren && (
         <div className="flex flex-col">
@@ -65,7 +65,7 @@ export default function SideBarMenu({
               <div className="border-l px-6 py-1">{child.label}</div>
             </Link>
           ))}
-        </div>
+        </div>  
       )}
     </div>
   );

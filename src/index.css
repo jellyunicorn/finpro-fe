@@ -15,3 +15,7 @@ ul li {
 ul li:hover {
   text-decoration: underline;
 }
+
+button:hover {
+  cursor: pointer;
+}

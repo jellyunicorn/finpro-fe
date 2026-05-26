@@ -1,0 +1,227 @@
+import { useState } from "react";
+import { useLoaderData } from "react-router";
+import Verifylabel from "../../../components/Verifylabel";
+import editicon_white from "../../../img/svg/edit-white.svg";
+import type { profiledata, profilepersonalForm } from "../../../lib/types";
+import { toDateInput } from "../../../utils/dateconverUtils";
+import useUpdateData from "../../../hooks/useUpdateData";
+import xicon from "../../../img/svg/x_icon.svg";
+import { useSendResetEmail } from "../../../hooks/useSendResetEmail";
+
+
+export default function Settings() {
+  const profiledata = (useLoaderData() as { userdata: profiledata }).userdata;
+  const [personalForm, setPersonalForm] = useState<profilepersonalForm>({
+    id: profiledata.id,
+    fullName: profiledata.fullName,
+    avatar: profiledata.avatar,
+    phone: profiledata.phone,
+    birthDate: toDateInput(profiledata.birthDate),
+  });
+  const { handleFileSelect, handleFileUpload, isPending } = useUpdateData(
+    personalForm,
+    setPersonalForm,
+  );
+  const [isReset, setIsReset] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const handleResetEmail = useSendResetEmail({
+    fullName: profiledata.fullName,
+    email: profiledata.email,
+  });
+
+  return (
+    <main className=" relative flex-1 flex px-10 py-10 flex-col gap-5">
+      {/* //------> */}
+
+      {isReset && (
+        <div className="w-full h-full flex justify-center items-center bg-neutral-800/40 z-2 absolute inset-0">
+          <div className="w-100 h-70 bg-white rounded-xl border-blue-200 p-10 border shadow-lg flex flex-col justify-between pointer-event-none">
+            <div className="flex w-full justify-between">
+              {" "}
+              <h1 className="text-2xl">Reset Password</h1>{" "}
+              <button onClick={() => setIsReset(false)}>
+                <img
+                  src={xicon}
+                  alt=""
+                  className="w-6 translate-x-7 -translate-y-7"
+                />
+              </button>
+            </div>
+            <p>
+              We'll send a password reset link to your registered email. Click
+              the button below to proceed{" "}
+            </p>
+            <button 
+            onClick={()=>handleResetEmail()}
+            className="border hover:bg-blue-500 hover:text-white rounded-full border-blue-500 text-blue-500">
+              {" "}
+              Send Reset Link
+            </button>
+          </div>
+        </div>
+      )}
+      {/* //------> */}
+      <div>
+        <h1 className="text-2xl font-medium text-[#296FDA]">Settings</h1>
+        <p className="text-sm text-neutral-400">
+          Manage your profile details and settings here
+        </p>
+      </div>
+      <div>
+        <div className="w-fit">
+          <h3 className="text-sm">Personal Data</h3>
+          <hr className=" border-neutral-400" />
+        </div>
+        <hr className="border-neutral-400" />
+      </div>
+      <div className="flex w-fit  gap-10">
+        <div className="w-40 min-w-40 flex flex-col gap-5 items-center ">
+          <p className="italic text-neutral-500 text-sm">Profile Picture</p>
+          <div className="relative">
+            <img
+              src={personalForm.avatar}
+              referrerPolicy="no-referrer"
+              className="h-30 w-30 rounded-full object-cover bg-neutral-400"
+            />
+            <input
+              type="file"
+              name=""
+              id="uploadpicture"
+              className="hidden"
+              accept="image/jpeg,image/jpg, image/png, image/gif"
+              onChange={(e) => handleFileSelect(e)}
+            />
+            <label
+              htmlFor="uploadpicture"
+              aria-label="change-avatar-profile-picture"
+              className=" flex items-center justify-center outline-4 outline-white absolute bottom-0 right-0  bg-[#296FDA] rounded-full w-10 h-10 hover:cursor-pointer hover:bg-black"
+            >
+              <img src={editicon_white} alt="" className="w-6 object-cover" />
+            </label>
+          </div>
+          <p className="text-sm text-neutral-400 italic text-center">
+            Only .jpg, .jpeg, .png dan .gif & Maximum file size is 1MB.
+          </p>
+        </div>
+        <div className="flex w-fit flex-col gap-5 justify-center ">
+          <div className="flex flex-col gap-1 w-100">
+            <h2>Full Name</h2>
+            <input
+              type="text"
+              value={personalForm.fullName || "-"}
+              onChange={(e) =>
+                setPersonalForm({ ...personalForm, fullName: e.target.value })
+              }
+              className={
+                isEditing
+                  ? `border w-100 border-neutral-400 rounded-lg px-3 py-1`
+                  : `pointer-events-none  `
+              }
+            />
+            {!isEditing && <hr className="border-neutral-200" />}
+          </div>
+          <div className="flex flex-col gap-1">
+            <h2>Phone number</h2>
+            <input
+              type="text"
+              value={personalForm.phone || "-"}
+              onChange={(e) =>
+                setPersonalForm({ ...personalForm, phone: e.target.value })
+              }
+              className={
+                isEditing
+                  ? `border w-100 border-neutral-400 rounded-lg px-3 py-1`
+                  : `pointer-events-none `
+              }
+            />
+            {!isEditing && <hr className="border-neutral-200" />}
+          </div>
+          <div className="flex flex-col gap-1">
+            <h2>Birth Date</h2>
+            <input
+              type={isEditing ? "date" : "text"}
+              value={personalForm.birthDate || ""}
+              onChange={(e) =>
+                setPersonalForm({ ...personalForm, birthDate: e.target.value })
+              }
+              className={
+                isEditing
+                  ? `border w-100 border-neutral-400 rounded-lg px-3 py-1`
+                  : `pointer-events-none`
+              }
+            />
+            {!isEditing && <hr className="border-neutral-200" />}
+          </div>
+          <div className="flex items-center gap-5  justify-between">
+            <button
+              onClick={() => setIsEditing(!isEditing)}
+              className={`${isEditing ? "bg-red-300" : "bg-[#296FDA]"} mt-5 w-fit px-5 py-2 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed`}
+            >
+              {isEditing ? "Cancel Editing" : "Edit Details"}
+            </button>
+            {isEditing && (
+              <button
+                onClick={handleFileUpload}
+                disabled={isPending}
+                className="bg-[#296FDA] mt-5 w-fit px-5 py-2 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isPending ? "Uploading..." : "Save Changes"}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-5">
+        <div className="w-fit">
+          <h3 className="text-sm">Security Credentials</h3>
+          <hr className=" border-neutral-400" />
+        </div>
+        <hr className="border-neutral-400" />
+      </div>
+      <div className=" w-full  flex gap-5 items-end">
+        <div className="flex flex-col w-full  gap-1">
+          <h2 className="text-lg">E-Mail</h2>
+          <input
+            type="text"
+            value={profiledata.email || "-"}
+            className="border w-full lg:max-w-[70%] border-neutral-400 rounded-lg px-3 py-1"
+          />
+        </div>
+        <Verifylabel verifydata={profiledata.verifiedAt} />
+        {profiledata.verifiedAt ? (
+          <button className="border w-fit px-5 py-2 border-neutral-400 rounded-lg text-neutral-800 whitespace-nowrap hover:bg-black hover:text-white">
+            {" "}
+            Change Email
+          </button>
+        ) : (
+          <button className="border w-fit px-5 py-2 border-neutral-400 rounded-lg text-neutral-800 whitespace-nowrap hover:bg-black hover:text-white">
+            {" "}
+            Verify E-Mail
+          </button>
+        )}
+      </div>
+      <hr className="border-neutral-200" />
+      <div className="flex justify-between items-end gap-1">
+        <h2 className="text-lg">Password</h2>
+        <div className="flex gap-5 items-center">
+          {profiledata.provider !== "CREDENTIALS" && (
+            <small className="text-red-400">
+              Social logins are unable to change password
+            </small>
+          )}
+
+          <button
+            onClick={() => setIsReset(true)}
+            disabled={isReset ? true : false}
+            className={`border w-fit px-5 py-2 border-neutral-400 rounded-lg whitespace-nowrap hover:bg-black hover:text-white ${profiledata.provider === "CREDENTIALS" ? "text-neutral-800 " : "bg-neutral-300 text-neutral-400 pointer-events-none"}`}
+          >
+            {" "}
+            Change Password
+          </button>
+        </div>
+      </div>
+      <hr className="border-neutral-200" />
+    </main>
+  );
+}

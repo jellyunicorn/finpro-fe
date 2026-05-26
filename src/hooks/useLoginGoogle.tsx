@@ -1,12 +1,15 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { useLoginStore } from "../store/useAppStore";
 import { axiosInstance } from "../lib/axios";
 
 export default function useLoginGoogle() {
   const setUser = useLoginStore((state) => state.setUser);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const from = searchParams.get("from") || "/";
 
   return useGoogleLogin({
     onSuccess: async ({ access_token }) => {
@@ -25,7 +28,7 @@ export default function useLoginGoogle() {
         });
 
         toast.success("Login successful!");
-        navigate("/user");
+        navigate(from);
       } catch (error: any) {
         toast.error(error.response?.data?.message);
       }

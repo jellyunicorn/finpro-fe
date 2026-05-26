@@ -1,12 +1,11 @@
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router";
-import appleLogo from "../../../img/svg/apple_logo.svg";
+import useRegisterGoogle from "../../../hooks/useRegisterGoogle";
 import googleLogo from "../../../img/svg/google_logo.svg";
 import mainLogo from "../../../img/svg/main_logo_blue.svg";
-import toast from "react-hot-toast";
 import { axiosInstance } from "../../../lib/axios";
-import { useState } from "react";
 import { registerAccountSchema } from "../../../schemas/zodValidationSchema";
-import useRegisterGoogle from "../../../hooks/useRegisterGoogle";
 
 type RegisterForm = {
   fullName: string;
@@ -21,6 +20,7 @@ export default function Register() {
     fullName: "",
     email: "",
   });
+
 
   const sendVerifyEmail = async () => {
     try {

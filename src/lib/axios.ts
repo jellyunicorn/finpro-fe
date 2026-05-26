@@ -14,11 +14,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (
-      error.response?.status === 401 &&
-      error.response?.data?.message === "Token expired" &&
-      !originalRequest._retry
-    ) {
+    if (error.response?.status === 401) {
       try {
         await refreshInstance.post("/auth/refresh");
         return axiosInstance(originalRequest);

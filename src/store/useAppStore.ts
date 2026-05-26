@@ -5,29 +5,28 @@ import { axiosInstance } from "../lib/axios";
 type loginState = {
   user: {
     id: number;
-    fullName:string;
-    email:string;
-    avatar:string;
+    fullName: string;
+    email: string;
+    avatar: string;
     role: string;
-    verifiedAt:string;
+    verifiedAt: string;
   } | null;
 };
 
 type AppActions = {
   setUser: (user: loginState["user"]) => void;
-  logout: () => void;
+  updateUser: (partial: Partial<loginState["user"]>) => void;
 };
 
 export const useLoginStore = create<loginState & AppActions>()(
   persist(
     (set) => ({
       user: null,
-      setUser: (userdata) => set({ user : userdata  }),
-      logout: async () => {
-        await axiosInstance.post("/auth/logout");
-        set({ user: null });
-        window.location.href = "/";
-      },
+      setUser: (userdata) => set({ user: userdata }),
+      updateUser: (partial) =>
+        set((state) => ({
+          user: state.user ? { ...state.user, ...partial } : state.user,
+        })),
     }),
     { name: "auth-store" },
   ),
