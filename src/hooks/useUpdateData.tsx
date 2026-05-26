@@ -5,14 +5,17 @@ import toast from "react-hot-toast";
 import { axiosInstance } from "../lib/axios";
 import { useLoginStore } from "../store/useAppStore";
 import { toDateInput } from "../utils/dateconverUtils";
-import type { profilepersonalForm } from "../lib/types";
+import type { profiledata, profilepersonalForm } from "../lib/types";
+import { useLoaderData } from "react-router";
 
 export default function useUpdateData(
+  
   personalForm: profilepersonalForm,
-  setPersonalForm: React.Dispatch<React.SetStateAction<profilepersonalForm>>
+  setPersonalForm: React.Dispatch<React.SetStateAction<profilepersonalForm>>,
 ) {
   const [selectedPicture, setSelectedPicture] = useState<File | null>(null);
   const updateUser = useLoginStore((state) => state.updateUser);
+  const profiledata = (useLoaderData() as { userdata: profiledata }).userdata;
 
   const { mutate: uploadAvatar, isPending } = useMutation({
     mutationFn: (file?: File) => {
@@ -57,5 +60,15 @@ export default function useUpdateData(
     uploadAvatar(selectedPicture ?? undefined);
   };
 
-  return { handleFileSelect, handleFileUpload, isPending };
+  const handleCancelEdit = () => {
+    setPersonalForm(() => ({
+      id: profiledata.id,
+      fullName: profiledata.fullName,
+      avatar: profiledata.avatar,
+      phone: profiledata.phone,
+      birthDate: toDateInput(profiledata.birthDate),
+    }));
+  };
+
+  return { handleFileSelect, handleFileUpload, isPending , handleCancelEdit};
 }
