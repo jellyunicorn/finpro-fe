@@ -20,7 +20,7 @@ export default function ResetEmailPopUp({ triggerfunction, userdata }: resetpopu
   });
 
   return (
-    <div className="w-full h-full flex justify-center items-center bg-neutral-800/40 z-2 absolute inset-0">
+    <div className="w-full h-full flex justify-center items-center bg-neutral-800/40 z-2 absolute inset-0 backdrop-blur-[2px]">
       <div className="w-100 h-70 bg-white rounded-xl border-blue-200 p-10 border shadow-lg flex flex-col justify-between pointer-event-none">
         <div className="flex w-full justify-between">
           {" "}
@@ -55,7 +55,7 @@ export function VerifyEmailPopUp({ triggerfunction, userdata }: resetpopupProps)
     email: userdata.email,
   });
   return (
-    <div className="w-full h-full flex justify-center items-center bg-neutral-800/40 z-2 absolute inset-0">
+    <div className="w-full h-full flex justify-center items-center bg-neutral-800/40 z-2 absolute inset-0  backdrop-blur-[2px]">
       <div className="w-100 h-70 bg-white rounded-xl border-blue-200 p-10 border shadow-lg flex flex-col justify-between pointer-event-none">
         <div className="flex w-full justify-between">
           {" "}

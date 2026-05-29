@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { useSendVerifyEmail } from "../../hooks/useSendEmail";
-import xicon from "../../img/svg/x_icon.svg";
 import { useChangeEmail } from "../../hooks/useChangeEmail";
+import xicon from "../../img/svg/x_icon.svg";
 
 type resetpopupProps = {
   triggerfunction: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,14 +10,11 @@ type resetpopupProps = {
   };
 };
 
-export default function NewEmailPopUp({
-  triggerfunction,
-  userdata,
-}: resetpopupProps) {
+export default function NewEmailPopUp({ triggerfunction }: resetpopupProps) {
   const [newEmail, setNewEmail] = useState<string>("");
   const handleChangeEmail = useChangeEmail(newEmail);
   return (
-    <div className="w-full h-full flex justify-center items-center bg-neutral-800/40 z-2 absolute inset-0">
+    <div className="w-full h-full flex justify-center items-center bg-neutral-800/40 z-2 absolute inset-0  backdrop-blur-[2px]">
       <div className="w-100 h-fit gap-5 bg-white rounded-xl border-blue-200 p-10 border shadow-lg flex flex-col justify-between pointer-event-none">
         <div className="flex flex-col">
           <div className="flex w-full justify-between">
@@ -42,7 +38,7 @@ export default function NewEmailPopUp({
           <input
             id="newemail"
             value={newEmail}
-            onChange={(e)=>setNewEmail(e.target.value)}
+            onChange={(e) => setNewEmail(e.target.value)}
             type="text"
             className="border-neutral-400 border rounded-lg py-1 px-3"
           />

@@ -26,7 +26,7 @@ export default function SideBar({ menuItems }: SideBarProps) {
 
   return (
     <aside
-      className={`flex flex-col ${
+      className={`flex flex-col  ${
         !minimize ? "w-[20%] max-w-75 min-w-64" : "min-w-20"
       } transition-all justify-between h-full bg-[#BAD6F5]`}
     >
