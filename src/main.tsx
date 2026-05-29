@@ -33,6 +33,8 @@ import DriverDashboardDeliveries from "./pages/driver-dashboard/DriverDashboardD
 import DriverDashboardDeliveryHistory from "./pages/driver-dashboard/DriverDashboardDeliveryHistory.tsx";
 import ReverifyEmail from "./pages/user-dashboard/layout/ReverifyEmail.tsx";
 import MyAddresses from "./pages/user-dashboard/layout/MyAddresses.tsx";
+import { userAddressLoader } from "./loaders/userAddressLoader.ts";
+import MainDashboard from "./pages/user-dashboard/layout/MainDashboard.tsx";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -53,7 +55,18 @@ const router = createBrowserRouter([
       { path: "reset", element: <ResetPassword /> },
       { path: "verify-mail", element: <ReverifyEmail /> },
       { path: "settings", element: <Settings />, loader: userDataLoader },
-      { path: "my-addresses", element: <MyAddresses />, loader: userDataLoader },
+      { path: "", element: <MainDashboard />, loader: userDataLoader },
+      {
+        path: "my-addresses",
+        element: <MyAddresses />,
+        loader: async () => {
+          const [userdata, addresses] = await Promise.all([
+            userDataLoader(),
+            userAddressLoader(),
+          ]);
+          return { userdata, addresses };
+        },
+      },
     ],
   },
   {
@@ -62,7 +75,10 @@ const router = createBrowserRouter([
     children: [
       { path: "attendance", element: <DriverDashboardAttendance /> },
       { path: "deliveries", element: <DriverDashboardDeliveries /> },
-      { path: "deliveries/history", element: <DriverDashboardDeliveryHistory /> },
+      {
+        path: "deliveries/history",
+        element: <DriverDashboardDeliveryHistory />,
+      },
       { path: "settings", element: <DriverDashboardSettings /> },
       {
         path: "settings/change-password",

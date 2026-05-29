@@ -9,7 +9,6 @@ import type { profiledata, profilepersonalForm } from "../lib/types";
 import { useLoaderData } from "react-router";
 
 export default function useUpdateData(
-  
   personalForm: profilepersonalForm,
   setPersonalForm: React.Dispatch<React.SetStateAction<profilepersonalForm>>,
 ) {
@@ -68,7 +67,8 @@ export default function useUpdateData(
       phone: profiledata.phone,
       birthDate: toDateInput(profiledata.birthDate),
     }));
+    setSelectedPicture(null);
   };
 
-  return { handleFileSelect, handleFileUpload, isPending , handleCancelEdit};
+  return { handleFileSelect, handleFileUpload, isPending, handleCancelEdit };
 }
