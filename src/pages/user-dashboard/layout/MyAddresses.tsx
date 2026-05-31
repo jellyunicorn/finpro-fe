@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import useSwitchPrimary from "../../../hooks/useSwitchPrimary";
 import useUpdateAddress from "../../../hooks/useUpdateAddress";
@@ -47,6 +47,17 @@ export default function MyAddresses() {
       setPrimaryId(prev);
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+       setFormMode(null)
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const handleAddressForm = async (adrs: addressdata) => {
     setAddressForm({
@@ -99,6 +110,8 @@ export default function MyAddresses() {
             </div>{" "}
           </div>
         )}
+
+        
         <div className="flex justify-between items-start">
           <div className="flex flex-col">
             <h1 className="text-2xl font-medium text-[#296FDA]">

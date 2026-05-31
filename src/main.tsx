@@ -55,7 +55,17 @@ const router = createBrowserRouter([
       { path: "reset", element: <ResetPassword /> },
       { path: "verify-mail", element: <ReverifyEmail /> },
       { path: "settings", element: <Settings />, loader: userDataLoader },
-      { path: "", element: <MainDashboard />, loader: userDataLoader },
+      {
+        path: "",
+        element: <MainDashboard />,
+        loader: async () => {
+          const [userdata, addresses] = await Promise.all([
+            userDataLoader(),
+            userAddressLoader(),
+          ]);
+          return { userdata, addresses };
+        },
+      },
       {
         path: "my-addresses",
         element: <MyAddresses />,
