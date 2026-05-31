@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import { cloudimages } from "../../../lib/cloudinary";
 import Greetings from "../../../components/user-dashboard/Greetings";
 import addressicon from "../../../img/svg/address_blue.svg";
@@ -14,10 +14,7 @@ export default function MainDashboard() {
     (e: addressdata) => e.isPrimary === true,
   );
 
-  const {
-    data: userorder,
-    isLoading,
-  } = useQuery<orderdata[]>({
+  const { data: userorder, isLoading } = useQuery<orderdata[]>({
     queryKey: ["orders"],
     queryFn: async () => {
       const result = await axiosInstance.get("/order/");
@@ -25,14 +22,12 @@ export default function MainDashboard() {
     },
   });
 
-      const OngoingOrders = userorder?.filter(
+  const OngoingOrders = userorder?.filter(
     (e: orderdata) => e.confirmedAt === null || e.confirmedAt === "",
   );
-      const PendingPayment = userorder?.filter(
+  const PendingPayment = userorder?.filter(
     (e: orderdata) => e.paymentStatus === "PENDING",
   );
-
-
 
   return (
     <main className="bg-[#f7fcff] p-5 flex flex-col relative gap-5">
@@ -74,18 +69,35 @@ export default function MainDashboard() {
       </div>
       <div className=" w-full flex gap-5 h-150">
         <div className="w-[25%] h-full rounded-xl gap-5 flex flex-col">
-          <button
-            className={` ${loaderdata.userdata.verifiedAt === null ? "bg-neutral-400 text-neutral-700 pointer-events-none" : "bg-blue-600 hover:bg-blue-500 hover:text-blue-200 text-white"}  w-full rounded-full py-4`}
+          <Link
+            to="/dashboard/pickup"
+            onClick={(e) =>
+              loaderdata.userdata.verifiedAt === null && e.preventDefault()
+            }
+            className={
+              loaderdata.userdata.verifiedAt === null
+                ? "pointer-events-none opacity-50"
+                : ""
+            }
           >
-            Schedule a Pickup{" "}
-          </button>
+            <button
+              disabled={loaderdata.userdata.verifiedAt === null}
+              className={` ${loaderdata.userdata.verifiedAt === null ? "bg-neutral-400 text-neutral-700 pointer-events-none" : "bg-blue-600 hover:bg-blue-500 hover:text-blue-200 text-white"}  w-full rounded-full py-4`}
+            >
+              Schedule a Pickup{" "}
+            </button>
+          </Link>
           <div className="flex flex-col justify-between bg-white border rounded-xl h-40 border-[#BEE6E1] p-5">
             <h3 className="text-xl font-medium">Ongoing Laundry</h3>
-            <span className="text-4xl font-bold text-[#296FDA]">{OngoingOrders?.length}</span>
+            <span className="text-4xl font-bold text-[#296FDA]">
+              {OngoingOrders?.length}
+            </span>
           </div>
           <div className="flex flex-col justify-between bg-white border rounded-xl h-40 border-[#BEE6E1] p-5">
             <h3 className="text-xl font-medium">Pending Payments</h3>
-            <span className="text-4xl font-bold text-[#296FDA]">{PendingPayment?.length}</span>
+            <span className="text-4xl font-bold text-[#296FDA]">
+              {PendingPayment?.length}
+            </span>
           </div>
         </div>
         <div className="rounded-xl bg-white flex-1 flex flex-col h-full border py-5 px-10 border-blue-200">
@@ -107,18 +119,24 @@ export default function MainDashboard() {
                 Completed At
               </div>
             </div>
-           {!isLoading ?  userorder?.map((data: orderdata,idx:number) => (
-              <OrderSummaryData
-              key={idx}
-              index={idx}
-                orderId={data.orderId}
-                status={data?.orderStatus}
-                schedule={data?.scheduledTime}
-                pick={data?.pickupTime}
-                delivery={data?.deliveredAt}
-                complete={data?.confirmedAt}
-              />
-            )): <div className="w-full h-[50%] flex items-center justify-center">Loading Data...</div>}
+            {!isLoading ? (
+              userorder?.map((data: orderdata, idx: number) => (
+                <OrderSummaryData
+                  key={idx}
+                  index={idx}
+                  orderId={data.orderId}
+                  status={data?.orderStatus}
+                  schedule={data?.scheduledTime}
+                  pick={data?.pickupTime}
+                  delivery={data?.deliveredAt}
+                  complete={data?.confirmedAt}
+                />
+              ))
+            ) : (
+              <div className="w-full h-[50%] flex items-center justify-center">
+                Loading Data...
+              </div>
+            )}
           </div>
         </div>
       </div>
