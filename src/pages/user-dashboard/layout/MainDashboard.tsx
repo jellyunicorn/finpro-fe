@@ -41,7 +41,7 @@ export default function MainDashboard() {
       )}
       <div className="h-50  w-full z-2 relative flex flex-col gap-1  p-10 items-center justify-center">
         <p>{todaysdate}</p>
-        <h1 className="text-4xl z-2 text-[#296FDA] max-w-150 text-center ">
+        <h1 className="text-4xl z-2 text-claundry-blue max-w-150 text-center ">
           {" "}
           <Greetings />
         </h1>
@@ -89,20 +89,20 @@ export default function MainDashboard() {
           </Link>
           <div className="flex flex-col justify-between bg-white border rounded-xl h-40 border-[#BEE6E1] p-5">
             <h3 className="text-xl font-medium">Ongoing Laundry</h3>
-            <span className="text-4xl font-bold text-[#296FDA]">
+            <span className="text-4xl font-bold text-claundry-blue">
               {OngoingOrders?.length}
             </span>
           </div>
           <div className="flex flex-col justify-between bg-white border rounded-xl h-40 border-[#BEE6E1] p-5">
             <h3 className="text-xl font-medium">Pending Payments</h3>
-            <span className="text-4xl font-bold text-[#296FDA]">
+            <span className="text-4xl font-bold text-claundry-blue">
               {PendingPayment?.length}
             </span>
           </div>
         </div>
         <div className="rounded-xl bg-white flex-1 flex flex-col h-full border py-5 px-10 border-blue-200">
           <h2 className="text-xl">Order Summary</h2>
-          <div className="w-full  text-[#296FDA] font-medium h-full">
+          <div className="w-full  text-claundry-blue font-medium h-full">
             <div className=" w-full h-10 border-b border-neutral-200 grid grid-cols-6">
               <div className=" flex items-center justify-center">Order ID</div>
               <div className=" flex items-center justify-start">Status</div>

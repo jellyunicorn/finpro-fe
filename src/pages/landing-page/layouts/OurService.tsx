@@ -5,7 +5,7 @@ export default function OurService() {
   return (
     <section className="w-full h-fit bg-[#F5F5F0] ">
       <div className="w-full  gap-20 h-fit flex flex-col  justify-start items-start py-20 container mx-auto px-35">
-        <h1 className="text-7xl text-[#296FDA] font-medium">Our Services</h1>
+        <h1 className="text-7xl text-claundry-blue font-medium">Our Services</h1>
         <article className=" grid grid-cols-2 w-full h-110 gap-5 rounded-2xl">
           <div className=" rounded-2xl bg-neutral-300  relative">
             <img
@@ -27,7 +27,7 @@ export default function OurService() {
             </div>
           </div>
           <div className=" flex flex-col  gap-5 justify-between ">
-            <div className="text-[#296FDA]">
+            <div className="text-claundry-blue">
               <div className="relative ">
                 <h2 className="text-4xl relative z-1 font-medium ">
                   Wash & Fold
@@ -44,7 +44,7 @@ export default function OurService() {
             </div>
             <div className="flex gap-5">
               <div>
-                <h3 className="text-[#296FDA] font-bold text-lg">
+                <h3 className="text-claundry-blue font-bold text-lg">
                   Professional cleaning care
                 </h3>
                 <p>
@@ -54,7 +54,7 @@ export default function OurService() {
                 </p>
               </div>
               <div>
-                <h3 className="text-[#296FDA] font-bold text-lg">
+                <h3 className="text-claundry-blue font-bold text-lg">
                   Ready to wear
                 </h3>
                 <p>
@@ -65,7 +65,7 @@ export default function OurService() {
             </div>
             <div className="w-full flex justify-end">
               {" "}
-              <button className=" w-fit px-5 py-5 rounded-xl text-white bg-[#296FDA]">
+              <button className=" w-fit px-5 py-5 rounded-xl text-white bg-claundry-blue">
                 SCHEDULE PICKUP
               </button>
             </div>
@@ -91,7 +91,7 @@ export default function OurService() {
 </div>
           </div>
           <div className=" flex flex-col  gap-5 justify-between ">
-            <div className="text-[#296FDA]">
+            <div className="text-claundry-blue">
               <div className="relative w-fit">
                 {" "}
 
@@ -108,7 +108,7 @@ export default function OurService() {
             </div>
             <div className="flex gap-5">
               <div>
-                <h3 className="text-[#296FDA] font-bold text-lg">
+                <h3 className="text-claundry-blue font-bold text-lg">
                   Expert cleaning and stain removal{" "}
                 </h3>
                 <p>
@@ -117,7 +117,7 @@ export default function OurService() {
                 </p>
               </div>
               <div>
-                <h3 className="text-[#296FDA] font-bold text-lg">
+                <h3 className="text-claundry-blue font-bold text-lg">
                   Pressed and returned on hangers{" "}
                 </h3>
                 <p>
@@ -129,7 +129,7 @@ export default function OurService() {
             </div>
             <div className="w-full flex justify-end">
               {" "}
-              <button className=" w-fit px-5 py-5 rounded-xl text-white bg-[#296FDA]">
+              <button className=" w-fit px-5 py-5 rounded-xl text-white bg-claundry-blue">
                 SCHEDULE PICKUP
               </button>
             </div>

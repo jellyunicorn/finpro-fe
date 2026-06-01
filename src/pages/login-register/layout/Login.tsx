@@ -61,13 +61,13 @@ export default function Login() {
           <div className="flex flex-col gap-1 mt-8">
             <button
               onClick={login}
-              className="border rounded-full bg-[#296FDA] text-white py-2 hover:cursor-pointer  "
+              className="border rounded-full bg-claundry-blue text-white py-2 hover:cursor-pointer  "
             >
               LOGIN
             </button>
             <button
               onClick={() => navigate("/register")}
-              className="border rounded-full border-[#296FDA] text-[#296FDA] py-2 hover:cursor-pointer "
+              className="border rounded-full border-claundry-blue text-claundry-blue py-2 hover:cursor-pointer "
             >
               CREATE A NEW ACCOUNT
             </button>

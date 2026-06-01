@@ -183,7 +183,7 @@ export default function VerifiedPage() {
               <button
                 disabled={!isPasswordSame || !!passwordError}
                 onClick={activateAccount}
-                className={`border rounded-full text-white py-2 transition-all ease-in ${!isPasswordSame || passwordError ? "bg-neutral-300 cursor-not-allowed" : "bg-[#296FDA] hover:cursor-pointer"}`}
+                className={`border rounded-full text-white py-2 transition-all ease-in ${!isPasswordSame || passwordError ? "bg-neutral-300 cursor-not-allowed" : "bg-claundry-blue hover:cursor-pointer"}`}
               >
                 ACTIVATE ACCOUNT
               </button>

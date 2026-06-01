@@ -12,7 +12,7 @@ export default function StepByStep() {
               alt="wash-fold-icon"
               className="absolute z-0 w-[80%]"
             />
-            <h1 className="text-7xl relative z-1 font-medium text-[#296FDA]">
+            <h1 className="text-7xl relative z-1 font-medium text-claundry-blue">
               Step By Step
             </h1>
           </div>
@@ -59,19 +59,19 @@ export default function StepByStep() {
             </div>
           </div>
           <div className=" items-center w-full grid grid-cols-6 gap-5 relative ">
-            <hr className="w-full absolute border-2 border-[#296FDA] z-5"></hr>
+            <hr className="w-full absolute border-2 border-claundry-blue z-5"></hr>
             <div className="boder justify-start items-center flex">
-              <div className="rounded-full bg-[#296FDA] h-5 w-5"></div>
+              <div className="rounded-full bg-claundry-blue h-5 w-5"></div>
             </div>
             {Array(4)
               .fill(null)
               .map((_, i) => (
                 <div key={i} className=" justify-center items-center flex">
-                  <div className="rounded-full bg-[#296FDA] h-5 w-5"></div>
+                  <div className="rounded-full bg-claundry-blue h-5 w-5"></div>
                 </div>
               ))}
             <div className=" justify-end items-center flex">
-              <div className="rounded-full bg-[#296FDA] h-5 w-5"></div>
+              <div className="rounded-full bg-claundry-blue h-5 w-5"></div>
             </div>
           </div>
           <div className=" w-full grid grid-cols-6 gap-5 ">

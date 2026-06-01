@@ -1,46 +1,128 @@
-import React from "react";
-import addressicon from "../../../img/svg/address_blue.svg";
+import { useState, useEffect } from "react";
 import { useLoaderData } from "react-router";
+import MapComponent from "../../../components/schedule-pickup/MapComponent";
+import addressicon from "../../../img/svg/address_blue.svg";
+import { timetable } from "../../../lib/timeLookup";
 import type { addressdata } from "../../../lib/types";
+import { axiosInstance } from "../../../lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 export default function CreatePickup() {
+  const { data: addressdata } = useQuery({
+    queryKey: ["useraddress"],
+    queryFn: async () => {
+      const result = await axiosInstance.get("/address/");
+      console.log(result.data);
+      return result.data.useraddress;
+    },
+  });
+  const [time, setTime] = useState();
+  const [date, setDate] = useState();
+  const [PickUpForm, setPickUpForm] = useState();
   const addresses = useLoaderData();
+
   const primaryAddress = addresses.useraddress.find(
     (e: addressdata) => e.isPrimary === true,
   );
+  const [selectedAddress, setSelectedAddress] = useState<
+    addressdata | undefined
+  >(primaryAddress);
 
-  // const map = new
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  useEffect(() => {
+    if (addressdata?.length) setSelectedAddress(primaryAddress);
+    console.log(selectedAddress);
+  }, [addressdata]);
 
   return (
-    <main className="flex-1 h-full flex">
-      <div className="flex min-w-[50%] px-10 gap-5 py-10 h-full  flex-col">
+    <main className="flex-1 h-full relative  flex">
+      <div className="flex min-w-[30%] max-h-[90%] border-[#BEE6E1] border shadow-md px-10 gap-5 py-10 flex-1 rounded-lg  m-10 absolute z-1 bg-white  flex-col">
         <div className="flex flex-col">
-          <h1 className="text-2xl font-medium text-[#296FDA]">
+          <h1 className="text-2xl font-medium text-claundry-blue">
             Schedule a Pick Up
           </h1>
           <p className="text-sm text-neutral-400">Create a pickup schedule</p>
         </div>
         <div className="flex flex-col gap-2">
-          <div className="flex gap-2 items-center text-blue-700 font-medium">
+          <div className="flex gap-2 p-2 items-center text-blue-700 font-medium">
             <img src={addressicon} alt="" />
-            <p>Primary Address</p>
+            <p>Selected Address</p>
           </div>
-          <div className="flex gap-2">
-            <h2 className="px-2 bg-[#BEE6E1] text-blue-800 w-fit rounded-full">
-              {" "}
-              {primaryAddress.label}
-            </h2>
-            <p>
-              {primaryAddress.address}, {primaryAddress.city},{" "}
-              {primaryAddress.postalCode}
+          <div className="flex gap-2 border border-[#BEE6E1] p-2 rounded-lg flex-col">
+            <select
+              name="address"
+              id=""
+              value={selectedAddress?.id}
+              onChange={(e) => {
+                const address = addressdata?.find(
+                  (a: typeof addressdata) => a.id === Number(e.target.value),
+                );
+                setSelectedAddress(address);
+              }}
+            >
+              {addressdata?.map((adrs: typeof addressdata, idx: number) => (
+                <option key={idx} value={adrs.id}>
+                  {adrs.label}
+                </option>
+              ))}
+            </select>
+            <p className="font-sm text-neutral-400">
+              {selectedAddress?.address}
             </p>
           </div>
         </div>
-        <div className=" w-full border rounded-xl h-full border-[#BEE6E1] bg-white p-5  "> test </div>
+        <div className=" w-full border rounded-xl flex flex-col gap-2 h-full flex-1 border-[#BEE6E1] bg-white p-5  ">
+          <div className="flex gap-2 w-full items-center">
+            <p className="font-bold">Date</p>
+            <div className="border rounded-md border-neutral-200 px-2 py-2 w-full">
+              <input
+                type="date"
+                min={tomorrow.toISOString().slice(0, 10)}
+                className="w-full"
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 w-full items-center">
+            <p className="font-bold">Time</p>
+            <div className="border rounded-md grid grid-cols-3 gap-2 border-neutral-200 px-2 py-2 w-full">
+              {timetable.map((e, idx) => (
+                <button
+                  key={idx}
+                  className="p-1 hover:bg-blue-50 border rounded-md border-neutral-200"
+                >
+                  {e.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="flex gap-2 w-full items-center">
+            <p className="font-bold">Outlet</p>
+            <div className="border rounded-md h-10 border-neutral-200 px-2 py-2 w-full"></div>
+          </div>
+          <div className="flex gap-5 w-full items-center">
+            <p className="font-bold  whitespace-nowrap">Delivery Cost</p>
+            <div className="border rounded-md h-10 border-neutral-200 px-2 py-2 w-full"></div>
+          </div>
+        </div>
+        <button className="bg-claundry-blue text-white rounded-full py-2 hover:bg-blue-700">
+          Request Pickup
+        </button>
       </div>
-    
+
       {/* //------> map */}
-      <div className="border h-full w-full "> map </div>
+      <div className=" h-full w-full absolute inset-0 ">
+        {selectedAddress && (
+          <MapComponent
+            initialcoordinate={{
+              longitude: Number(primaryAddress.longitude),
+              latitude: Number(primaryAddress.latitude),
+            }}
+            selectedAddress={selectedAddress}
+          />
+        )}
+      </div>
     </main>
   );
 }

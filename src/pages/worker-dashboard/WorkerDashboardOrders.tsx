@@ -55,13 +55,13 @@ export default function WorkerDashboardOrders() {
 
   return (
     <div className="p-8 font-dmsans">
-      <h1 className="text-2xl font-semibold text-[#296FDA] mb-6">
+      <h1 className="text-2xl font-semibold text-claundry-blue mb-6">
         Active Orders
       </h1>
 
       <div className="bg-white shadow rounded-lg border border-[#BAD6F5]">
         <table className="w-full text-left border-collapse">
-          <thead className="bg-[#BAD6F5] text-[#296FDA]">
+          <thead className="bg-[#BAD6F5] text-claundry-blue">
             <tr>
               <th className="p-4">Order ID</th>
               <th className="p-4">Customer</th>
@@ -77,7 +77,7 @@ export default function WorkerDashboardOrders() {
                 key={order.id}
                 className="border-t hover:bg-[#F3F8FE] transition-colors"
               >
-                <td className="p-4 font-medium text-[#296FDA]">{order.id}</td>
+                <td className="p-4 font-medium text-claundry-blue">{order.id}</td>
                 <td className="p-4">{order.customer}</td>
                 <td className="p-4">
                   <div className="flex flex-col gap-2">
@@ -90,7 +90,7 @@ export default function WorkerDashboardOrders() {
                           type="checkbox"
                           checked={item.confirmed}
                           onChange={() => handleConfirmItem(order.id, idx)}
-                          className="accent-[#296FDA]"
+                          className="accent-claundry-blue"
                         />
                         <span>
                           {item.name} ({item.count})
@@ -120,7 +120,7 @@ export default function WorkerDashboardOrders() {
                       disabled={!allItemsConfirmed(order)}
                       className={`px-3 py-1 rounded text-sm ${
                         allItemsConfirmed(order)
-                          ? "bg-[#296FDA] text-white hover:bg-blue-700"
+                          ? "bg-claundry-blue text-white hover:bg-blue-700"
                           : "bg-gray-300 text-gray-500 cursor-not-allowed"
                       }`}
                     >

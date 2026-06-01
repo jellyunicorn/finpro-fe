@@ -1,5 +1,5 @@
 import { toReadableDateTime } from "../../utils/dateconverUtils";
-import { STATUS, type OrderStatus } from "../../utils/statusLookup";
+import { STATUS, type OrderStatus } from "../../lib/statusLookup";
 
 type Props = {
   orderId: string;

@@ -42,7 +42,7 @@ export default function Settings() {
       )}
       {/* //------> */}
       <div>
-        <h1 className="text-2xl font-medium text-[#296FDA]">Settings</h1>
+        <h1 className="text-2xl font-medium text-claundry-blue">Settings</h1>
         <p className="text-sm text-neutral-400">
           Manage your profile details and settings here
         </p>
@@ -76,7 +76,7 @@ export default function Settings() {
             <label
               htmlFor="uploadpicture"
               aria-label="change-avatar-profile-picture"
-              className=" flex items-center justify-center outline-4 outline-white absolute bottom-0 right-0  bg-[#296FDA] rounded-full w-10 h-10 hover:cursor-pointer hover:bg-black"
+              className=" flex items-center justify-center outline-4 outline-white absolute bottom-0 right-0  bg-claundry-blue rounded-full w-10 h-10 hover:cursor-pointer hover:bg-black"
             >
               <img src={editicon_white} alt="" className="w-6 object-cover" />
             </label>
@@ -141,7 +141,7 @@ export default function Settings() {
                 setIsEditing(!isEditing)}
                 //----->
               }
-              className={`${isEditing ? "bg-white border border-blue-700 text-blue-700" : "bg-[#296FDA] text-white"} mt-5 w-fit px-5 py-2  rounded-full disabled:opacity-50 disabled:cursor-not-allowed`}
+              className={`${isEditing ? "bg-white border border-blue-700 text-blue-700" : "bg-claundry-blue text-white"} mt-5 w-fit px-5 py-2  rounded-full disabled:opacity-50 disabled:cursor-not-allowed`}
             >
               {isEditing ? "Cancel Editing" : "Edit Details"}
             </button>
@@ -149,7 +149,7 @@ export default function Settings() {
               <button
                 onClick={handleFileUpload}
                 disabled={isPending}
-                className="bg-[#296FDA] mt-5 w-fit px-5 py-2 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-claundry-blue mt-5 w-fit px-5 py-2 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isPending ? "Uploading..." : "Save Changes"}
               </button>

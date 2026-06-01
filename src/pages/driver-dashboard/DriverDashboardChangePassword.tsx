@@ -7,7 +7,7 @@ export default function DriverDashboardChangePassword() {
 
   return (
     <div className="p-8 font-dmsans w-full h-full">
-      <h1 className="text-2xl font-semibold text-[#296FDA] mb-6">
+      <h1 className="text-2xl font-semibold text-claundry-blue mb-6">
         Change Password
       </h1>
 
@@ -20,7 +20,7 @@ export default function DriverDashboardChangePassword() {
             type="password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
-            className="w-full lg:w-[60%] border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#296FDA]"
+            className="w-full lg:w-[60%] border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-claundry-blue"
           />
         </div>
 
@@ -32,7 +32,7 @@ export default function DriverDashboardChangePassword() {
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full lg:w-[60%] border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#296FDA]"
+            className="w-full lg:w-[60%] border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-claundry-blue"
           />
         </div>
 
@@ -44,11 +44,11 @@ export default function DriverDashboardChangePassword() {
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full lg:w-[60%] border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#296FDA]"
+            className="w-full lg:w-[60%] border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-claundry-blue"
           />
         </div>
 
-        <button className="px-4 py-2 bg-[#296FDA] text-white rounded hover:bg-blue-700 text-sm">
+        <button className="px-4 py-2 bg-claundry-blue text-white rounded hover:bg-blue-700 text-sm">
           Save Changes
         </button>
       </div>

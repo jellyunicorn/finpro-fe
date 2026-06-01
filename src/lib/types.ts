@@ -1,4 +1,4 @@
-import { type OrderStatus } from '../utils/statusLookup'
+import { type OrderStatus } from './statusLookup'
 
 
 export type profilepersonalForm = {
