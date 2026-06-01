@@ -6,7 +6,7 @@ export default function useGetOrders() {
    const getOrders = async () => {
     try {
         const result = await axiosInstance.get("/order/")
-        return result.data
+        return result
     } catch {}
   };
   
