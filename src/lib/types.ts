@@ -76,9 +76,16 @@ export type outletdata = {
 
 
 
+export type closestoutletinfo = {
+  outletid:number|null;
+  outletname: string;
+  distance: number;
+};
+
 export type pickupform = {
-  pickupaddressid : number,
-  outletid:number,
-  pickupTime:string,
-  distance:number,
+  pickupaddressid : number | null,
+  outletid:number | null,
+  pickupTime:string | null,
+  pickupDate:string | null,
+  distance:number | null,
 };
