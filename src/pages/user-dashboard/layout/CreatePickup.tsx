@@ -38,8 +38,8 @@ export default function CreatePickup() {
 
   return (
     <main className="flex-1 h-full relative  flex">
-      <div className="flex min-w-[30%] max-h-[90%] border-[#BEE6E1] border shadow-md px-10 gap-5 py-10 flex-1 rounded-lg  m-10 absolute z-1 bg-white  flex-col">
-        <div className="flex flex-col">
+      <div className="flex min-w-[30%] h-fit overflow-hidden  border-[#BEE6E1] border shadow-md px-10 gap-5 py-10 flex-1 rounded-lg  m-10 absolute z-1 bg-white  flex-col">
+        <div className="flex flex-col ">
           <h1 className="text-2xl font-medium text-claundry-blue">
             Schedule a Pick Up
           </h1>
@@ -99,10 +99,6 @@ export default function CreatePickup() {
           </div>
           <div className="flex gap-2 w-full items-center">
             <p className="font-bold">Outlet</p>
-            <div className="border rounded-md h-10 border-neutral-200 px-2 py-2 w-full"></div>
-          </div>
-          <div className="flex gap-5 w-full items-center">
-            <p className="font-bold  whitespace-nowrap">Delivery Cost</p>
             <div className="border rounded-md h-10 border-neutral-200 px-2 py-2 w-full"></div>
           </div>
         </div>

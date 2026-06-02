@@ -1,9 +1,10 @@
 import { useEffect, useRef } from "react";
-import maplibregl from "maplibre-gl";
+import maplibregl, { GeoJSONFeature } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "../../lib/axios";
-import type { addressdata } from "../../lib/types";
+import type { addressdata, outletdata } from "../../lib/types";
+import useFindClosest from "../../hooks/useFindClosest";
 
 type initialcoordinateprops = {
   longitude: number;
@@ -19,6 +20,7 @@ export default function MapComponent({
 }) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
+  const closestOutlet = useFindClosest();
   const { data: outletdata } = useQuery({
     queryKey: ["outlets"],
     queryFn: async () => {
@@ -108,7 +110,6 @@ export default function MapComponent({
           "text-halo-width": 5,
         },
       });
-
     };
 
     if (map.isStyleLoaded()) {
@@ -126,6 +127,62 @@ export default function MapComponent({
       duration: 2000,
     });
   }, [selectedAddress]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !selectedAddress || !outletdata) return;
+
+    const { closestoutletId, currDis } = closestOutlet(
+      selectedAddress,
+      outletdata,
+    );
+    console.log(closestoutletId, currDis);
+
+    const closestoutlet = outletdata.find(
+      (outlet: outletdata) => outlet.id === closestoutletId,
+    );
+    if (!closestoutlet) return;
+
+    const routeData: GeoJSON.Feature = {
+      type: "Feature",
+      geometry: {
+        type: "LineString",
+        coordinates: [
+          [Number(selectedAddress.longitude), Number(selectedAddress.latitude)],
+          [Number(closestoutlet?.longitude), Number(closestoutlet?.latitude)],
+        ],
+      },
+      properties: {},
+    };
+
+    const applyRoute = () => {
+      const existing = map.getSource("route") as
+        | maplibregl.GeoJSONSource
+        | undefined;
+      if (existing) {
+        existing.setData(routeData);
+      } else {
+        map.addSource("route", { type: "geojson", data: routeData });
+        map.addLayer({
+          id: "route-line",
+          type: "line",
+          source: "route",
+          layout: { "line-join": "round", "line-cap": "round" },
+          paint: {
+            "line-color": "#296FDA",
+            "line-width": 3,
+            "line-dasharray": [2, 2],
+          },
+        });
+      }
+    };
+
+    if (map.isStyleLoaded()) {
+      applyRoute();
+    } else {
+      map.once("idle", applyRoute);
+    }
+  }, [selectedAddress, outletdata]);
 
   useEffect(() => {
     const map = mapRef.current;

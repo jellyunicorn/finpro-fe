@@ -1,8 +1,7 @@
-import { type OrderStatus } from './statusLookup'
-
+import { type OrderStatus } from "./statusLookup";
 
 export type profilepersonalForm = {
-    id:number,
+  id: number;
   fullName: string;
   avatar: string;
   phone: string | null;
@@ -63,4 +62,23 @@ export type addressdata = {
   longitude: string;
   postalCode: string;
   userId: number;
+};
+
+export type outletdata = {
+  id: number;
+  name: string,
+  address: string,
+  city:string,
+  postalCode: string,
+  latitude: string,
+  longitude:string,
+};
+
+
+
+export type pickupform = {
+  pickupaddressid : number,
+  outletid:number,
+  pickupTime:string,
+  distance:number,
 };
