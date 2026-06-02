@@ -1,10 +1,14 @@
-import { useEffect, useRef } from "react";
-import maplibregl, { GeoJSONFeature } from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
 import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "../../lib/axios";
-import type { addressdata, outletdata } from "../../lib/types";
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+import { useEffect, useRef } from "react";
 import useFindClosest from "../../hooks/useFindClosest";
+import { axiosInstance } from "../../lib/axios";
+import type {
+  addressdata,
+  closestoutletinfo,
+  outletdata,
+} from "../../lib/types";
 
 type initialcoordinateprops = {
   longitude: number;
@@ -14,9 +18,11 @@ type initialcoordinateprops = {
 export default function MapComponent({
   initialcoordinate,
   selectedAddress,
+  setOutlet,
 }: {
   initialcoordinate: initialcoordinateprops;
   selectedAddress: addressdata;
+  setOutlet: (outlet: closestoutletinfo) => void;
 }) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -40,6 +46,7 @@ export default function MapComponent({
       zoom: 15,
     });
     map.addControl(new maplibregl.NavigationControl(), "top-right");
+    map.setPadding({ left: 420, top: 0, right: 0, bottom: 0 });
     mapRef.current = map;
     map.on("styleimagemissing", (e) => {
       if (map.hasImage(e.id)) return;
@@ -125,6 +132,7 @@ export default function MapComponent({
       ],
       zoom: 15,
       duration: 2000,
+      padding: { left: 420, top: 0, right: 0, bottom: 0 },
     });
   }, [selectedAddress]);
 
@@ -138,11 +146,15 @@ export default function MapComponent({
     );
     console.log(closestoutletId, currDis);
 
-    const closestoutlet = outletdata.find(
+    const closestoutlet: outletdata = outletdata.find(
       (outlet: outletdata) => outlet.id === closestoutletId,
     );
     if (!closestoutlet) return;
-
+    setOutlet({
+      outletid: closestoutlet.id,
+      outletname: closestoutlet.name,
+      distance: parseFloat(currDis.toFixed(2)),
+    });
     const routeData: GeoJSON.Feature = {
       type: "Feature",
       geometry: {
