@@ -26,7 +26,7 @@ export default function MainDashboard() {
     (e: orderdata) => e.confirmedAt === null || e.confirmedAt === "",
   );
   const PendingPayment = userorder?.filter(
-    (e: orderdata) => e.paymentStatus === "PENDING",
+    (e: orderdata) => e.orderStatus === "WAITING_FOR_PAYMENT",
   );
 
   return (

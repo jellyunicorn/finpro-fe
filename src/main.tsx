@@ -37,6 +37,7 @@ import { userAddressLoader } from "./loaders/userAddressLoader.ts";
 import MainDashboard from "./pages/user-dashboard/layout/MainDashboard.tsx";
 import OrderHistory from "./pages/user-dashboard/layout/OrderHistory.tsx";
 import CreatePickup from "./pages/user-dashboard/layout/CreatePickup.tsx";
+import OrderDetails from "./pages/user-dashboard/layout/OrderDetails.tsx";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -56,6 +57,7 @@ const router = createBrowserRouter([
       },
       { path: "reset", element: <ResetPassword /> },
       { path: "orders", element: <OrderHistory /> },
+      { path: "orders/:orderId", element: <OrderDetails /> },
       { path: "pickup", element: <CreatePickup />, loader:userAddressLoader },
       { path: "verify-mail", element: <ReverifyEmail /> },
       { path: "settings", element: <Settings />, loader: userDataLoader },

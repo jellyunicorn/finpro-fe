@@ -43,13 +43,40 @@ export type orderdata = {
   paymentMethod: string;
   paymentTime: string;
   distance: string;
-  confirmedAt: string;
-  deliveredAt: string;
+  confirmedAt: string | null;
+  deliveredAt: string | null;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
   userId: number;
   outletId: number;
+  addressId: number;
+  outlet: {
+    id: number;
+    name: string;
+    address: string;
+    city: string;
+    postalCode: string;
+    latitude: string;
+    longitude: string;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+  };
+  address: {
+    id: number;
+    address: string;
+    city: string;
+    label: string;
+    postalCode: string;
+    latitude: string;
+    longitude: string;
+    isPrimary: boolean;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    userId: number;
+  };
 };
 
 export type addressdata = {
