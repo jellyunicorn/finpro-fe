@@ -110,7 +110,7 @@ export default function OrderDetails() {
           </p>
         </div>
       </div>
-
+      {/* //-----> items details */}
       <div className="border border-claundry-accent rounded-2xl h-fit p-5 flex flex-col ">
         <h2 className="font-medium text-claundry-blue mb-5">Items Details</h2>
         <hr className="border-neutral-200 mb-2" />
@@ -125,24 +125,32 @@ export default function OrderDetails() {
           </div>
         </div>
         <hr className="border-neutral-200 mt-2" />
-        <div>
-          {items?.map((e: orderitems, idx: number) => {
-            
-            return (
-              <div key={idx} className={`${idx % 2 !== 0 && "bg-neutral-100"}`}>
-                <ItemRow {...e} />
-              </div>
-            );
-          })}
-        </div>
+        {items.length > 0  ? 
+          <div>
+            {items?.map((e: orderitems, idx: number) => {
+              return (
+                <div
+                  key={idx}
+                  className={`${idx % 2 !== 0 && "bg-neutral-100"}`}
+                >
+                  <ItemRow {...e} />
+                </div>
+              );
+            })}
+          </div>
+         : 
+          <div className="w-full h-30 flex items-center justify-center text-neutral-400"> Waiting for worker to input items... </div>
+        }
         <hr className="border-neutral-200 mb-2" />
-        <div className="w-full flex justify-between px-5">
+        <div className="w-full flex justify-between  px-5">
           <p className="font-medium">Total</p>
-          <p>{toRupiah(total)}</p>
+          <p className="lg:mr-10 text-right">{toRupiah(total)}</p>
         </div>
         <hr className="border-neutral-200 mt-2" />
       </div>
-<button className="bg-claundry-blue text-white rounded-full py-2">Make Payment</button>
+      <button className="bg-claundry-blue text-white rounded-full py-2">
+        Make Payment
+      </button>
       {/* //------> TimelinePayment */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Timeline */}
@@ -178,7 +186,6 @@ export default function OrderDetails() {
             label="Paid At"
             value={toReadableDateTime(order.paymentTime)}
           />
-         
         </div>
       </div>
       {/* //----->itemsdetails */}

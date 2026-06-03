@@ -23,7 +23,7 @@ export default function MainDashboard() {
   });
 
   const OngoingOrders = userorder?.filter(
-    (e: orderdata) => e.confirmedAt === null || e.confirmedAt === "",
+    (e: orderdata) => (e.confirmedAt === null || e.confirmedAt === "" )&& e.orderStatus !== "CANCELLED",
   );
   const PendingPayment = userorder?.filter(
     (e: orderdata) => e.orderStatus === "WAITING_FOR_PAYMENT",
