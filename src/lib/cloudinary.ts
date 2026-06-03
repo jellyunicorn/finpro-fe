@@ -13,7 +13,10 @@ export const cloudimages = {
   stepbystep_3: `${BASE}/image/upload/v1778926660/stepbystep_illust_3_wmptue.png`,
   stepbystep_4: `${BASE}/image/upload/v1778926660/stepbystep_illust_4_ruy7uj.png`,
   bg_testimonial: `${BASE}/image/upload/v1778940552/bg-testimonial_qydlwb.webp`,
+  dashboard_img: `${BASE}/image/upload/v1780028188/dashboard_image_fxwltx.png`,
 };
+
+
 
 export const testi_icons = [
   `${BASE}/image/upload/v1778924226/icon_illust_3_i4ad9a.png`,

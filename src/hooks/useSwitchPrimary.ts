@@ -1,6 +1,5 @@
 import toast from "react-hot-toast";
 import { axiosInstance } from "../lib/axios";
-import { useNavigate } from "react-router";
 
 export default function useSwitchPrimary() {
 

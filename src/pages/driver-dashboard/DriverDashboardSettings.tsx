@@ -14,7 +14,7 @@ export default function DriverDashboardSettings() {
 
   return (
     <div className="p-8 font-dmsans w-full h-full">
-      <h1 className="text-2xl font-semibold text-[#296FDA] mb-6">Settings</h1>
+      <h1 className="text-2xl font-semibold text-claundry-blue mb-6">Settings</h1>
       <div className="flex flex-col md:flex-row bg-white shadow rounded-lg border border-[#BAD6F5] p-6 w-full">
         <div className="flex flex-col flex-1 pr-6">
           <div className="mb-4">
@@ -25,7 +25,7 @@ export default function DriverDashboardSettings() {
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#296FDA]"
+              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-claundry-blue"
             />
           </div>
 
@@ -41,7 +41,7 @@ export default function DriverDashboardSettings() {
             />
           </div>
 
-          <button className="px-4 py-2 bg-[#296FDA] text-white rounded hover:bg-blue-700 text-sm self-start">
+          <button className="px-4 py-2 bg-claundry-blue text-white rounded hover:bg-blue-700 text-sm self-start">
             Save Changes
           </button>
         </div>
@@ -60,7 +60,7 @@ export default function DriverDashboardSettings() {
               </div>
             )}
           </div>
-          <label className="cursor-pointer px-3 py-1 bg-[#296FDA] text-white rounded hover:bg-blue-700 text-sm">
+          <label className="cursor-pointer px-3 py-1 bg-claundry-blue text-white rounded hover:bg-blue-700 text-sm">
             Upload Picture
             <input
               type="file"

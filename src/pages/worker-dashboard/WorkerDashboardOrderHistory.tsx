@@ -28,13 +28,13 @@ export default function WorkerDashboardOrderHistory() {
 
   return (
     <div className="p-8 font-dmsans">
-      <h1 className="text-2xl font-semibold text-[#296FDA] mb-6">
+      <h1 className="text-2xl font-semibold text-claundry-blue mb-6">
         Order History
       </h1>
 
       <div className="bg-white shadow rounded-lg border border-[#BAD6F5]">
         <table className="w-full text-left border-collapse">
-          <thead className="bg-[#BAD6F5] text-[#296FDA]">
+          <thead className="bg-[#BAD6F5] text-claundry-blue">
             <tr>
               <th className="p-4">Order ID</th>
               <th className="p-4">Customer</th>
@@ -50,7 +50,7 @@ export default function WorkerDashboardOrderHistory() {
                 key={order.id}
                 className="border-t hover:bg-[#F3F8FE] transition-colors"
               >
-                <td className="p-4 font-medium text-[#296FDA]">{order.id}</td>
+                <td className="p-4 font-medium text-claundry-blue">{order.id}</td>
                 <td className="p-4">{order.customer}</td>
                 <td className="p-4">{order.items.join(", ")}</td>
                 <td className="p-4">{order.station}</td>

@@ -64,13 +64,13 @@ export default function ResetPassword() {
   return (
     <main className=" flex-1 flex px-10 py-10 flex-col gap-5">
       <div className="flex flex-col">
-        <h1 className="text-2xl font-medium text-[#296FDA]">Reset Password</h1>
+        <h1 className="text-2xl font-medium text-claundry-blue">Reset Password</h1>
         <p className="text-sm text-neutral-400">
           Change your password confirm to proceed
         </p>
       </div>
       <div className=" rounded-2xl gap-5 flex flex-col max-w-[500px] h-fit w-[50%] bg-white  drop-shadow-lg shadow-black p-10 border-neutral-100 border ">
-        <h1 className="text-xl font-medium text-[#296FDA]">
+        <h1 className="text-xl font-medium text-claundry-blue">
           Enter New Password
         </h1>
         <form className="flex flex-col gap-1">
@@ -107,7 +107,7 @@ export default function ResetPassword() {
         <button
           type="button"
           onClick={() => handleChangePass()}
-          className="bg-[#296FDA] px-5 py-1 rounded-full text-white"
+          className="bg-claundry-blue px-5 py-1 rounded-full text-white"
         >
           Confirm Change
         </button>

@@ -24,7 +24,7 @@ export default function SideBarMenu({
   return (
     <div className="w-full">
       <Link to={to} className="flex items-center gap-5 flex-1">
-        <div className="group rounded-lg relative hover:bg-[#296FDA] h-15 w-full px-5 flex items-center gap-5">
+        <div className="group rounded-lg relative hover:bg-claundry-blue h-15 w-full px-5 flex items-center gap-5">
           <img src={icon} alt={`${label}-icon`} className="h-5" />
           <img
             src={iconDark}
@@ -32,7 +32,7 @@ export default function SideBarMenu({
             className="absolute h-5 group-hover:opacity-0"
           />
           {!minimize && (
-            <span className="font-dmsans group-hover:text-white font-medium text-[#296FDA] text-lg">
+            <span className="font-dmsans group-hover:text-white font-medium text-claundry-blue text-lg">
               {label}
             </span>
           )}
@@ -40,7 +40,7 @@ export default function SideBarMenu({
           {hasChildren && !minimize && (
             <button
               onClick={() => setOpen(!open)}
-              className="ml-auto text-[#296FDA] group-hover:text-white transform transition-transform duration-300 ease-in-out"
+              className="ml-auto text-claundry-blue group-hover:text-white transform transition-transform duration-300 ease-in-out"
             >
               <div
                 className={`${open ? "rotate-90" : "rotate-0"} text-lg inline-block transition-transform duration-300`}
@@ -59,8 +59,8 @@ export default function SideBarMenu({
               key={idx}
               to={child.to}
               className="group flex items-center gap-4 pl-7
-                         text-[#296FDA] font-dmsans text-base rounded-lg
-                         hover:bg-[#296FDA] hover:text-white transition-colors"
+                         text-claundry-blue font-dmsans text-base rounded-lg
+                         hover:bg-claundry-blue hover:text-white transition-colors"
             >
               <div className="border-l px-6 py-1">{child.label}</div>
             </Link>

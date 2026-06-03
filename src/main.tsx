@@ -35,6 +35,8 @@ import ReverifyEmail from "./pages/user-dashboard/layout/ReverifyEmail.tsx";
 import MyAddresses from "./pages/user-dashboard/layout/MyAddresses.tsx";
 import { userAddressLoader } from "./loaders/userAddressLoader.ts";
 import MainDashboard from "./pages/user-dashboard/layout/MainDashboard.tsx";
+import OrderHistory from "./pages/user-dashboard/layout/OrderHistory.tsx";
+import CreatePickup from "./pages/user-dashboard/layout/CreatePickup.tsx";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -53,9 +55,21 @@ const router = createBrowserRouter([
         loader: userDataLoader,
       },
       { path: "reset", element: <ResetPassword /> },
+      { path: "orders", element: <OrderHistory /> },
+      { path: "pickup", element: <CreatePickup />, loader:userAddressLoader },
       { path: "verify-mail", element: <ReverifyEmail /> },
       { path: "settings", element: <Settings />, loader: userDataLoader },
-      { path: "", element: <MainDashboard />, loader: userDataLoader },
+      {
+        path: "",
+        element: <MainDashboard />,
+        loader: async () => {
+          const [userdata, addresses] = await Promise.all([
+            userDataLoader(),
+            userAddressLoader(),
+          ]);
+          return { userdata, addresses };
+        },
+      },
       {
         path: "my-addresses",
         element: <MyAddresses />,

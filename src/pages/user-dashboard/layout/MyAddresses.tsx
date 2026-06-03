@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import useSwitchPrimary from "../../../hooks/useSwitchPrimary";
 import useUpdateAddress from "../../../hooks/useUpdateAddress";
@@ -47,6 +47,17 @@ export default function MyAddresses() {
       setPrimaryId(prev);
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+       setFormMode(null)
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const handleAddressForm = async (adrs: addressdata) => {
     setAddressForm({
@@ -99,9 +110,11 @@ export default function MyAddresses() {
             </div>{" "}
           </div>
         )}
+
+
         <div className="flex justify-between items-start">
           <div className="flex flex-col">
-            <h1 className="text-2xl font-medium text-[#296FDA]">
+            <h1 className="text-2xl font-medium text-claundry-blue">
               {formMode === "create" ? "Add New Address" : "Edit Address"}
             </h1>
             <p className="text-sm text-neutral-400">
@@ -223,7 +236,7 @@ export default function MyAddresses() {
                   ? createAddress(addressForm)
                   : updateAddress(addressForm);
             }}
-            className="mt-auto bg-[#296FDA] text-white rounded-full py-2 hover:bg-blue-700"
+            className="mt-auto bg-claundry-blue text-white rounded-full py-2 hover:bg-blue-700"
           >
             Save Changes
           </button>
@@ -240,13 +253,13 @@ export default function MyAddresses() {
       {/* //---------> edit menu END */}
 
       <div>
-        <h1 className="text-2xl font-medium text-[#296FDA]">My Addresses</h1>
+        <h1 className="text-2xl font-medium text-claundry-blue">My Addresses</h1>
         <p className="text-sm text-neutral-400">
           Manage your saved and default addresses here
         </p>
       </div>
-      <div className=" p-4 w-full lg:max-w-[50%] flex gap-5 h-fit border border-blue-300 rounded-lg">
-        <h2 className="text-[#296FDA]">Primary Address</h2>
+      <div className=" p-4 w-full lg:max-w-[70%] flex gap-5 h-fit border border-blue-300 rounded-lg">
+        <h2 className="text-claundry-blue">Primary Address</h2>
         <div className="flex flex-col gap-2">
           <p className="px-2 bg-[#BEE6E1] text-blue-800 w-fit rounded-full">
             {primaryAddress.label}
@@ -257,8 +270,8 @@ export default function MyAddresses() {
           <p> {primaryAddress.city}</p>
         </div>
       </div>
-      <h2 className="text-[#296FDA]">Other Addresses</h2>
-      <div className="  w-full lg:max-w-[50%] flex flex-col gap-2 h-fit ">
+      <h2 className="text-claundry-blue">Other Addresses</h2>
+      <div className="  w-full lg:max-w-[70%] flex flex-col gap-2 h-fit ">
         <div className="grid grid-cols-3 gap-5  ">
           {otherAddress.map((adrs: addressdata, idx: number) => (
             <div

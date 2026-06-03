@@ -23,11 +23,11 @@ export default function TestimonialCard(
       </div>
       <div className="w-full relative flex-1 p-5 justify-end flex-col flex  bg-[#BEE6E1]">
 
-        <span className="font-dmsans font-medium text-[#296FDA]">
+        <span className="font-dmsans font-medium text-claundry-blue">
           {" "}
           {data.name}
         </span>
-        <span className="font-dmsans font-medium text-[#296FDA]">
+        <span className="font-dmsans font-medium text-claundry-blue">
           {data.city} , {data.area}
         </span>
       </div>

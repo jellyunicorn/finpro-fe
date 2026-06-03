@@ -115,7 +115,7 @@ export default function Register() {
                 className={`border rounded-full text-white py-2 transition-all ease-in ${
                   emailError || nameError
                     ? "bg-neutral-300 cursor-not-allowed"
-                    : "bg-[#296FDA] hover:cursor-pointer"
+                    : "bg-claundry-blue hover:cursor-pointer"
                 }`}
               >
                 SIGN UP
