@@ -93,26 +93,34 @@ export type addressdata = {
 
 export type outletdata = {
   id: number;
-  name: string,
-  address: string,
-  city:string,
-  postalCode: string,
-  latitude: string,
-  longitude:string,
+  name: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  latitude: string;
+  longitude: string;
 };
 
-
-
 export type closestoutletinfo = {
-  outletid:number|null;
+  outletid: number | null;
   outletname: string;
   distance: number;
 };
 
 export type pickupform = {
-  pickupaddressid : number | null,
-  outletid:number | null,
-  pickupTime:string | null,
-  pickupDate:string | null,
-  distance:number | null,
+  pickupaddressid: number | null;
+  outletid: number | null;
+  pickupTime: string | null;
+  pickupDate: string | null;
+  distance: number | null;
+};
+
+export type orderitems = {
+  id: number;
+  name: string;
+  orderId: number;
+  price: number;
+  quantity: number;
+  weight: number;
+  description:string;
 };
