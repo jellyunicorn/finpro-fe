@@ -12,11 +12,12 @@ import { toRupiah } from "../../../utils/toRupiah";
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "../../../lib/axios";
 import ItemRow from "../../../components/order-details/ItemRow";
+import usePaymentSession from "../../../hooks/usePaymentSession";
 
 export default function OrderDetails() {
   const navigate = useNavigate();
   const { orderId } = useParams();
-
+  const { createPaymentSession,isPending } = usePaymentSession();
   const { data: order, isLoading } = useQuery<orderdata>({
     queryKey: ["orderdetails", orderId],
     queryFn: async () => {
@@ -85,7 +86,7 @@ export default function OrderDetails() {
           <div className="flex gap-2 items-center">
             <img src={location_icon} alt="" className="h-5" />
             <p className="font-medium text-claundry-blue">From:</p>
-            <p>{order.address.label}</p>
+            <p>{order.address?.label ?? "-"}</p>
           </div>
           <div className="flex relative items-center flex-1 mx-10">
             <p className="absolute w-full flex justify-center text-sm text-neutral-400 [-webkit-text-stroke:5px_white] [paint-order:stroke_fill] z-5">
@@ -96,17 +97,17 @@ export default function OrderDetails() {
           </div>
           <div className="flex gap-2 items-center">
             <p className="font-medium text-claundry-blue">Outlet:</p>
-            <p>{order.outlet.name}</p>
+            <p>{order.outlet?.name ?? "-"}</p>
           </div>
         </div>
         <div className="flex text-sm justify-between">
           <p className="text-neutral-400">
-            {order.address.address}, {order.address.city}{" "}
-            {order.address.postalCode}
+            {order.address?.address ?? "-"}, {order.address?.city}{" "}
+            {order.address?.postalCode}
           </p>
           <p className="text-neutral-400">
-            {order.outlet.address}, {order.outlet.city}{" "}
-            {order.outlet.postalCode}
+            {order.outlet?.address ?? "-"}, {order.outlet?.city}{" "}
+            {order.outlet?.postalCode}
           </p>
         </div>
       </div>
@@ -125,7 +126,7 @@ export default function OrderDetails() {
           </div>
         </div>
         <hr className="border-neutral-200 mt-2" />
-        {items.length > 0  ? 
+        {items?.length > 0 ? (
           <div>
             {items?.map((e: orderitems, idx: number) => {
               return (
@@ -138,9 +139,12 @@ export default function OrderDetails() {
               );
             })}
           </div>
-         : 
-          <div className="w-full h-30 flex items-center justify-center text-neutral-400"> Waiting for worker to input items... </div>
-        }
+        ) : (
+          <div className="w-full h-30 flex items-center justify-center text-neutral-400">
+            {" "}
+            Waiting for worker to input items...{" "}
+          </div>
+        )}
         <hr className="border-neutral-200 mb-2" />
         <div className="w-full flex justify-between  px-5">
           <p className="font-medium">Total</p>
@@ -148,9 +152,13 @@ export default function OrderDetails() {
         </div>
         <hr className="border-neutral-200 mt-2" />
       </div>
-      <button className="bg-claundry-blue text-white rounded-full py-2">
-        Make Payment
-      </button>
+      {items?.length<=0 || order.paymentStatus !=="SUCCESS" && <button
+        disabled={isPending}
+        onClick={() => createPaymentSession(order.orderId)}
+        className="bg-claundry-blue text-white rounded-full py-2 disabled:opacity-50"
+      >
+        {isPending ? "Processing..." : "Make Payment"}
+      </button>}
       {/* //------> TimelinePayment */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Timeline */}

@@ -104,12 +104,14 @@ export type outletdata = {
 export type closestoutletinfo = {
   outletid: number | null;
   outletname: string;
+  lng:string;
+  lat:string;
   distance: number;
 };
 
 export type pickupform = {
-  pickupaddressid: number | null;
-  outletid: number | null;
+  pickupAddressId: number | null;
+  outletId: number | null;
   pickupTime: string | null;
   pickupDate: string | null;
   distance: number | null;
@@ -124,5 +126,3 @@ export type orderitems = {
   weight: number;
   description:string;
 }
-
-\

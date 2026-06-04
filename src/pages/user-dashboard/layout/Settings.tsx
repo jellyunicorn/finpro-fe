@@ -170,8 +170,9 @@ export default function Settings() {
           <h2 className="text-lg">E-Mail</h2>
           <input
             type="text"
+            disabled={true}
             value={profiledata.email || "-"}
-            className="border w-full lg:max-w-[70%] border-neutral-400 rounded-lg px-3 py-1"
+            className=" w-full lg:max-w-[70%] border-neutral-400   py-1"
           />
         </div>
         <Verifylabel verifydata={profiledata.verifiedAt} />

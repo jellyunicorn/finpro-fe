@@ -8,20 +8,21 @@ import type { orderdata } from "../../../lib/types";
 import location_icon from "../../../img/svg/address_blue.svg";
 import { STATUS } from "../../../lib/statusLookup";
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function OrderHistory() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [dateQuery, setDateQuery] = useState<string>("-");
   const [monthQuery, setMonthQuery] = useState<string>("-");
+  const [debouncedSearch , setDebouncedSearch] = useState<string>("")
   const navigate = useNavigate();
 
   const { data: userorders, isLoading } = useQuery({
-    queryKey: ["orders", searchQuery, monthQuery, dateQuery],
+    queryKey: ["orders", debouncedSearch, monthQuery, dateQuery],
     queryFn: async () => {
       const result = await axiosInstance.get("/order/", {
         params: {
-          search: searchQuery || undefined,
+          search: debouncedSearch || undefined,
           month: monthQuery !== "-" ? monthQuery : undefined,
           date: dateQuery !== "-" ? dateQuery : undefined,
         },
@@ -29,6 +30,11 @@ export default function OrderHistory() {
       return result.data;
     },
   });
+
+  useEffect(() => {
+    const debouncedelay = setTimeout(() => setDebouncedSearch(searchQuery), 1000);
+    return () => clearTimeout(debouncedelay);
+  }, [searchQuery]);
 
   return (
     <main className=" flex-1 flex px-10 py-10 flex-col gap-5">
@@ -43,6 +49,11 @@ export default function OrderHistory() {
       <div className="flex max-w-[70%] justify-between">
         <div className="flex gap-2">
           <button
+            onClick={() => {
+              setDateQuery("-");
+              setMonthQuery("-");
+              setSearchQuery("");
+            }}
             className={`${searchQuery === "" && dateQuery === "-" && monthQuery === "-" ? "bg-claundry-blue" : "bg-neutral-300"} px-5 py-1 text-white rounded-full`}
           >
             All
@@ -114,10 +125,10 @@ export default function OrderHistory() {
             <div className="flex gap-2">
               <img src={location_icon} alt="" className="h-5" />
               <p className="font-medium text-claundry-blue">From:</p>
-              <p>{order.address.label}</p>
+              <p>{order.address?.label ?? "-"}</p>
             </div>
             <div className="flex  flex-1 ">
-            <div className="flex relative items-center flex-1 mx-10">
+              <div className="flex relative items-center flex-1 mx-10">
                 <p className="absolute  w-full flex justify-center text-sm text-neutral-400 [-webkit-text-stroke:5px_white] [paint-order:stroke_fill] z-5">
                   {order.distance} KM
                 </p>
@@ -132,20 +143,18 @@ export default function OrderHistory() {
             </div>
             <div className="flex gap-2 ">
               <p className="font-medium text-claundry-blue">Outlet:</p>
-              <p>{order.outlet.name}</p>
+              <p>{order.outlet?.name ?? "-"}</p>
             </div>
           </div>
           <div className="flex text-sm justify-between">
-            <p className="text-neutral-400">{order.address.address}</p>
-            <p className="text-neutral-400">{order.outlet.address}</p>
+            <p className="text-neutral-400">{order.address?.address ?? "-"}</p>
+            <p className="text-neutral-400">{order.outlet?.address ?? "-"}</p>
           </div>
           <hr className="border-neutral-200 my-2" />
 
           <div className="grid grid-cols-3 my-2">
             <div className="border w-fit p-4 rounded-2xl border-claundry-accent">
-              <p className="font-medium text-claundry-blue">
-                Scheduled Pick Up :
-              </p>{" "}
+              <p className="font-medium text-claundry-blue">Scheduled :</p>{" "}
               <p>{toReadableDateTime(order.scheduledTime)}</p>
             </div>
             <div className="flex justify-center items-center"></div>
