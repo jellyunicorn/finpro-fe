@@ -75,13 +75,7 @@ const router = createBrowserRouter([
       {
         path: "my-addresses",
         element: <MyAddresses />,
-        loader: async () => {
-          const [userdata, addresses] = await Promise.all([
-            userDataLoader(),
-            userAddressLoader(),
-          ]);
-          return { userdata, addresses };
-        },
+        loader: userAddressLoader,
       },
     ],
   },

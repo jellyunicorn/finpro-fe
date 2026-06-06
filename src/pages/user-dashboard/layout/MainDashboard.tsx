@@ -17,8 +17,8 @@ export default function MainDashboard() {
   const { data: userorder, isLoading } = useQuery<orderdata[]>({
     queryKey: ["orders"],
     queryFn: async () => {
-      const result = await axiosInstance.get("/order/");
-      return result.data;
+      const result = await axiosInstance.get("/order/" );
+      return result.data?.data ?? result.data;
     },
   });
 

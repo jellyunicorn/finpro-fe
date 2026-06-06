@@ -1,22 +1,12 @@
 import toast from "react-hot-toast";
 import { axiosInstance } from "../lib/axios";
 import { useNavigate } from "react-router";
-
-type AddressPayload = {
-  id: number;
-  address: string;
-  city: string;
-  postalCode: string;
-  latitude: string;
-  longitude: string;
-  isPrimary: boolean;
-  label: string;
-};
+import type { addressform } from "../components/my-address/AddressEditMenu";
 
 export default function useUpdateAddress() {
   const navigate = useNavigate();
 
-  const updateAddress = async (payload: AddressPayload) => {
+  const updateAddress = async (payload: addressform) => {
     try {
       await toast.promise(axiosInstance.patch("/address/update", payload), {
         loading: "Saving...",

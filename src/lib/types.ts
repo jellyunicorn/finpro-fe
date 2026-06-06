@@ -88,8 +88,12 @@ export type addressdata = {
   latitude: string;
   longitude: string;
   postalCode: string;
+  regency: { code: string; name: string; provinceCode: string };
+  district: { code: string; name: string; regencyCode: string };
+  village: { code: string; name: string; districtCode: string };
   userId: number;
 };
+
 
 export type outletdata = {
   id: number;
@@ -126,3 +130,34 @@ export type orderitems = {
   weight: number;
   description:string;
 }
+
+export type addressform = {
+  address: string;
+  city: string;
+  id: number;
+  isPrimary: boolean;
+  label: string;
+  latitude: string;
+  longitude: string;
+  postalCode: string;
+  regency: string,
+  district: string,
+  village: string,
+  userId: number;
+};
+
+export type regencyquery = {
+  code: string;
+  name: string;
+  provinceCode: string;
+};
+export type districtquery = {
+  code: string;
+  name: string;
+  regencyCode: string;
+};
+export type villagequery = {
+  code: string;
+  name: string;
+  districtCode: string;
+};

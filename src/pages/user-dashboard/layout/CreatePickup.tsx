@@ -19,7 +19,7 @@ export default function CreatePickup() {
   const { data: addressdata } = useQuery({
     queryKey: ["useraddress"],
     queryFn: async () => {
-      const result = await axiosInstance.get("/address/");
+      const result = await axiosInstance.get("/address/user");
       console.log(result.data);
       return result.data.useraddress;
     },

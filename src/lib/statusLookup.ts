@@ -23,7 +23,7 @@ export const STATUS: Record<OrderStatus, StatusConfig> = {
     color: "border-gray-400 text-gray-600 bg-gray-50",
   },
   WAITING_FOR_DRIVER: {
-    label: "Finding Driver",
+    label: "To Pickup",
     color: "border-yellow-400 text-yellow-600 bg-yellow-50",
   },
   OTW_TO_OUTLET: {

@@ -12,6 +12,15 @@ export const toReadableDateTime = (iso: string | null | undefined): string => {
   return (`${day}/${month} | ${hour12}:${minutes} ${ampm}`);
 };
 
+export const toDateMonth = (iso: string | null | undefined): string => {
+  if (!iso) return "-";
+  const date = new Date(iso);
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+ 
+  return (`${day}/${month}`);
+};
+
 export const dateConverter = (iso: string | null | undefined): string => {
   if (!iso) return "-";
   const date = new Date(iso);

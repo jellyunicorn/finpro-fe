@@ -8,6 +8,7 @@ import {
 import location_icon from "../../../img/svg/address_blue.svg";
 import DetailRow from "../../../components/order-details/DetailRow";
 import TimelineRow from "../../../components/order-details/TimelineRow";
+import StatusProgress from "../../../components/order-details/StatusProgress";
 import { toRupiah } from "../../../utils/toRupiah";
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "../../../lib/axios";
@@ -40,7 +41,6 @@ export default function OrderDetails() {
       return result.data.total;
     },
   });
-  console.log(total);
   if (isLoading)
     return <p className="px-10 py-10 text-neutral-400">Loading Data...</p>;
   if (!order)
@@ -111,6 +111,9 @@ export default function OrderDetails() {
           </p>
         </div>
       </div>
+
+      <StatusProgress status={order.orderStatus} />
+
       {/* //-----> items details */}
       <div className="border border-claundry-accent rounded-2xl h-fit p-5 flex flex-col ">
         <h2 className="font-medium text-claundry-blue mb-5">Items Details</h2>
@@ -167,8 +170,8 @@ export default function OrderDetails() {
           <hr className="border-neutral-200" />
           <TimelineRow label="Scheduled" value={order.scheduledTime} />
           <TimelineRow label="Picked Up" value={order.pickupTime} />
-          <TimelineRow label="Confirmed" value={order.confirmedAt} />
           <TimelineRow label="Delivered" value={order.deliveredAt} />
+          <TimelineRow label="Confirmed" value={order.confirmedAt} />
         </div>
 
         {/* Payment */}

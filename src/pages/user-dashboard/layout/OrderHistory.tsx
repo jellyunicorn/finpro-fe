@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { axiosInstance } from "../../../lib/axios";
 import {
   dateConverter,
@@ -17,19 +17,34 @@ export default function OrderHistory() {
   const [debouncedSearch , setDebouncedSearch] = useState<string>("")
   const navigate = useNavigate();
 
-  const { data: userorders, isLoading } = useQuery({
-    queryKey: ["orders", debouncedSearch, monthQuery, dateQuery],
-    queryFn: async () => {
-      const result = await axiosInstance.get("/order/", {
-        params: {
-          search: debouncedSearch || undefined,
-          month: monthQuery !== "-" ? monthQuery : undefined,
-          date: dateQuery !== "-" ? dateQuery : undefined,
-        },
-      });
-      return result.data;
-    },
-  });
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["orders", debouncedSearch, monthQuery, dateQuery],
+      initialPageParam: 1,
+      queryFn: async ({ pageParam }) => {
+        const result = await axiosInstance.get("/order/", {
+          params: {
+            page: pageParam,
+            limit: 5,
+            search: debouncedSearch || undefined,
+            month: monthQuery !== "-" ? monthQuery : undefined,
+            date: dateQuery !== "-" ? dateQuery : undefined,
+          },
+        });
+        return result.data;
+      },
+      getNextPageParam: (lastPage) => {
+        if (!lastPage?.meta) return undefined;
+        const { page, totalPages } = lastPage.meta;
+        return page < totalPages ? page + 1 : undefined;
+      },
+    });
+
+
+  // When backend returns a plain array (no meta yet), fall back to using it directly
+  const userorders =
+    data?.pages.flatMap((page) => (Array.isArray(page) ? page : page.data)) ??
+    [];
 
   useEffect(() => {
     const debouncedelay = setTimeout(() => setDebouncedSearch(searchQuery), 1000);
@@ -106,7 +121,7 @@ export default function OrderHistory() {
         </div>
       </div>
       {isLoading && <p>Loading Data...</p>}
-      {userorders?.map((order: orderdata, idx: number) => (
+      {userorders.map((order: orderdata, idx: number) => (
         <div
           key={idx}
           className="w-[70%] h-fit rounded-2xl border-[#BEE6E1] border p-5 "
@@ -176,6 +191,15 @@ export default function OrderHistory() {
           </div>
         </div>
       ))}
+      {hasNextPage && (
+        <button
+          onClick={() => fetchNextPage()}
+          disabled={isFetchingNextPage}
+          className="bg-claundry-blue text-white px-5 py-2 rounded-full w-fit"
+        >
+          {isFetchingNextPage ? "Loading..." : "Load More"}
+        </button>
+      )}
     </main>
   );
 }
