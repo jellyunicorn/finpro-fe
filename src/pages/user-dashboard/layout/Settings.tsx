@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLoaderData } from "react-router";
 import NewEmailPopUp from "../../../components/user-dashboard/NewEmailPopUp";
 import ResetEmailPopUp, {
-  VerifyEmailPopUp
+  VerifyEmailPopUp,
 } from "../../../components/user-dashboard/PopUpWindow";
 import Verifylabel from "../../../components/Verifylabel";
 import useUpdateData from "../../../hooks/useUpdateData";
@@ -19,10 +19,8 @@ export default function Settings() {
     phone: profiledata.phone,
     birthDate: toDateInput(profiledata.birthDate),
   });
-  const { handleFileSelect, handleFileUpload, isPending,handleCancelEdit } = useUpdateData(
-    personalForm,
-    setPersonalForm,
-  );
+  const { handleFileSelect, handleFileUpload, isPending, handleCancelEdit } =
+    useUpdateData(personalForm, setPersonalForm);
   const [isReset, setIsReset] = useState<boolean>(false);
   const [isVerifyEmail, setisVerifyEmail] = useState<boolean>(false);
   const [isChangeMail, setIsChangeMail] = useState<boolean>(false);
@@ -32,8 +30,15 @@ export default function Settings() {
     <main className=" relative flex-1 flex px-10 py-10 flex-col gap-5">
       {/* //------> */}
 
-      {isReset && <ResetEmailPopUp triggerfunction={setIsReset} userdata={profiledata} />}
-      {isChangeMail && <NewEmailPopUp triggerfunction={setIsChangeMail} userdata={profiledata} />}
+      {isReset && (
+        <ResetEmailPopUp triggerfunction={setIsReset} userdata={profiledata} />
+      )}
+      {isChangeMail && (
+        <NewEmailPopUp
+          triggerfunction={setIsChangeMail}
+          userdata={profiledata}
+        />
+      )}
       {isVerifyEmail && (
         <VerifyEmailPopUp
           triggerfunction={setisVerifyEmail}
@@ -69,8 +74,9 @@ export default function Settings() {
               id="uploadpicture"
               className="hidden"
               accept="image/jpeg,image/jpg, image/png, image/gif"
-              onChange={(e) => {handleFileSelect(e)
-                setIsEditing(true)
+              onChange={(e) => {
+                handleFileSelect(e);
+                setIsEditing(true);
               }}
             />
             <label
@@ -136,9 +142,11 @@ export default function Settings() {
           </div>
           <div className="flex items-center gap-5  justify-between">
             <button
-              onClick={() => {
-                handleCancelEdit();
-                setIsEditing(!isEditing)}
+              onClick={
+                () => {
+                  handleCancelEdit();
+                  setIsEditing(!isEditing);
+                }
                 //----->
               }
               className={`${isEditing ? "bg-white border border-blue-700 text-blue-700" : "bg-claundry-blue text-white"} mt-5 w-fit px-5 py-2  rounded-full disabled:opacity-50 disabled:cursor-not-allowed`}
@@ -168,30 +176,37 @@ export default function Settings() {
       <div className=" w-full  flex gap-5 items-end">
         <div className="flex flex-col w-full  gap-1">
           <h2 className="text-lg">E-Mail</h2>
-          <input
-            type="text"
-            disabled={true}
-            value={profiledata.email || "-"}
-            className=" w-full lg:max-w-[70%] border-neutral-400   py-1"
-          />
+          <div className="flex gap-2 ">
+            <div className=" border-neutral-400   py-1">
+              {profiledata.email || "-"}
+            </div>
+            <Verifylabel verifydata={profiledata.verifiedAt} />
+          </div>
         </div>
-        <Verifylabel verifydata={profiledata.verifiedAt} />
-        {profiledata.verifiedAt ? (
-          <button
-          onClick={()=>setIsChangeMail(true)}
-          className="border w-fit px-5 py-2 border-neutral-400 rounded-lg text-neutral-800 whitespace-nowrap hover:bg-black hover:text-white">
-            {" "}
-            Change Email
-          </button>
-        ) : (
-          <button
-            onClick={() => setisVerifyEmail(true)}
-            className="border w-fit px-5 py-2 border-neutral-400 rounded-lg text-neutral-800 whitespace-nowrap hover:bg-black hover:text-white"
-          >
-            {" "}
-            Verify E-Mail
-          </button>
-        )}
+        <div className="flex items-center gap-5">
+          {profiledata.provider !== "CREDENTIALS" && (
+            <small className="text-red-400 whitespace-nowrap">
+              Social logins are unable to change email
+            </small>
+          )}
+          {profiledata.verifiedAt ? (
+            <button
+              onClick={() => setIsChangeMail(true)}
+              className={`border w-fit px-5 py-2 border-neutral-400 rounded-lg whitespace-nowrap hover:bg-black hover:text-white ${profiledata.provider === "CREDENTIALS" ? "text-neutral-800 " : "bg-neutral-300 text-neutral-400 pointer-events-none"}`}
+            >
+              {" "}
+              Change Email
+            </button>
+          ) : (
+            <button
+              onClick={() => setisVerifyEmail(true)}
+              className="border w-fit px-5 py-2 border-neutral-400 rounded-lg text-neutral-800 whitespace-nowrap hover:bg-black hover:text-white"
+            >
+              {" "}
+              Verify E-Mail
+            </button>
+          )}
+        </div>
       </div>
       <hr className="border-neutral-200" />
       <div className="flex justify-between items-end gap-1">
@@ -209,7 +224,7 @@ export default function Settings() {
             className={`border w-fit px-5 py-2 border-neutral-400 rounded-lg whitespace-nowrap hover:bg-black hover:text-white ${profiledata.provider === "CREDENTIALS" ? "text-neutral-800 " : "bg-neutral-300 text-neutral-400 pointer-events-none"}`}
           >
             {" "}
-            Reset Password
+            Change Password
           </button>
         </div>
       </div>

@@ -27,6 +27,11 @@ export default function StatusProgress({ status }: { status: OrderStatus }) {
             Cancelled
           </span>
         )}
+        {status === "WAITING_FOR_PAYMENT" && (
+          <div className="text-sm bg-amber-100 text-amber-600 px-2 py-1 rounded-md">
+            Payment required : complete to proceed to delivery.
+          </div>
+        )}
       </div>
       <hr className="border-neutral-200" />
 

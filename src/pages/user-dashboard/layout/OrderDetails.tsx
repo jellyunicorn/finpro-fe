@@ -18,7 +18,7 @@ import usePaymentSession from "../../../hooks/usePaymentSession";
 export default function OrderDetails() {
   const navigate = useNavigate();
   const { orderId } = useParams();
-  const { createPaymentSession,isPending } = usePaymentSession();
+  const { createPaymentSession, isPending } = usePaymentSession();
   const { data: order, isLoading } = useQuery<orderdata>({
     queryKey: ["orderdetails", orderId],
     queryFn: async () => {
@@ -70,10 +70,13 @@ export default function OrderDetails() {
           <p className="font-medium text-lg text-claundry-blue">
             {dateConverter(order.createdAt)}
           </p>
-          <div
-            className={`text-sm px-3 py-1 border rounded-full ${STATUS[order.orderStatus]?.color}`}
-          >
-            {STATUS[order.orderStatus]?.label ?? order.orderStatus}
+          <div className="flex gap-2">
+           
+            <div
+              className={`text-sm px-3 py-1 border rounded-full ${STATUS[order.orderStatus]?.color}`}
+            >
+              {STATUS[order.orderStatus]?.label ?? order.orderStatus}
+            </div>
           </div>
         </div>
         <p className="text-[12px] text-neutral-400">
@@ -155,13 +158,16 @@ export default function OrderDetails() {
         </div>
         <hr className="border-neutral-200 mt-2" />
       </div>
-      {items?.length<=0 || order.paymentStatus !=="SUCCESS" && <button
-        disabled={isPending}
-        onClick={() => createPaymentSession(order.orderId)}
-        className="bg-claundry-blue text-white rounded-full py-2 disabled:opacity-50"
-      >
-        {isPending ? "Processing..." : "Make Payment"}
-      </button>}
+      {items?.length <= 0 ||
+        (order.paymentStatus !== "SUCCESS" && (
+          <button
+            disabled={isPending}
+            onClick={() => createPaymentSession(order.orderId)}
+            className="bg-claundry-blue text-white rounded-full py-2 disabled:opacity-50"
+          >
+            {isPending ? "Processing..." : "Make Payment"}
+          </button>
+        ))}
       {/* //------> TimelinePayment */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Timeline */}

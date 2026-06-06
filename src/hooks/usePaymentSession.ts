@@ -16,7 +16,6 @@ export default function usePaymentSession() {
       return res.data;
     },
     onSuccess: (data) => {
-      // redirect to Xendit hosted checkout
       window.location.href = data.url;
     },
     onError: () => {

@@ -14,7 +14,7 @@ export default function OrderHistory() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [dateQuery, setDateQuery] = useState<string>("-");
   const [monthQuery, setMonthQuery] = useState<string>("-");
-  const [debouncedSearch , setDebouncedSearch] = useState<string>("")
+  const [debouncedSearch, setDebouncedSearch] = useState<string>("");
   const navigate = useNavigate();
 
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -25,7 +25,7 @@ export default function OrderHistory() {
         const result = await axiosInstance.get("/order/", {
           params: {
             page: pageParam,
-            limit: 5,
+            limit: 4,
             search: debouncedSearch || undefined,
             month: monthQuery !== "-" ? monthQuery : undefined,
             date: dateQuery !== "-" ? dateQuery : undefined,
@@ -40,19 +40,20 @@ export default function OrderHistory() {
       },
     });
 
-
-  // When backend returns a plain array (no meta yet), fall back to using it directly
   const userorders =
     data?.pages.flatMap((page) => (Array.isArray(page) ? page : page.data)) ??
     [];
 
   useEffect(() => {
-    const debouncedelay = setTimeout(() => setDebouncedSearch(searchQuery), 1000);
+    const debouncedelay = setTimeout(
+      () => setDebouncedSearch(searchQuery),
+      1000,
+    );
     return () => clearTimeout(debouncedelay);
   }, [searchQuery]);
 
   return (
-    <main className=" flex-1 flex px-10 py-10 flex-col gap-5">
+    <main className=" flex-1 flex px-10 py-10 flex-col gap-5 lg:w-[75%]">
       <div className="flex flex-col ">
         <h1 className="text-2xl font-medium text-claundry-blue">
           Order History
@@ -61,7 +62,7 @@ export default function OrderHistory() {
           Inspect and Manage your order here
         </p>
       </div>
-      <div className="flex max-w-[70%] justify-between">
+      <div className="flex  justify-between">
         <div className="flex gap-2">
           <button
             onClick={() => {
@@ -108,7 +109,7 @@ export default function OrderHistory() {
           </div>
         </div>
         <div
-          className={`${searchQuery ? "bg-claundry-blue" : "bg-neutral-400"} text-white items-center felx rounded-full px-2 py-1`}
+          className={`${searchQuery ? "bg-claundry-blue" : "bg-neutral-400"} text-white items-center flex rounded-full px-2 py-1`}
         >
           {" "}
           Search By ID :{" "}
@@ -124,16 +125,22 @@ export default function OrderHistory() {
       {userorders.map((order: orderdata, idx: number) => (
         <div
           key={idx}
-          className="w-[70%] h-fit rounded-2xl border-[#BEE6E1] border p-5 "
+          className=" h-fit rounded-2xl border-claundry-accent border p-5 "
         >
           <div className="h-10  w-full flex justify-between items-center">
             <p className="font-medium text-lg text-claundry-blue">
               {dateConverter(order.createdAt)}
             </p>
-
-            <p className="text-[12px] text-neutral-400 px-2 py-1 border rounded-full">
-              ID:{order.orderId}
-            </p>
+<div className="flex gap-2">
+              {order.orderStatus === "WAITING_FOR_PAYMENT" && (
+                <div className="text-sm bg-amber-100 text-amber-600 px-2 py-1 rounded-md">
+                  Please finish payment to proceed to delivery
+                </div>
+              )}
+              <p className="text-[12px] text-neutral-400 px-2 py-1 border rounded-full">
+                ID:{order.orderId}
+              </p>
+</div>
           </div>
           <hr className="border-neutral-200 my-2" />
           <div className="flex w-full justify-between items-center">
@@ -195,7 +202,7 @@ export default function OrderHistory() {
         <button
           onClick={() => fetchNextPage()}
           disabled={isFetchingNextPage}
-          className="bg-claundry-blue text-white px-5 py-2 rounded-full w-fit"
+          className="bg-claundry-blue text-white px-5 py-2 rounded-full w-full"
         >
           {isFetchingNextPage ? "Loading..." : "Load More"}
         </button>

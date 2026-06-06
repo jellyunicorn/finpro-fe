@@ -154,7 +154,7 @@ export default function AddressEditMenu({
                 )
               }
               className="border border-neutral-300 rounded-lg px-3 py-2"
-              placeholder="Street address"
+              placeholder="e.g. Jl. MH Thamrin No.1 "
             />
           </div>
           <div className="flex gap-5">
@@ -238,7 +238,7 @@ export default function AddressEditMenu({
                   )
                 }
                 className="border border-neutral-300 rounded-lg px-3 py-2"
-                placeholder="Postal code"
+                placeholder=""
               />
             </div>
           </div>
@@ -258,7 +258,7 @@ export default function AddressEditMenu({
             }}
             className="mt-auto bg-claundry-blue text-white rounded-full py-2 hover:bg-blue-700"
           >
-            Save Changes
+            {formMode === "create"? "Add New Address" :"Save Changes"}
           </button>
           {formMode === "edit" && (
             <button

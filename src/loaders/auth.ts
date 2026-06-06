@@ -13,10 +13,10 @@ export const authLoader = (allowedRoutes?: String[]) => {
       return redirect("/login");
     }
 
-    // if (!user.verifiedAt || user.verifiedAt === null) {
-    //   toast.error("Please verify your email before continuing");
-    //   return redirect("/login");
-    // }
+    if (!user.verifiedAt || user.verifiedAt === null) {
+      toast.error("Please verify your email before continuing");
+      return redirect("/login");
+    }
 
     try {
       const { data } = await axiosInstance.get("/auth/me");
