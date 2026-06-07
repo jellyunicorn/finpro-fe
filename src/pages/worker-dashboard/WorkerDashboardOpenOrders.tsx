@@ -5,16 +5,33 @@ import { removeDate, removeTime } from "../../utils/dateconverUtils";
 import Popup from "../../components/Popup";
 import Pagination from "../../components/Pagination";
 import ConfirmItemsForm from "../../components/worker-dashboard/ConfirmItemsForm";
+import { useBeginJob } from "../../hooks/useBeginJob";
 
 export default function WorkerDashboardOpenOrders() {
   const [openInputPopup, setOpenInputPopup] = useState(false);
   const [selectedJob, setSelectedJob] = useState<AvailableJob | null>(null);
   const [page, setPage] = useState(1);
   const { data: availableJobs } = useGetAvailableJobs(page);
+  const { mutate: beginJob } = useBeginJob();
 
   const handleAcceptClick = (job: AvailableJob) => {
     setSelectedJob(job);
     setOpenInputPopup(true);
+  };
+
+  const handleSubmitJob = (values: {
+    items: { id: number; quantity: number }[];
+  }) => {
+    if (!selectedJob) return;
+
+    const items = values.items.map((i) => ({
+      itemId: i.id,
+      quantity: i.quantity,
+    }));
+
+    beginJob({ jobId: selectedJob.jobId, items });
+
+    setOpenInputPopup(false);
   };
 
   return (
@@ -72,13 +89,12 @@ export default function WorkerDashboardOpenOrders() {
 
       {selectedJob && (
         <Popup open={openInputPopup} onClose={() => setOpenInputPopup(false)}>
-          <p className="absolute top-1 left-1 p-2">Please input item quantities</p>
+          <p className="absolute top-1 left-1 p-2">
+            Please input item quantities
+          </p>
           <ConfirmItemsForm
             orderItems={{ items: selectedJob.orderItems }}
-            onSubmit={(values) => {
-              console.log("Submitted for job:", selectedJob.jobId, values);
-              setOpenInputPopup(false);
-            }}
+            onSubmit={handleSubmitJob}
           />
         </Popup>
       )}
