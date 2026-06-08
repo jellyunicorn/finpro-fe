@@ -180,7 +180,6 @@ export default function OrderHistory() {
               <p>{toReadableDateTime(order.scheduledTime)}</p>
             </div>
             <div className="flex justify-center items-center"></div>
-            <div className="font-md">Total KG : -</div>
           </div>
           <div className="flex justify-between items-center">
             <div

@@ -38,12 +38,22 @@ import MainDashboard from "./pages/user-dashboard/layout/MainDashboard.tsx";
 import OrderHistory from "./pages/user-dashboard/layout/OrderHistory.tsx";
 import CreatePickup from "./pages/user-dashboard/layout/CreatePickup.tsx";
 import OrderDetails from "./pages/user-dashboard/layout/OrderDetails.tsx";
+import ResetPage from "./pages/login-register/layout/ResetPage.tsx";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
+  },
+   {
+    element: <AuthLayout />,
+    children: [
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
+      { path: "/verified", element: <VerifiedPage /> },
+      { path: "/resetpass", element: <ResetPage /> },
+    ],
   },
   {
     path: "/Dashboard",
@@ -118,14 +128,7 @@ const router = createBrowserRouter([
     element: <AdminDashboard />,
     children: [{ path: "settings", element: <AdminDashboardSettings /> }],
   },
-  {
-    element: <AuthLayout />,
-    children: [
-      { path: "/login", element: <Login /> },
-      { path: "/register", element: <Register /> },
-      { path: "/verified", element: <VerifiedPage /> },
-    ],
-  },
+ 
 ]);
 
 createRoot(document.getElementById("root")!).render(
