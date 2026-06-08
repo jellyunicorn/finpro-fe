@@ -31,3 +31,16 @@ export const dateConverter = (iso: string | null | undefined): string => {
     year: "numeric",
   });
 };
+  return (`${day}/${month}  ${hour12}:${minutes} ${ampm}`);
+};
+
+export const removeTime = (date: string) => {
+  return date.split("T")[0];
+}
+
+export const removeDate = (date: string | Date) => {
+  const localDate = new Date(date);
+  const hours = localDate.getHours();
+  const minutes = localDate.getMinutes();
+  return `${hours}:${minutes}`;
+}
