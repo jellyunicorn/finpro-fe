@@ -11,7 +11,6 @@ export default function useGetAttendanceLog(page: number, take?: number) {
         "/attendance",
         { params: { page: page, take: take } },
       );
-      console.log(data);
       return data;
     },
   });

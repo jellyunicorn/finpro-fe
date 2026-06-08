@@ -37,6 +37,7 @@ import { userAddressLoader } from "./loaders/userAddressLoader.ts";
 import MainDashboard from "./pages/user-dashboard/layout/MainDashboard.tsx";
 import OrderHistory from "./pages/user-dashboard/layout/OrderHistory.tsx";
 import CreatePickup from "./pages/user-dashboard/layout/CreatePickup.tsx";
+import WorkerDashboardOpenOrders from "./pages/worker-dashboard/WorkerDashboardOpenOrders.tsx";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -109,6 +110,7 @@ const router = createBrowserRouter([
         path: "orders",
         element: <WorkerDashboardOrders />,
       },
+      { path: "orders/open", element: <WorkerDashboardOpenOrders /> },
       { path: "orders/history", element: <WorkerDashboardOrderHistory /> },
       { path: "settings", element: <WorkerDashboardSettings /> },
       {
