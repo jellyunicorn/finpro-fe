@@ -64,10 +64,9 @@ export default function MyAddresses() {
       latitude: adrs.latitude,
       longitude: adrs.longitude,
       postalCode: adrs.postalCode,
-      userId: adrs.userId,
-      regency: adrs.regency?.code ?? "",
-      district: adrs.district?.code ?? "",
-      village: adrs.village?.code ?? "",
+      regencyCode: adrs.regency?.code ?? "",
+      districtCode: adrs.district?.code ?? "",
+      villageCode: adrs.village?.code ?? "",
     });
   };
 
@@ -154,16 +153,14 @@ export default function MyAddresses() {
               setAddressForm({
                 address: "",
                 city: "",
-                id: 0,
                 isPrimary: false,
                 label: "",
                 latitude: "",
                 longitude: "",
                 postalCode: "",
-                regency: "",
-                district: "",
-                village: "",
-                userId: 0,
+                regencyCode: "",
+                districtCode: "",
+                villageCode: "",
               });
               setFormMode("create");
             }}

@@ -3,7 +3,12 @@ import DeletePopUp from "./DeletePopUp";
 import AddressMap from "./AddressMap";
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "../../lib/axios";
-import type { addressform, districtquery, regencyquery, villagequery } from "../../lib/types";
+import type {
+  addressform,
+  districtquery,
+  regencyquery,
+  villagequery,
+} from "../../lib/types";
 
 export type addressdata = {
   address: string;
@@ -19,8 +24,6 @@ export type addressdata = {
   village: { code: string; name: string; districtCode: string };
   userId: number;
 };
-
-
 
 type FormMode = "edit" | "create" | null;
 
@@ -54,8 +57,8 @@ export default function AddressEditMenu({
 
   useEffect(() => {
     if (addressForm) {
-      setRegCode(addressForm.regency ?? "");
-      setDisCode(addressForm.district ?? "");
+      setRegCode(addressForm.regencyCode ?? "");
+      setDisCode(addressForm.districtCode ?? "");
     }
   }, [addressForm]);
 
@@ -87,7 +90,6 @@ export default function AddressEditMenu({
     console.log(addressForm);
   }, [addressForm]);
 
-  
   return (
     <>
       {/* //---------> backdrop */}
@@ -103,7 +105,7 @@ export default function AddressEditMenu({
       >
         {confirmDelete && (
           <DeletePopUp
-            onConfirm={() => addressForm && deleteAddress(addressForm.id)}
+            onConfirm={() => addressForm?.id !== undefined && deleteAddress(addressForm.id)}
             onCancel={() => setConfirmDelete(false)}
           />
         )}
@@ -169,14 +171,22 @@ export default function AddressEditMenu({
                     setRegCode(e.target.value);
                     setDisCode("");
                     setAddressForm(
-                      (prev) => prev && { ...prev, regency: e.target.value , district:"" , village:"" },
+                      (prev) =>
+                        prev && {
+                          ...prev,
+                          regencyCode: e.target.value,
+                          districtCode: "",
+                          villageCode: "",
+                        },
                     );
                   }}
                   name="regency"
                   id="regency"
                   className="w-full"
                 >
-                  <option value="-" disabled>-</option>
+                  <option value="-" disabled>
+                    -
+                  </option>
                   {(regencydata ?? []).map((regency) => (
                     <option value={regency.code}>{regency.name}</option>
                   ))}
@@ -191,14 +201,21 @@ export default function AddressEditMenu({
                   onChange={(e) => {
                     setDisCode(e.target.value);
                     setAddressForm(
-                      (prev) => prev && { ...prev, district: e.target.value , village:"" },
+                      (prev) =>
+                        prev && {
+                          ...prev,
+                          districtCode: e.target.value,
+                          villageCode: "",
+                        },
                     );
                   }}
                   name="district"
                   id="district"
                   className="w-full"
                 >
-                  <option value="-" disabled>-</option>
+                  <option value="-" disabled>
+                    -
+                  </option>
                   {(districtdata ?? []).map((district) => (
                     <option value={district.code}>{district.name}</option>
                   ))}
@@ -212,15 +229,19 @@ export default function AddressEditMenu({
               <label className="text-sm text-neutral-600">Village</label>
               <div className="border border-neutral-300 rounded-lg px-3 py-2">
                 <select
-                  value={addressForm?.village || "-"}
-                  onChange={(e) => setAddressForm(
-                      (prev) => prev && { ...prev, village: e.target.value },
-                    )}
+                  value={addressForm?.villageCode || "-"}
+                  onChange={(e) =>
+                    setAddressForm(
+                      (prev) => prev && { ...prev, villageCode: e.target.value },
+                    )
+                  }
                   name="district"
                   id="district"
                   className="w-full"
                 >
-                  <option value="-" disabled>-</option>
+                  <option value="-" disabled>
+                    -
+                  </option>
                   {(villagedata ?? []).map((village) => (
                     <option value={village.code}>{village.name}</option>
                   ))}
@@ -245,7 +266,12 @@ export default function AddressEditMenu({
 
           {/* //---->map" */}
           <div className="border w-full h-100">
-            <AddressMap />
+            <AddressMap
+              longitude={addressForm?.longitude ?? ""}
+              latitude={addressForm?.latitude ?? ""}
+              addressForm={addressForm}
+              setAddressForm={setAddressForm}
+            />
           </div>
           <button
             type="submit"
@@ -258,7 +284,7 @@ export default function AddressEditMenu({
             }}
             className="mt-auto bg-claundry-blue text-white rounded-full py-2 hover:bg-blue-700"
           >
-            {formMode === "create"? "Add New Address" :"Save Changes"}
+            {formMode === "create" ? "Add New Address" : "Save Changes"}
           </button>
           {formMode === "edit" && (
             <button

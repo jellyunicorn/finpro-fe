@@ -133,17 +133,16 @@ export type orderitems = {
 
 export type addressform = {
   address: string;
+  id?:number;
   city: string;
-  id: number;
   isPrimary: boolean;
   label: string;
   latitude: string;
   longitude: string;
   postalCode: string;
-  regency: string,
-  district: string,
-  village: string,
-  userId: number;
+  regencyCode: string,
+  districtCode: string,
+  villageCode: string,
 };
 
 export type regencyquery = {
