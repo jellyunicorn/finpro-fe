@@ -1,3 +1,4 @@
+import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode } from "react";
@@ -17,7 +18,7 @@ import AuthLayout from "./pages/login-register/AuthLayout.tsx";
 import Login from "./pages/login-register/layout/Login.tsx";
 import Register from "./pages/login-register/layout/Register.tsx";
 import VerifiedPage from "./pages/login-register/layout/VerifiedPage.tsx";
-import ResetPassword from "./pages/user-dashboard/layout/ResetPassword.tsx";
+import ResetPassword from "./pages/login-register/layout/ResetPassword.tsx";
 import UserProfile from "./pages/user-dashboard/layout/UserProfile.tsx";
 import UserDashboard from "./pages/user-dashboard/UserDashboard.tsx";
 import WorkerDashboard from "./pages/worker-dashboard/WorkerDashboard.tsx";
@@ -37,6 +38,8 @@ import { userAddressLoader } from "./loaders/userAddressLoader.ts";
 import MainDashboard from "./pages/user-dashboard/layout/MainDashboard.tsx";
 import OrderHistory from "./pages/user-dashboard/layout/OrderHistory.tsx";
 import CreatePickup from "./pages/user-dashboard/layout/CreatePickup.tsx";
+import OrderDetails from "./pages/user-dashboard/layout/OrderDetails.tsx";
+import ResetPage from "./pages/login-register/layout/ResetPage.tsx";
 import WorkerDashboardOpenOrders from "./pages/worker-dashboard/WorkerDashboardOpenOrders.tsx";
 const queryClient = new QueryClient();
 
@@ -44,6 +47,16 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
+  },
+  {
+    element: <AuthLayout />,
+    children: [
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
+      { path: "/verified", element: <VerifiedPage /> },
+      { path: "/resetpass", element: <ResetPage /> },
+      { path: "reset", element: <ResetPassword /> },
+    ],
   },
   {
     path: "/Dashboard",
@@ -55,9 +68,9 @@ const router = createBrowserRouter([
         element: <UserProfile />,
         loader: userDataLoader,
       },
-      { path: "reset", element: <ResetPassword /> },
       { path: "orders", element: <OrderHistory /> },
-      { path: "pickup", element: <CreatePickup />, loader:userAddressLoader },
+      { path: "orders/:orderId", element: <OrderDetails /> },
+      { path: "pickup", element: <CreatePickup />, loader: userAddressLoader },
       { path: "verify-mail", element: <ReverifyEmail /> },
       { path: "settings", element: <Settings />, loader: userDataLoader },
       {
@@ -74,13 +87,7 @@ const router = createBrowserRouter([
       {
         path: "my-addresses",
         element: <MyAddresses />,
-        loader: async () => {
-          const [userdata, addresses] = await Promise.all([
-            userDataLoader(),
-            userAddressLoader(),
-          ]);
-          return { userdata, addresses };
-        },
+        loader: userAddressLoader,
       },
     ],
   },
@@ -124,21 +131,15 @@ const router = createBrowserRouter([
     element: <AdminDashboard />,
     children: [{ path: "settings", element: <AdminDashboardSettings /> }],
   },
-  {
-    element: <AuthLayout />,
-    children: [
-      { path: "/login", element: <Login /> },
-      { path: "/register", element: <Register /> },
-      { path: "/verified", element: <VerifiedPage /> },
-    ],
-  },
 ]);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <NuqsAdapter>
+          <RouterProvider router={router} />
+        </NuqsAdapter>
         <Toaster position="top-center" />
       </QueryClientProvider>
     </GoogleOAuthProvider>

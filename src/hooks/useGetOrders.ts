@@ -1,4 +1,3 @@
-import React from 'react'
 import { axiosInstance } from '../lib/axios';
 
 export default function useGetOrders() {

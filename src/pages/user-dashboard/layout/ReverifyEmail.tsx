@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 import { useNavigate, useSearchParams } from "react-router";
 import { axiosInstance } from "../../../lib/axios";
-import axios from "axios";
-import toast from "react-hot-toast";
 
 export default function ReverifyEmail() {
   const [searchParams] = useSearchParams();

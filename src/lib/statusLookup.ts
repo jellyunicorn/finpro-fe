@@ -10,7 +10,8 @@ export type OrderStatus =
   | "READY_TO_DELIVER"
   | "OTW_TO_CUSTOMER"
   | "ARRIVED_AT_CUSTOMER"
-  | "CANCELLED";
+  | "CANCELLED"
+  |"CONFIRMED";
 
 export type StatusConfig = {
   label: string;
@@ -23,7 +24,7 @@ export const STATUS: Record<OrderStatus, StatusConfig> = {
     color: "border-gray-400 text-gray-600 bg-gray-50",
   },
   WAITING_FOR_DRIVER: {
-    label: "Finding Driver",
+    label: "To Pickup",
     color: "border-yellow-400 text-yellow-600 bg-yellow-50",
   },
   OTW_TO_OUTLET: {
@@ -65,5 +66,9 @@ export const STATUS: Record<OrderStatus, StatusConfig> = {
   CANCELLED: {
     label: "Cancelled",
     color: "border-red-400 text-red-600 bg-red-50",
+  },
+    CONFIRMED: {
+    label: "Confirmed",
+    color: "border-green-400 text-green-600 bg-green-50",
   },
 };

@@ -1,9 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect, useRef } from "react";
 import useFindClosest from "../../hooks/useFindClosest";
-import { axiosInstance } from "../../lib/axios";
 import type {
   addressdata,
   closestoutletinfo,
@@ -18,23 +16,19 @@ type initialcoordinateprops = {
 export default function MapComponent({
   initialcoordinate,
   selectedAddress,
+  outletdata,
+  chosenoutlet,
   setOutlet,
 }: {
   initialcoordinate: initialcoordinateprops;
+  outletdata: outletdata[];
+  chosenoutlet: closestoutletinfo;
   selectedAddress: addressdata;
   setOutlet: (outlet: closestoutletinfo) => void;
 }) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const closestOutlet = useFindClosest();
-  const { data: outletdata } = useQuery({
-    queryKey: ["outlets"],
-    queryFn: async () => {
-      const result = await axiosInstance.get("/address/outlets");
-      console.log(result.data);
-      return result.data.outlets;
-    },
-  });
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -45,9 +39,11 @@ export default function MapComponent({
       center: [initialcoordinate.longitude, initialcoordinate.latitude],
       zoom: 15,
     });
+
+    mapRef.current = map;
+
     map.addControl(new maplibregl.NavigationControl(), "top-right");
     map.setPadding({ left: 420, top: 0, right: 0, bottom: 0 });
-    mapRef.current = map;
     map.on("styleimagemissing", (e) => {
       if (map.hasImage(e.id)) return;
       map.addImage(e.id, { width: 1, height: 1, data: new Uint8Array(4) });
@@ -122,7 +118,7 @@ export default function MapComponent({
     if (map.isStyleLoaded()) {
       addInitial();
     } else {
-      map.once("load", addInitial);
+      map.once("idle", addInitial);
     }
 
     map.flyTo({
@@ -136,32 +132,41 @@ export default function MapComponent({
     });
   }, [selectedAddress]);
 
+  // pick the closest outlet as the default whenever the address/outlets change
   useEffect(() => {
-    const map = mapRef.current;
-    if (!map || !selectedAddress || !outletdata) return;
+    if (!selectedAddress || !outletdata) return;
 
     const { closestoutletId, currDis } = closestOutlet(
       selectedAddress,
       outletdata,
     );
-    console.log(closestoutletId, currDis);
-
-    const closestoutlet: outletdata = outletdata.find(
+    const closestoutlet = outletdata.find(
       (outlet: outletdata) => outlet.id === closestoutletId,
     );
     if (!closestoutlet) return;
+
     setOutlet({
       outletid: closestoutlet.id,
       outletname: closestoutlet.name,
+      lng: closestoutlet.longitude,
+      lat: closestoutlet.latitude,
       distance: parseFloat(currDis.toFixed(2)),
     });
+  }, [selectedAddress, outletdata]);
+
+  // draw the route from the address to the currently chosen outlet
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !selectedAddress || !chosenoutlet?.lng || !chosenoutlet?.lat)
+      return;
+
     const routeData: GeoJSON.Feature = {
       type: "Feature",
       geometry: {
         type: "LineString",
         coordinates: [
           [Number(selectedAddress.longitude), Number(selectedAddress.latitude)],
-          [Number(closestoutlet?.longitude), Number(closestoutlet?.latitude)],
+          [Number(chosenoutlet.lng), Number(chosenoutlet.lat)],
         ],
       },
       properties: {},
@@ -194,7 +199,7 @@ export default function MapComponent({
     } else {
       map.once("idle", applyRoute);
     }
-  }, [selectedAddress, outletdata]);
+  }, [selectedAddress, chosenoutlet]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -203,12 +208,12 @@ export default function MapComponent({
     const addData = () => {
       const geojson = {
         type: "FeatureCollection" as const,
-        features: outletdata.map((outlet: any) => ({
+        features: outletdata.map((outlet: outletdata) => ({
           type: "Feature" as const,
           properties: { name: outlet.name },
           geometry: {
             type: "Point" as const,
-            coordinates: [outlet.longitude, outlet.latitude],
+            coordinates: [Number(outlet.longitude), Number(outlet.latitude)],
           },
         })),
       };

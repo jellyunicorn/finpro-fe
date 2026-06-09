@@ -6,8 +6,8 @@ type Props = {
   status: OrderStatus;
   schedule: string;
   pick: string;
-  delivery: string;
-  complete: string;
+  delivery: string | null;
+  complete: string | null;
   index: number;
 };
 

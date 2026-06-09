@@ -43,13 +43,40 @@ export type orderdata = {
   paymentMethod: string;
   paymentTime: string;
   distance: string;
-  confirmedAt: string;
-  deliveredAt: string;
+  confirmedAt: string | null;
+  deliveredAt: string | null;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
   userId: number;
   outletId: number;
+  addressId: number;
+  outlet: {
+    id: number;
+    name: string;
+    address: string;
+    city: string;
+    postalCode: string;
+    latitude: string;
+    longitude: string;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+  };
+  address: {
+    id: number;
+    address: string;
+    city: string;
+    label: string;
+    postalCode: string;
+    latitude: string;
+    longitude: string;
+    isPrimary: boolean;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    userId: number;
+  };
 };
 
 export type addressdata = {
@@ -61,31 +88,75 @@ export type addressdata = {
   latitude: string;
   longitude: string;
   postalCode: string;
+  regency: { code: string; name: string; provinceCode: string };
+  district: { code: string; name: string; regencyCode: string };
+  village: { code: string; name: string; districtCode: string };
   userId: number;
 };
 
+
 export type outletdata = {
   id: number;
-  name: string,
-  address: string,
-  city:string,
-  postalCode: string,
-  latitude: string,
-  longitude:string,
+  name: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  latitude: string;
+  longitude: string;
 };
 
-
-
 export type closestoutletinfo = {
-  outletid:number|null;
+  outletid: number | null;
   outletname: string;
+  lng:string;
+  lat:string;
   distance: number;
 };
 
 export type pickupform = {
-  pickupaddressid : number | null,
-  outletid:number | null,
-  pickupTime:string | null,
-  pickupDate:string | null,
-  distance:number | null,
+  pickupAddressId: number | null;
+  outletId: number | null;
+  pickupTime: string | null;
+  pickupDate: string | null;
+  distance: number | null;
+};
+
+export type orderitems = {
+  id: number;
+  name: string;
+  orderId: number;
+  price: number;
+  quantity: number;
+  weight: number;
+  description:string;
+}
+
+export type addressform = {
+  address: string;
+  id?:number;
+  city: string;
+  isPrimary: boolean;
+  label: string;
+  latitude: string;
+  longitude: string;
+  postalCode: string;
+  regencyCode: string,
+  districtCode: string,
+  villageCode: string,
+};
+
+export type regencyquery = {
+  code: string;
+  name: string;
+  provinceCode: string;
+};
+export type districtquery = {
+  code: string;
+  name: string;
+  regencyCode: string;
+};
+export type villagequery = {
+  code: string;
+  name: string;
+  districtCode: string;
 };

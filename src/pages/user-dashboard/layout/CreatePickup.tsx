@@ -6,30 +6,46 @@ import { timetable } from "../../../lib/timeLookup";
 import type {
   addressdata,
   closestoutletinfo,
+  outletdata,
   pickupform,
 } from "../../../lib/types";
 import { axiosInstance } from "../../../lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import useCreateOrder from "../../../hooks/useCreateOrder";
+import useFindClosest from "../../../hooks/useFindClosest";
+import { haversineDistance } from "../../../utils/haversine";
 
 export default function CreatePickup() {
   const { data: addressdata } = useQuery({
     queryKey: ["useraddress"],
     queryFn: async () => {
-      const result = await axiosInstance.get("/address/");
+      const result = await axiosInstance.get("/address/user");
       console.log(result.data);
       return result.data.useraddress;
     },
   });
   const [selectedTime, setSelectedTime] = useState<number | null>(null);
-
+  const [notClosest, setNotClosest] = useState<boolean>(false)
   const [outlet, setOutlet] = useState<closestoutletinfo>({
     outletname: "",
     outletid: null,
+    lng: "",
+    lat: "",
     distance: 0,
   });
+
+  const { data: outletdata } = useQuery({
+    queryKey: ["outlets"],
+    queryFn: async () => {
+      const result = await axiosInstance.get("/address/outlets");
+      console.log(result.data);
+      return result.data.outlets;
+    },
+  });
+
   const addresses = useLoaderData();
   const handleCreateOrder = useCreateOrder();
+  const closestOutlet = useFindClosest();
 
   const primaryAddress = addresses.useraddress.find(
     (e: addressdata) => e.isPrimary === true,
@@ -41,27 +57,34 @@ export default function CreatePickup() {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const [PickUpForm, setPickUpForm] = useState<pickupform>({
-    pickupaddressid: primaryAddress.id,
-    outletid: outlet.outletid,
+    pickupAddressId: primaryAddress.id,
+    outletId: outlet.outletid,
     pickupDate: null,
     pickupTime: null,
     distance: null,
   });
   useEffect(() => {
     if (addressdata?.length) setSelectedAddress(primaryAddress);
-    console.log(PickUpForm)
   }, [addressdata]);
 
+  useEffect(() => {
+   console.log(PickUpForm)
+  }, [PickUpForm,selectedAddress,outlet]);
+
+  const isFormValid = Object.values(PickUpForm).every(
+    (value) => value !== null,
+  );
 
   return (
     <main className="flex-1 h-full relative  flex">
-      <div className="flex min-w-[30%] h-fit overflow-hidden  border-[#BEE6E1] border shadow-md px-10 gap-5 py-10 flex-1 rounded-lg  m-10 absolute z-1 bg-white  flex-col">
+      <div className="flex min-w-[30%] h-fit overflow-hidden  border-[#BEE6E1] border shadow-md px-10 gap-2 py-10 flex-1 rounded-lg  m-10 absolute z-1 bg-white  flex-col">
         <div className="flex flex-col ">
           <h1 className="text-2xl font-medium text-claundry-blue">
             Schedule a Pick Up
           </h1>
           <p className="text-sm text-neutral-400">Create a pickup schedule</p>
         </div>
+        <hr className="border-neutral-200" />
         <div className="flex flex-col gap-2">
           <div className="flex gap-2 p-2 items-center text-blue-700 font-medium">
             <img src={addressicon} alt="" />
@@ -77,6 +100,11 @@ export default function CreatePickup() {
                   (a: typeof addressdata) => a.id === Number(e.target.value),
                 );
                 setSelectedAddress(address);
+                setNotClosest(false);
+                setPickUpForm((prev) => ({
+                  ...prev,
+                  pickupAddressId: Number(e.target.value),
+                }));
               }}
             >
               {addressdata?.map((adrs: typeof addressdata, idx: number) => (
@@ -89,6 +117,60 @@ export default function CreatePickup() {
               {selectedAddress?.address}
             </p>
           </div>
+          <div className="flex gap-2 w-full items-center">
+            <p className="font-bold whitespace-nowrap">Outlet</p>
+            <div className="border rounded-md h-10 items-center justify-between flex border-claundry-accent px-2 py-2 w-full">
+              <select
+                className="w-full"
+                value={outlet.outletid ?? ""} // controlled: reflects current selection
+                onChange={(e) => {
+                  const o = outletdata?.find(
+                    (o: outletdata) => o.id === Number(e.target.value)
+                  );
+                  if (!o || !selectedAddress) return;
+                  const distance = haversineDistance(
+                    Number(selectedAddress.longitude),
+                    Number(selectedAddress.latitude),
+                    Number(o.longitude),
+                    Number(o.latitude),
+                  );
+                  setOutlet({
+                    outletname: o.name,
+                    outletid: o.id,
+                    lng: o.longitude,
+                    lat: o.latitude,
+                    distance: parseFloat(distance.toFixed(2)),
+                  });
+                  setPickUpForm((prev) => ({
+                    ...prev,
+                    outletId: o.id,
+                    distance: parseFloat(distance.toFixed(2)),
+                  }));
+                  const { closestoutletId } = closestOutlet(
+                    selectedAddress,
+                    outletdata,
+                  );
+                  setNotClosest(o.id !== closestoutletId);
+                }}
+              >
+                <option>
+                  {outlet.outletname || "-"} 
+                </option>
+                <option value="" disabled>
+                  ------------
+                </option>
+                {outletdata?.map((o: outletdata) => (
+                  <option key={o.id} value={o.id}>
+                    {o.name}
+                  </option>
+                ))}
+              </select>
+              <p className="text-neutral-400 text-[12px] ml-5 whitespace-nowrap">
+                {outlet.distance || 0} km
+              </p>
+            </div>
+          </div>
+          {notClosest && <small className="bg-red-100 text-red-500 py-2 rounded-md flex justify-center">This outlet is not the most efficient distance</small>}
         </div>
         <div className=" w-full border rounded-xl flex flex-col gap-2 h-full flex-1 border-[#BEE6E1] bg-white p-5  ">
           <div className="flex gap-2 w-full items-center">
@@ -98,7 +180,12 @@ export default function CreatePickup() {
                 type="date"
                 min={tomorrow.toISOString().slice(0, 10)}
                 className="w-full"
-                onChange={(e) => setPickUpForm((prev) => ({ ...prev, pickupDate: e.target.value }))}
+                onChange={(e) =>
+                  setPickUpForm((prev) => ({
+                    ...prev,
+                    pickupDate: e.target.value,
+                  }))
+                }
               />
             </div>
           </div>
@@ -119,19 +206,12 @@ export default function CreatePickup() {
               ))}
             </div>
           </div>
-          <div className="flex gap-2 w-full items-center">
-            <p className="font-bold whitespace-nowrap">Nearest Outlet</p>
-            <div className="border rounded-md h-10 items-center justify-between flex border-neutral-200 px-2 py-2 w-full">
-              <p>{outlet.outletname || "test "}</p>
-              <p className="text-neutral-400 text-[12px] ml-5">
-                {outlet.distance || 0} km
-              </p>
-            </div>
-          </div>
         </div>
-        <button 
-        onClick={()=>handleCreateOrder(PickUpForm)}
-        className="bg-claundry-blue text-white rounded-full py-2 hover:bg-blue-700">
+        <button
+          disabled={!isFormValid}
+          onClick={() => handleCreateOrder(PickUpForm)}
+          className="bg-claundry-blue text-white rounded-full py-2 hover:bg-blue-700 disabled:bg-neutral-300 disabled:cursor-not-allowed disabled:hover:bg-neutral-300"
+        >
           Request Pickup
         </button>
       </div>
@@ -145,9 +225,15 @@ export default function CreatePickup() {
               latitude: Number(primaryAddress.latitude),
             }}
             selectedAddress={selectedAddress}
+            outletdata={outletdata}
+            chosenoutlet={outlet}
             setOutlet={(outlet) => {
               setOutlet(outlet);
-              setPickUpForm((prev) => ({ ...prev, outletid: outlet.outletid, distance:outlet.distance }));
+              setPickUpForm((prev) => ({
+                ...prev,
+                outletId: outlet.outletid,
+                distance: outlet.distance,
+              }));
             }}
           />
         )}
