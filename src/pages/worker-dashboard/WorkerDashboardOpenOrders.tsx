@@ -37,7 +37,7 @@ export default function WorkerDashboardOpenOrders() {
   return (
     <div className="p-8 font-dmsans">
       <h1 className="text-2xl font-semibold text-claundry-blue mb-6">
-        Open Orders
+        Open Jobs
       </h1>
 
       <div className="bg-white shadow rounded-lg border border-[#BAD6F5] pb-3">
