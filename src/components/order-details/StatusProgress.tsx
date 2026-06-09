@@ -12,6 +12,7 @@ const STAGES: OrderStatus[] = [
   "READY_TO_DELIVER",
   "OTW_TO_CUSTOMER",
   "ARRIVED_AT_CUSTOMER",
+  "CONFIRMED",
 ];
 
 export default function StatusProgress({ status }: { status: OrderStatus }) {

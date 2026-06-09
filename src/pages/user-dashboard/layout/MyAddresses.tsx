@@ -117,7 +117,7 @@ export default function MyAddresses() {
               className="flex gap-2 justify-between border border-blue-300 rounded-lg p-5 flex-col w-full h-70 hover:outline-2 outline-blue-500 transition-all ease-in"
             >
               <div>
-                <p className="px-2 bg-[#BEE6E1] text-blue-800 w-fit rounded-full">
+                <p className="px-2 bg-claundry-accent text-blue-800 w-fit rounded-full">
                   {adrs.label}
                 </p>
                 <div>

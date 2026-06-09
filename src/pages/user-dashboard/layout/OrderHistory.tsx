@@ -137,6 +137,11 @@ export default function OrderHistory() {
                   Please finish payment to proceed to delivery
                 </div>
               )}
+              {order.orderStatus === "ARRIVED_AT_CUSTOMER" && (
+                <div className="text-sm bg-amber-100 text-amber-600 px-2 py-1 rounded-md">
+                  Delivered. Please confirm receipt — orders auto-confirm after 2 days
+                </div>
+              )}
               <p className="text-[12px] text-neutral-400 px-2 py-1 border rounded-full">
                 ID:{order.orderId}
               </p>

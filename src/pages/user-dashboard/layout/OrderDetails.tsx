@@ -14,9 +14,11 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "../../../lib/axios";
 import ItemRow from "../../../components/order-details/ItemRow";
 import usePaymentSession from "../../../hooks/usePaymentSession";
+import useConfirmOrder from "../../../hooks/useConfirmOrder";
 
 export default function OrderDetails() {
   const navigate = useNavigate();
+  const handleConfirmOrder = useConfirmOrder();
   const { orderId } = useParams();
   const { createPaymentSession, isPending } = usePaymentSession();
   const { data: order, isLoading } = useQuery<orderdata>({
@@ -57,12 +59,14 @@ export default function OrderDetails() {
             Inspect and Manage your order here
           </p>
         </div>
-        <button
-          onClick={() => navigate(-1)}
-          className="text-sm text-claundry-blue border border-claundry-accent px-4 py-1 rounded-full hover:bg-claundry-accent/30"
-        >
-          ← Back
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-md bg-claundry-blue  px-5 py-2 rounded-md text-white hover:bg-claundry-blue/60"
+          >
+            ← Back
+          </button>
+        </div>
       </div>
 
       <div className="w-full rounded-2xl border-claundry-accent border p-5 flex flex-col gap-3">
@@ -71,7 +75,6 @@ export default function OrderDetails() {
             {dateConverter(order.createdAt)}
           </p>
           <div className="flex gap-2">
-           
             <div
               className={`text-sm px-3 py-1 border rounded-full ${STATUS[order.orderStatus]?.color}`}
             >
@@ -115,8 +118,6 @@ export default function OrderDetails() {
         </div>
       </div>
 
-      <StatusProgress status={order.orderStatus} />
-
       {/* //-----> items details */}
       <div className="border border-claundry-accent rounded-2xl h-fit p-5 flex flex-col ">
         <h2 className="font-medium text-claundry-blue mb-5">Items Details</h2>
@@ -158,16 +159,25 @@ export default function OrderDetails() {
         </div>
         <hr className="border-neutral-200 mt-2" />
       </div>
-      {items?.length <= 0 ||
-        (order.paymentStatus !== "SUCCESS" && (
-          <button
-            disabled={isPending}
-            onClick={() => createPaymentSession(order.orderId)}
-            className="bg-claundry-blue text-white rounded-full py-2 disabled:opacity-50"
-          >
-            {isPending ? "Processing..." : "Make Payment"}
-          </button>
-        ))}
+      {/* //----> status progress */}
+      <StatusProgress status={order.orderStatus} />
+      {order.orderStatus === "ARRIVED_AT_CUSTOMER" && (
+        <button 
+        onClick={()=>handleConfirmOrder(order.orderId)}
+        className="bg-claundry-blue text-white text-md px-5 py-2 rounded-full">
+          {" "}
+          Confirm Delivery{" "}
+        </button>
+      )}
+      {items?.length > 0 && order.paymentStatus !== "SUCCESS" && (
+        <button
+          disabled={isPending}
+          onClick={() => createPaymentSession(order.orderId)}
+          className="bg-claundry-blue text-white rounded-full py-2 disabled:opacity-50"
+        >
+          {isPending ? "Processing..." : "Make Payment"}
+        </button>
+      )}
       {/* //------> TimelinePayment */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Timeline */}
