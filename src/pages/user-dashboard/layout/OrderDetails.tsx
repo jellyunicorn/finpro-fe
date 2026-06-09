@@ -15,6 +15,7 @@ import { axiosInstance } from "../../../lib/axios";
 import ItemRow from "../../../components/order-details/ItemRow";
 import usePaymentSession from "../../../hooks/usePaymentSession";
 import useConfirmOrder from "../../../hooks/useConfirmOrder";
+import { cloudimages } from "../../../lib/cloudinary";
 
 export default function OrderDetails() {
   const navigate = useNavigate();
@@ -147,9 +148,9 @@ export default function OrderDetails() {
             })}
           </div>
         ) : (
-          <div className="w-full h-30 flex items-center justify-center text-neutral-400">
-            {" "}
-            Waiting for worker to input items...{" "}
+          <div className="w-full h-fit flex-col my-10 flex items-center justify-center text-neutral-400">
+            <img src={cloudimages.waitingworker} alt="" className="w-100" />
+            Waiting for worker to input items...
           </div>
         )}
         <hr className="border-neutral-200 mb-2" />

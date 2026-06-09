@@ -33,6 +33,11 @@ export default function StatusProgress({ status }: { status: OrderStatus }) {
             Payment required : complete to proceed to delivery.
           </div>
         )}
+         {status === "ARRIVED_AT_CUSTOMER" && (
+                <div className="text-sm bg-amber-100 text-amber-600 px-2 py-1 rounded-md">
+                  Delivered. Please confirm receipt — orders auto-confirm after 2 days
+                </div>
+              )}
       </div>
       <hr className="border-neutral-200" />
 

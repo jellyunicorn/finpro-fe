@@ -1,3 +1,4 @@
+import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode } from "react";
@@ -136,7 +137,9 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <NuqsAdapter>
+          <RouterProvider router={router} />
+        </NuqsAdapter>
         <Toaster position="top-center" />
       </QueryClientProvider>
     </GoogleOAuthProvider>

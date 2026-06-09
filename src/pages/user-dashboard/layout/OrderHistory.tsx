@@ -1,17 +1,18 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { parseAsString, useQueryState } from "nuqs";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import location_icon from "../../../img/svg/address_blue.svg";
 import { axiosInstance } from "../../../lib/axios";
+import { STATUS } from "../../../lib/statusLookup";
+import type { orderdata } from "../../../lib/types";
 import {
   dateConverter,
   toReadableDateTime,
 } from "../../../utils/dateconverUtils";
-import type { orderdata } from "../../../lib/types";
-import location_icon from "../../../img/svg/address_blue.svg";
-import { STATUS } from "../../../lib/statusLookup";
-import { useNavigate } from "react-router";
-import { useEffect, useState } from "react";
 
 export default function OrderHistory() {
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useQueryState("IDquery", parseAsString.withDefault(""));
   const [dateQuery, setDateQuery] = useState<string>("-");
   const [monthQuery, setMonthQuery] = useState<string>("-");
   const [debouncedSearch, setDebouncedSearch] = useState<string>("");
