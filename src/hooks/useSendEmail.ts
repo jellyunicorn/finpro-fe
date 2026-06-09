@@ -8,7 +8,6 @@ type DetailForm = {
 };
 
 export const useSendResetEmail =  (detailForm:DetailForm) => {
-  const navigate = useNavigate()
   const sendResetEmail = async () => {
     try {
     await toast.promise(axiosInstance.post("/user/resetemail", detailForm), {
@@ -16,7 +15,6 @@ export const useSendResetEmail =  (detailForm:DetailForm) => {
       success: "Reset email sent! Check your inbox.",
       error: (err) => err.response?.data?.message || "sending email failed.",
     });
-    navigate(0);
   } catch {}
 }
 return sendResetEmail

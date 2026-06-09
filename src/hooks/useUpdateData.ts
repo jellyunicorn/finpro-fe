@@ -11,6 +11,7 @@ import { useLoaderData } from "react-router";
 export default function useUpdateData(
   personalForm: profilepersonalForm,
   setPersonalForm: React.Dispatch<React.SetStateAction<profilepersonalForm>>,
+  onSaveSuccess?: () => void,
 ) {
   const [selectedPicture, setSelectedPicture] = useState<File | null>(null);
   const updateUser = useLoginStore((state) => state.updateUser);
@@ -36,6 +37,7 @@ export default function useUpdateData(
       setSelectedPicture(null);
       updateUser({ fullName: res.data.fullName, avatar: res.data.avatar });
       toast.success("Profile Data updated!");
+      onSaveSuccess?.();
     },
     onError: (err) => {
       if (axios.isAxiosError(err)) {
@@ -57,6 +59,7 @@ export default function useUpdateData(
 
   const handleFileUpload = () => {
     uploadAvatar(selectedPicture ?? undefined);
+    
   };
 
   const handleCancelEdit = () => {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import NewEmailPopUp from "../../../components/user-dashboard/NewEmailPopUp";
 import ResetEmailPopUp, {
@@ -9,6 +9,19 @@ import useUpdateData from "../../../hooks/useUpdateData";
 import editicon_white from "../../../img/svg/edit-white.svg";
 import type { profiledata, profilepersonalForm } from "../../../lib/types";
 import { toDateInput } from "../../../utils/dateconverUtils";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
+
+const editProfileSchema = z.object({
+  fullName: z.string().min(1, "Full name is required").regex(/^[^\d]+$/, "Full name cannot contain numbers"),
+  phone: z
+    .string()
+    .regex(/^\+?[0-9\s\-]{8,13}$/, "Invalid phone number")
+    .nullable()
+    .optional(),
+  birthDate: z.string().nullable().optional(),
+});
 
 export default function Settings() {
   const profiledata = (useLoaderData() as { userdata: profiledata }).userdata;
@@ -19,15 +32,57 @@ export default function Settings() {
     phone: profiledata.phone,
     birthDate: toDateInput(profiledata.birthDate),
   });
-  const { handleFileSelect, handleFileUpload, isPending, handleCancelEdit } =
-    useUpdateData(personalForm, setPersonalForm);
   const [isReset, setIsReset] = useState<boolean>(false);
   const [isVerifyEmail, setisVerifyEmail] = useState<boolean>(false);
   const [isChangeMail, setIsChangeMail] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const { handleFileSelect, handleFileUpload, isPending, handleCancelEdit } =
+    useUpdateData(personalForm, setPersonalForm, () => {
+      setIsEditing(false);
+      window.location.reload();
+    });
 
+  const {
+    register,
+    watch,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(editProfileSchema),
+    mode: "onBlur",
+    defaultValues: {
+      fullName: profiledata.fullName ?? "",
+      phone: profiledata.phone ?? "",
+      birthDate: toDateInput(profiledata.birthDate) ?? "",
+    },
+  });
+
+  useEffect(() => {
+    const sub = watch((values) => {
+      setPersonalForm((prev) => ({
+        ...prev,
+        fullName: values.fullName ?? prev.fullName,
+        phone: values.phone ?? null,
+        birthDate: values.birthDate ?? null,
+      }));
+    });
+    return () => sub.unsubscribe();
+  }, [watch]);
+
+useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsReset(false);
+        setIsChangeMail(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
   return (
-    <main className=" relative flex-1 flex px-10 py-10 flex-col gap-5">
+    <main className=" relative flex-1 flex px-10 py-10 flex-col min-h-full gap-5 ">
       {/* //------> */}
 
       {isReset && (
@@ -96,66 +151,70 @@ export default function Settings() {
             <h2>Full Name</h2>
             <input
               type="text"
-              value={personalForm.fullName || "-"}
-              onChange={(e) =>
-                setPersonalForm({ ...personalForm, fullName: e.target.value })
-              }
-              className={
-                isEditing
-                  ? `border w-100 border-neutral-400 rounded-lg px-3 py-1`
-                  : `pointer-events-none  `
-              }
-            />
-            {!isEditing && <hr className="border-neutral-200" />}
-          </div>
-          <div className="flex flex-col gap-1">
-            <h2>Phone number</h2>
-            <input
-              type="text"
-              value={personalForm.phone || "-"}
-              onChange={(e) =>
-                setPersonalForm({ ...personalForm, phone: e.target.value })
-              }
+              {...register("fullName")}
               className={
                 isEditing
                   ? `border w-100 border-neutral-400 rounded-lg px-3 py-1`
                   : `pointer-events-none `
               }
             />
+            {errors.fullName && (
+            <p className="text-red-500 text-sm">{errors.fullName.message}</p>
+          )}
+            {!isEditing && <hr className="border-neutral-200" />}
+          </div>
+          <div className="flex flex-col gap-1">
+            <h2>Phone number</h2>
+            <input
+              type="text"
+              {...register("phone")}
+              className={
+                isEditing
+                  ? `border w-100 border-neutral-400 rounded-lg px-3 py-1`
+                  : `pointer-events-none `
+              }
+            />
+            {errors.phone && (
+              <p className="text-red-500 text-sm">{errors.phone.message}</p>
+            )}
             {!isEditing && <hr className="border-neutral-200" />}
           </div>
           <div className="flex flex-col gap-1">
             <h2>Birth Date</h2>
             <input
               type={isEditing ? "date" : "text"}
-              value={personalForm.birthDate || ""}
-              onChange={(e) =>
-                setPersonalForm({ ...personalForm, birthDate: e.target.value })
-              }
+              {...register("birthDate")}
               className={
                 isEditing
                   ? `border w-100 border-neutral-400 rounded-lg px-3 py-1`
                   : `pointer-events-none`
               }
             />
+            {errors.birthDate && (
+              <p className="text-red-500 text-sm">{errors.birthDate.message}</p>
+            )}
             {!isEditing && <hr className="border-neutral-200" />}
           </div>
           <div className="flex items-center gap-5  justify-between">
             <button
-              onClick={
-                () => {
+              onClick={() => {
+                if (isEditing) {
                   handleCancelEdit();
-                  setIsEditing(!isEditing);
+                  reset({
+                    fullName: profiledata.fullName ?? "",
+                    phone: profiledata.phone ?? "",
+                    birthDate: toDateInput(profiledata.birthDate) ?? "",
+                  });
                 }
-                //----->
-              }
+                setIsEditing(!isEditing);
+              }}
               className={`${isEditing ? "bg-white border border-blue-700 text-blue-700" : "bg-claundry-blue text-white"} mt-5 w-fit px-5 py-2  rounded-full disabled:opacity-50 disabled:cursor-not-allowed`}
             >
               {isEditing ? "Cancel Editing" : "Edit Details"}
             </button>
             {isEditing && (
               <button
-                onClick={handleFileUpload}
+                onClick={handleSubmit(handleFileUpload)}
                 disabled={isPending}
                 className="bg-claundry-blue mt-5 w-fit px-5 py-2 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
               >

@@ -17,7 +17,7 @@ import AuthLayout from "./pages/login-register/AuthLayout.tsx";
 import Login from "./pages/login-register/layout/Login.tsx";
 import Register from "./pages/login-register/layout/Register.tsx";
 import VerifiedPage from "./pages/login-register/layout/VerifiedPage.tsx";
-import ResetPassword from "./pages/user-dashboard/layout/ResetPassword.tsx";
+import ResetPassword from "./pages/login-register/layout/ResetPassword.tsx";
 import UserProfile from "./pages/user-dashboard/layout/UserProfile.tsx";
 import UserDashboard from "./pages/user-dashboard/UserDashboard.tsx";
 import WorkerDashboard from "./pages/worker-dashboard/WorkerDashboard.tsx";
@@ -47,13 +47,14 @@ const router = createBrowserRouter([
     path: "/",
     element: <LandingPage />,
   },
-   {
+  {
     element: <AuthLayout />,
     children: [
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
       { path: "/verified", element: <VerifiedPage /> },
       { path: "/resetpass", element: <ResetPage /> },
+      { path: "reset", element: <ResetPassword /> },
     ],
   },
   {
@@ -66,10 +67,9 @@ const router = createBrowserRouter([
         element: <UserProfile />,
         loader: userDataLoader,
       },
-      { path: "reset", element: <ResetPassword /> },
       { path: "orders", element: <OrderHistory /> },
       { path: "orders/:orderId", element: <OrderDetails /> },
-      { path: "pickup", element: <CreatePickup />, loader:userAddressLoader },
+      { path: "pickup", element: <CreatePickup />, loader: userAddressLoader },
       { path: "verify-mail", element: <ReverifyEmail /> },
       { path: "settings", element: <Settings />, loader: userDataLoader },
       {
@@ -130,7 +130,6 @@ const router = createBrowserRouter([
     element: <AdminDashboard />,
     children: [{ path: "settings", element: <AdminDashboardSettings /> }],
   },
- 
 ]);
 
 createRoot(document.getElementById("root")!).render(
