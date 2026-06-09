@@ -26,7 +26,7 @@ export default function WorkerDashboard() {
     {
       icon: logo_home,
       iconDark: logo_home_blue,
-      label: "Orders",
+      label: "Jobs",
       to: "orders",
       children: [
         { label: "Open", to: "orders/open" },
