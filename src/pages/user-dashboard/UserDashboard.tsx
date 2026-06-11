@@ -56,10 +56,10 @@ export default function UserDashboard() {
             <img src={notification_bell} alt="" />
           </button>
         </div>
-        <div
+      <div
           className={`absolute top-14 z-10 right-0 border border-neutral-300 bg-white shadow-md rounded-lg p-5 mr-8 w-100 h-75
           before:content-[''] before:absolute before:-top-1.5 before:right-6 before:h-3 before:w-3
-          before:rotate-45 before:border-l  before:border-t before:border-neutral-300 before:bg-white transition-all ${openNotification? "opacity-100" :"opacity-0"} `}
+          before:rotate-45 before:border-l  before:border-t before:border-neutral-300 before:bg-white transition-all   ${openNotification? "opacity-100 " :"pointer-events-none opacity-0 -translate-y-2"} `}
         >
           test notification
         </div>

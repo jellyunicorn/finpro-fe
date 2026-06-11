@@ -77,7 +77,7 @@ export default function CreatePickup() {
 
   return (
     <main className="flex-1 h-full relative  flex">
-      <div className="flex min-w-[30%] h-fit overflow-hidden  border-[#BEE6E1] border shadow-md px-10 gap-2 py-10 flex-1 rounded-lg  m-10 absolute z-1 bg-white  flex-col">
+      <div className="flex min-w-[30%] h-fit overflow-hidden  border-[#BEE6E1] border shadow-md px-8 gap-2 py-5 flex-1 rounded-lg  m-5 absolute z-1 bg-white  flex-col">
         <div className="flex flex-col ">
           <h1 className="text-2xl font-medium text-claundry-blue">
             Schedule a Pick Up

@@ -142,31 +142,53 @@ export default function AddressEditMenu({
       >
         {confirmDelete && (
           <DeletePopUp
-            onConfirm={() => addressForm?.id !== undefined && deleteAddress(addressForm.id)}
+            onConfirm={() =>
+              addressForm?.id !== undefined && deleteAddress(addressForm.id)
+            }
             onCancel={() => setConfirmDelete(false)}
           />
         )}
 
-        <div className="flex justify-between items-start">
-          <div className="flex flex-col">
-            <h1 className="text-2xl font-medium text-claundry-blue">
-              {formMode === "create" ? "Add New Address" : "Edit Address"}
-            </h1>
-            <p className="text-sm text-neutral-400">
-              {formMode === "create"
-                ? "Fill in the details for your new address"
-                : "Edit selected address"}
-            </p>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-4 flex-1"
+        >
+          <div className="flex justify-between   items-center">
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-medium text-claundry-blue">
+                {formMode === "create" ? "Add New Address" : "Edit Address"}
+              </h1>
+              <p className="text-sm text-neutral-400">
+                {formMode === "create"
+                  ? "Fill in the details for your new address"
+                  : "Edit selected address"}
+              </p>
+            </div>
+            <div className="flex gap-4">
+              <button
+                type="submit"
+                className=" bg-claundry-blue text-white rounded-md px-2 py-2 hover:bg-blue-700"
+              >
+                {formMode === "create" ? "Add New Address" : "Save Changes"}
+              </button>
+              {formMode === "edit" && (
+                <button
+                  type="button"
+                  onClick={() => setConfirmDelete(true)}
+                  className="border rounded-md px-2 py-1.5 border-red-500 text-red-500 hover:bg-red-100"
+                >
+                  Delete Address
+                </button>
+              )}
+              <button
+              type="button"
+                onClick={() => setFormMode(null)}
+                className="text-neutral-400 hover:text-black text-xl font-medium"
+              >
+                ✕
+              </button>
+            </div>
           </div>
-          <button
-            onClick={() => setFormMode(null)}
-            className="text-neutral-400 hover:text-black text-xl font-medium"
-          >
-            ✕
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 flex-1">
           <div className="flex flex-col gap-1">
             <label className="text-sm text-neutral-600">Label</label>
             <input
@@ -175,7 +197,9 @@ export default function AddressEditMenu({
               className="border border-neutral-300 rounded-lg px-3 py-2"
               placeholder="e.g. Home, Office"
             />
-            {errors.label && <p className="text-red-500 text-sm">{errors.label.message}</p>}
+            {errors.label && (
+              <p className="text-red-500 text-sm">{errors.label.message}</p>
+            )}
           </div>
 
           <div className="flex flex-col gap-1">
@@ -186,7 +210,9 @@ export default function AddressEditMenu({
               className="border border-neutral-300 rounded-lg px-3 py-2"
               placeholder="e.g. Jl. MH Thamrin No.1"
             />
-            {errors.address && <p className="text-red-500 text-sm">{errors.address.message}</p>}
+            {errors.address && (
+              <p className="text-red-500 text-sm">{errors.address.message}</p>
+            )}
           </div>
 
           <div className="flex gap-5">
@@ -196,22 +222,31 @@ export default function AddressEditMenu({
                 <select
                   value={regencyCode || ""}
                   onChange={(e) => {
-                    setValue("regencyCode", e.target.value, { shouldValidate: true });
+                    setValue("regencyCode", e.target.value, {
+                      shouldValidate: true,
+                    });
                     setValue("districtCode", "", { shouldValidate: false });
                     setValue("villageCode", "", { shouldValidate: false });
                     setRegCode(e.target.value);
                     setDisCode("");
-                    setAddressForm((prev) => prev && { ...prev, regencyCode: e.target.value, districtCode: "", villageCode: "" });
                   }}
                   className="w-full"
                 >
-                  <option value="" disabled>-</option>
+                  <option value="" disabled>
+                    -
+                  </option>
                   {(regencydata ?? []).map((regency) => (
-                    <option key={regency.code} value={regency.code}>{regency.name}</option>
+                    <option key={regency.code} value={regency.code}>
+                      {regency.name}
+                    </option>
                   ))}
                 </select>
               </div>
-              {errors.regencyCode && <p className="text-red-500 text-sm">{errors.regencyCode.message}</p>}
+              {errors.regencyCode && (
+                <p className="text-red-500 text-sm">
+                  {errors.regencyCode.message}
+                </p>
+              )}
             </div>
 
             <div className="flex w-full flex-col gap-1">
@@ -220,20 +255,29 @@ export default function AddressEditMenu({
                 <select
                   value={districtCode || ""}
                   onChange={(e) => {
-                    setValue("districtCode", e.target.value, { shouldValidate: true });
+                    setValue("districtCode", e.target.value, {
+                      shouldValidate: true,
+                    });
                     setValue("villageCode", "", { shouldValidate: false });
                     setDisCode(e.target.value);
-                    setAddressForm((prev) => prev && { ...prev, districtCode: e.target.value, villageCode: "" });
                   }}
                   className="w-full"
                 >
-                  <option value="" disabled>-</option>
+                  <option value="" disabled>
+                    -
+                  </option>
                   {(districtdata ?? []).map((district) => (
-                    <option key={district.code} value={district.code}>{district.name}</option>
+                    <option key={district.code} value={district.code}>
+                      {district.name}
+                    </option>
                   ))}
                 </select>
               </div>
-              {errors.districtCode && <p className="text-red-500 text-sm">{errors.districtCode.message}</p>}
+              {errors.districtCode && (
+                <p className="text-red-500 text-sm">
+                  {errors.districtCode.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -244,18 +288,27 @@ export default function AddressEditMenu({
                 <select
                   {...register("villageCode")}
                   onChange={(e) => {
-                    setValue("villageCode", e.target.value, { shouldValidate: true });
-                    setAddressForm((prev) => prev && { ...prev, villageCode: e.target.value });
+                    setValue("villageCode", e.target.value, {
+                      shouldValidate: true,
+                    });
                   }}
                   className="w-full"
                 >
-                  <option value="" disabled>-</option>
+                  <option value="" disabled>
+                    -
+                  </option>
                   {(villagedata ?? []).map((village) => (
-                    <option key={village.code} value={village.code}>{village.name}</option>
+                    <option key={village.code} value={village.code}>
+                      {village.name}
+                    </option>
                   ))}
                 </select>
               </div>
-              {errors.villageCode && <p className="text-red-500 text-sm">{errors.villageCode.message}</p>}
+              {errors.villageCode && (
+                <p className="text-red-500 text-sm">
+                  {errors.villageCode.message}
+                </p>
+              )}
             </div>
 
             <div className="flex w-full flex-col gap-1">
@@ -267,7 +320,11 @@ export default function AddressEditMenu({
                 className="border border-neutral-300 rounded-lg px-3 py-2"
                 placeholder="12345"
               />
-              {errors.postalCode && <p className="text-red-500 text-sm">{errors.postalCode.message}</p>}
+              {errors.postalCode && (
+                <p className="text-red-500 text-sm">
+                  {errors.postalCode.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -279,22 +336,6 @@ export default function AddressEditMenu({
               setAddressForm={setAddressForm}
             />
           </div>
-
-          <button
-            type="submit"
-            className="mt-auto bg-claundry-blue text-white rounded-full py-2 hover:bg-blue-700"
-          >
-            {formMode === "create" ? "Add New Address" : "Save Changes"}
-          </button>
-          {formMode === "edit" && (
-            <button
-              type="button"
-              onClick={() => setConfirmDelete(true)}
-              className="border rounded-full py-2 border-red-500 text-red-500 hover:bg-red-100"
-            >
-              Delete Address
-            </button>
-          )}
         </form>
       </div>
     </>

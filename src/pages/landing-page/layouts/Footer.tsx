@@ -2,18 +2,18 @@ import logo_blue from "../../../img/svg/main_logo_blue.svg";
 
 export default function Footer() {
   return (
-    <footer className="w-full h-250 relative">
-      <section className="absolute flex flex-col gap-10 inset-0 z-2 container mx-auto px-35 py-15">
-        <h1 className="text-7xl w-[70%] text-[#004DE5]">
+    <footer className="w-full h-220 lg:h-220 relative">
+      <section className="absolute flex flex-col gap-10 inset-0 z-2 container mx-auto px-15 lg:px-35 py-15">
+        <h1 className="lg:text-7xl text-3xl md:text-5xl lg:w-[70%] text-[#004DE5]">
           Clean clothes, happy neighbors, zero hassle — that's the deal
         </h1>
-        <div className="flex justify-between">
-          <p className="w-100">
+        <div className="flex flex-col lg:flex-row gap-10 justify-between">
+          <p className="lg:w-100">
             Claundry is an online web app that makes laundry pickup easy and
             convenient. Schedule a pickup, and we'll handle the rest, delivering
             fresh, clean clothes right to your door.
           </p>
-          <div className=" flex gap-15">
+          <div className=" lg:flex grid grid-cols-2 gap-10">
             <ul className="flex flex-col font-dmsans gap-2 ">
               <span className="font-bold">Get Started</span>
               <li>SIGN UP</li>
@@ -37,7 +37,7 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <div className="w-full  font-dmsans flex justify-between items-end text-sm">
+        <div className="w-full  font-dmsans flex flex-col lg:flex-row justify-between items-start text-sm gap-5 lg:gap-10">
           <div>
             <span className="font-bold">PT.CUCI KAIN ANGKASA </span>
             <p>Jl. Jendral Sudirman Kav. 52-53, SCBD, Jakarta Selatan, 12190</p>

@@ -50,7 +50,7 @@ export default function OrderDetails() {
     return <p className="px-10 py-10 text-neutral-400">Order not found.</p>;
 
   return (
-    <main className=" flex-1 flex px-10 py-10  lg:w-[70%]  flex-col gap-5">
+    <main className=" flex-1 flex px-10 py-10  w-full max-w-275  flex-col gap-5">
       <div className="flex items-start justify-between">
         <div className="flex flex-col ">
           <h1 className="text-2xl font-medium text-claundry-blue">
