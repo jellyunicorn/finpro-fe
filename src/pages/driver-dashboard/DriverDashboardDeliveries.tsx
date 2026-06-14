@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DriverActiveMap from "../../components/driver-dashboard/DriverActiveMap";
 import Pagination from "../../components/Pagination";
 import { useBeginDriverJob } from "../../hooks/useBeginDriverJob";
@@ -8,7 +8,11 @@ import useGetActiveDriverJob from "../../hooks/useGetActiveDriverJob";
 import useGetAvailableDeliveries from "../../hooks/useGetAvailableDeliveries";
 import useGetAvailablePickups from "../../hooks/useGetAvailablePickups";
 import { useNextDriverJobStatus } from "../../hooks/useNextDriverJobStatus";
-import { formatDateTime, getDestinationCoords, getFromCoords } from "../../utils/driverDashboardHelpers";
+import {
+  formatDateTime,
+  getDestinationCoords,
+  getFromCoords,
+} from "../../utils/driverDashboardHelpers";
 
 export default function DriverDashboardDeliveries() {
   const [pickupPage, setPickupPage] = useState(1);
@@ -18,8 +22,13 @@ export default function DriverDashboardDeliveries() {
 
   const { data: pickups } = useGetAvailablePickups(pickupPage);
   const { data: deliveries } = useGetAvailableDeliveries(deliveryPage);
-  const { data: activeJob, refetch: refetchActiveJob } =
-    useGetActiveDriverJob();
+
+  const { data: activeJob } = useGetActiveDriverJob();
+
+  useEffect(() => {
+    console.log("activeJob is:" + activeJob);
+  }, [activeJob]);
+
   const { mutateAsync: beginJob } = useBeginDriverJob();
   const { mutateAsync: nextJobStatus } = useNextDriverJobStatus();
   const { mutateAsync: finishJob } = useFinishDriverJob();
@@ -27,7 +36,6 @@ export default function DriverDashboardDeliveries() {
 
   const handleAcceptClick = async (jobId: string) => {
     await beginJob({ jobId, type: activeTab });
-    await refetchActiveJob();
   };
 
   const handleAdvanceClick = async (
@@ -35,7 +43,6 @@ export default function DriverDashboardDeliveries() {
     activeJobType: "pickup" | "delivery",
   ) => {
     await nextJobStatus({ jobId, type: activeJobType });
-    await refetchActiveJob();
   };
 
   const handleMarkCompleteClick = async (
@@ -43,7 +50,6 @@ export default function DriverDashboardDeliveries() {
     activeJobType: "pickup" | "delivery",
   ) => {
     await finishJob({ jobId, type: activeJobType });
-    await refetchActiveJob();
   };
 
   const toggleRow = (id: string) => {
@@ -55,12 +61,11 @@ export default function DriverDashboardDeliveries() {
     activeJobType: "pickup" | "delivery",
   ) => {
     await cancelJob({ jobId, type: activeJobType });
-    await refetchActiveJob();
   };
 
   return (
     <div className="p-8 font-dmsans">
-      {activeJob ? (
+      {activeJob && activeJob !== undefined ? (
         <div className="w-full flex gap-6">
           <div className="flex-1 bg-white shadow rounded-lg border border-[#BAD6F5] p-6">
             <h2 className="text-xl font-semibold text-claundry-blue mb-4">

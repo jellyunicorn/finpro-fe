@@ -22,7 +22,7 @@ export function useCancelDriverJob() {
       return response.data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["activeDriverJob"] });
+      queryClient.resetQueries({ queryKey: ["activeDriverJob"] });
       queryClient.invalidateQueries({ queryKey: ["availablePickups"] });
       queryClient.invalidateQueries({ queryKey: ["availableDeliveries"] });
       toast.success(data.message || "Job cancelled successfuly!");
