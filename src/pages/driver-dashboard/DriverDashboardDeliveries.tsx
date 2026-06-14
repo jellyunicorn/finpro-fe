@@ -65,7 +65,7 @@ export default function DriverDashboardDeliveries() {
 
   return (
     <div className="p-8 font-dmsans">
-      {activeJob && activeJob !== undefined ? (
+      {activeJob ? (
         <div className="w-full flex gap-6">
           <div className="flex-1 bg-white shadow rounded-lg border border-[#BAD6F5] p-6">
             <h2 className="text-xl font-semibold text-claundry-blue mb-4">
