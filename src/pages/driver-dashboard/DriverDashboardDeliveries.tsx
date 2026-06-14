@@ -1,14 +1,14 @@
 import { useState } from "react";
 import DriverActiveMap from "../../components/driver-dashboard/DriverActiveMap";
+import Pagination from "../../components/Pagination";
 import { useBeginDriverJob } from "../../hooks/useBeginDriverJob";
 import { useCancelDriverJob } from "../../hooks/useCancelDriverJob";
 import { useFinishDriverJob } from "../../hooks/useFinishDriverJob";
 import useGetActiveDriverJob from "../../hooks/useGetActiveDriverJob";
 import useGetAvailableDeliveries from "../../hooks/useGetAvailableDeliveries";
 import useGetAvailablePickups from "../../hooks/useGetAvailablePickups";
-import Pagination from "../../components/Pagination";
 import { useNextDriverJobStatus } from "../../hooks/useNextDriverJobStatus";
-import type { DriverJob } from "../../types/driverJob";
+import { formatDateTime, getDestinationCoords, getFromCoords } from "../../utils/driverDashboardHelpers";
 
 export default function DriverDashboardDeliveries() {
   const [pickupPage, setPickupPage] = useState(1);
@@ -24,74 +24,6 @@ export default function DriverDashboardDeliveries() {
   const { mutateAsync: nextJobStatus } = useNextDriverJobStatus();
   const { mutateAsync: finishJob } = useFinishDriverJob();
   const { mutateAsync: cancelJob } = useCancelDriverJob();
-
-  const formatDateTime = (dateString: string) => {
-    if (!dateString) return "N/A";
-    const date = new Date(dateString);
-    return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    })}`;
-  };
-
-  const getFromCoords = (activeJob: DriverJob) => {
-    if (activeJob.type === "pickup") {
-      if (activeJob.status === "WAITING_FOR_DRIVER") {
-        return {
-          longitude: activeJob.outletLongitude,
-          latitude: activeJob.outletLatitude,
-        };
-      }
-      if (activeJob.status === "OTW_TO_OUTLET") {
-        return {
-          longitude: activeJob.userLongitude,
-          latitude: activeJob.userLatitude,
-        };
-      }
-    }
-
-    return {
-      longitude: activeJob.outletLongitude,
-      latitude: activeJob.outletLatitude,
-    };
-  };
-
-  const getDestinationCoords = (activeJob: DriverJob) => {
-    if (activeJob.type === "pickup") {
-      if (activeJob.status === "WAITING_FOR_DRIVER") {
-        return {
-          longitude: activeJob.userLongitude,
-          latitude: activeJob.userLatitude,
-        };
-      }
-      if (activeJob.status === "OTW_TO_OUTLET") {
-        return {
-          longitude: activeJob.outletLongitude,
-          latitude: activeJob.outletLatitude,
-        };
-      }
-    }
-
-    if (activeJob.type === "delivery") {
-      if (activeJob.status === "WAITING_FOR_DRIVER") {
-        return {
-          longitude: activeJob.outletLongitude,
-          latitude: activeJob.outletLatitude,
-        };
-      }
-      if (activeJob.status === "OTW_TO_CUSTOMER") {
-        return {
-          longitude: activeJob.userLongitude,
-          latitude: activeJob.userLatitude,
-        };
-      }
-    }
-
-    return {
-      longitude: activeJob.userLongitude,
-      latitude: activeJob.userLatitude,
-    };
-  };
 
   const handleAcceptClick = async (jobId: string) => {
     await beginJob({ jobId, type: activeTab });
@@ -234,7 +166,7 @@ export default function DriverDashboardDeliveries() {
             <thead className="bg-[#BAD6F5] text-claundry-blue">
               <tr>
                 <th className="p-4">Order ID</th>
-                <th className="p-4">Status</th>
+                <th className="p-4">Distance</th>
                 <th className="p-4">Date & Time</th>
                 <th className="p-4">Action</th>
               </tr>
@@ -253,7 +185,7 @@ export default function DriverDashboardDeliveries() {
                           {item.id}
                         </td>
                         <td className="p-4 text-sm text-gray-600">
-                          {item.status}
+                          {item.distance} km
                         </td>
                         <td className="p-4 text-sm text-gray-600">
                           {formatDateTime(item.createdAt)}

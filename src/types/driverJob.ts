@@ -4,6 +4,7 @@ export interface DriverJob {
   createdAt: string;
   status: string;
   orderId: string;
+  distance: number;
   customerName: string;
   address: string | null;
   outletLongitude: string;
