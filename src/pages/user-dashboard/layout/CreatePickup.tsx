@@ -57,7 +57,7 @@ export default function CreatePickup() {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const [PickUpForm, setPickUpForm] = useState<pickupform>({
-    pickupAddressId: primaryAddress.id,
+    pickupAddressId: primaryAddress?.id,
     outletId: outlet.outletid,
     pickupDate: null,
     pickupTime: null,
@@ -221,8 +221,8 @@ export default function CreatePickup() {
         {selectedAddress && (
           <MapComponent
             initialcoordinate={{
-              longitude: Number(primaryAddress.longitude),
-              latitude: Number(primaryAddress.latitude),
+              longitude: Number(primaryAddress?.longitude),
+              latitude: Number(primaryAddress?.latitude),
             }}
             selectedAddress={selectedAddress}
             outletdata={outletdata}
