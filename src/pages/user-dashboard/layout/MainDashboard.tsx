@@ -54,22 +54,24 @@ export default function MainDashboard() {
           <Greetings />
         </h1>
       </div>
-      <div className=" w-full flex flex-col gap-2">
-        <div className="flex gap-1 items-center text-blue-700 font-medium">
-          <img src={addressicon} alt="" />
-          <p>Primary Address</p>
+      {primaryAddress && (
+        <div className=" w-full flex flex-col gap-2">
+          <div className="flex gap-1 items-center text-blue-700 font-medium">
+            <img src={addressicon} alt="" />
+            <p>Primary Address</p>
+          </div>
+          <div className="flex flex-col md:flex-row gap-2">
+            <h2 className="px-2 bg-[#BEE6E1] text-blue-800 w-fit rounded-full">
+              {" "}
+              {primaryAddress.label}
+            </h2>
+            <p>
+              {primaryAddress.address}, {primaryAddress.city},{" "}
+              {primaryAddress.postalCode}
+            </p>
+          </div>
         </div>
-        <div className="flex flex-col md:flex-row gap-2">
-          <h2 className="px-2 bg-[#BEE6E1] text-blue-800 w-fit rounded-full">
-            {" "}
-            {primaryAddress.label}
-          </h2>
-          <p>
-            {primaryAddress.address}, {primaryAddress.city},{" "}
-            {primaryAddress.postalCode}
-          </p>
-        </div>
-      </div>
+      )}
       <div className=" w-full flex flex-col lg:flex-row gap-5 h-150">
         <div className="lg:w-[25%] justify-between lg:justify-start h-full rounded-xl gap-5 flex flex-col">
           <Link
@@ -145,6 +147,6 @@ export default function MainDashboard() {
           </div>
         </div>
       </div>
-    </main>
+  </main>
   );
 }

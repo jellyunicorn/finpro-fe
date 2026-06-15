@@ -16,8 +16,8 @@ export default function WorkerDashboardOrders() {
   const [openInputPopup, setOpenInputPopup] = useState(false);
   const [page, setPage] = useState(1);
   const { data: activeJobs } = useGetActiveJobs(page);
-  const { mutate: beginJob } = useBeginJob();
-  const { mutate: finishJob } = useFinishJob();
+  const { mutateAsync: beginJob } = useBeginJob();
+  const { mutateAsync: finishJob } = useFinishJob();
 
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [nextJob, setNextJob] = useState<Job | null>(null);
@@ -28,9 +28,9 @@ export default function WorkerDashboardOrders() {
     setOpenCompletePopup(true);
   };
 
-  const handleFinishYesClick = () => {
+  const handleFinishYesClick = async () => {
     if (!selectedJob) return;
-    finishJob(
+    await finishJob(
       { jobId: selectedJob.jobId },
       {
         onSuccess: (data) => {
@@ -52,7 +52,7 @@ export default function WorkerDashboardOrders() {
     setOpenInputPopup(true);
   };
 
-  const handleSubmitJob = (values: {
+  const handleSubmitJob = async (values: {
     items: { id: number; quantity: number }[];
   }) => {
     if (!nextJob) return;
@@ -62,7 +62,7 @@ export default function WorkerDashboardOrders() {
       quantity: i.quantity,
     }));
 
-    beginJob({ jobId: nextJob.jobId, items });
+    await beginJob({ jobId: nextJob.jobId, items });
 
     setOpenInputPopup(false);
   };
