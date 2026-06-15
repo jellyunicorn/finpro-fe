@@ -98,12 +98,12 @@ export default function MyAddresses() {
         <h2 className="text-claundry-blue">Primary Address</h2>
         <div className="flex flex-col gap-2">
           <p className="px-2 bg-[#BEE6E1] text-blue-800 w-fit rounded-full">
-            {primaryAddress.label}
+            {primaryAddress?.label}
           </p>
           <p>
-            {primaryAddress.address} , {primaryAddress.postalCode}
+            {primaryAddress?.address} , {primaryAddress?.postalCode}
           </p>
-          <p> {primaryAddress.city}</p>
+          <p> {primaryAddress?.city}</p>
         </div>
       </div>
       <h2 className="text-claundry-blue">Other Addresses</h2>

@@ -17,13 +17,15 @@ export default function MainDashboard() {
   const { data: userorder, isLoading } = useQuery<orderdata[]>({
     queryKey: ["orders"],
     queryFn: async () => {
-      const result = await axiosInstance.get("/order/" );
+      const result = await axiosInstance.get("/order/");
       return result.data?.data ?? result.data;
     },
   });
 
   const OngoingOrders = userorder?.filter(
-    (e: orderdata) => (e.confirmedAt === null || e.confirmedAt === "" )&& e.orderStatus !== "CANCELLED",
+    (e: orderdata) =>
+      (e.confirmedAt === null || e.confirmedAt === "") &&
+      e.orderStatus !== "CANCELLED",
   );
   const PendingPayment = userorder?.filter(
     (e: orderdata) => e.orderStatus === "WAITING_FOR_PAYMENT",
@@ -51,22 +53,24 @@ export default function MainDashboard() {
           className="h-full absolute right-0 mr-10 "
         />
       </div>
-      <div className=" w-full flex flex-col gap-2">
-        <div className="flex gap-1 items-center text-blue-700 font-medium">
-          <img src={addressicon} alt="" />
-          <p>Primary Address</p>
+      {primaryAddress && (
+        <div className=" w-full flex flex-col gap-2">
+          <div className="flex gap-1 items-center text-blue-700 font-medium">
+            <img src={addressicon} alt="" />
+            <p>Primary Address</p>
+          </div>
+          <div className="flex gap-2">
+            <h2 className="px-2 bg-[#BEE6E1] text-blue-800 w-fit rounded-full">
+              {" "}
+              {primaryAddress.label}
+            </h2>
+            <p>
+              {primaryAddress.address}, {primaryAddress.city},{" "}
+              {primaryAddress.postalCode}
+            </p>
+          </div>
         </div>
-        <div className="flex gap-2">
-          <h2 className="px-2 bg-[#BEE6E1] text-blue-800 w-fit rounded-full">
-            {" "}
-            {primaryAddress.label}
-          </h2>
-          <p>
-            {primaryAddress.address}, {primaryAddress.city},{" "}
-            {primaryAddress.postalCode}
-          </p>
-        </div>
-      </div>
+      )}
       <div className=" w-full flex gap-5 h-150">
         <div className="w-[25%] h-full rounded-xl gap-5 flex flex-col">
           <Link
