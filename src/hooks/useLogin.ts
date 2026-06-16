@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useLoginStore } from "../store/useAppStore";
-import { useNavigate, useSearchParams } from "react-router";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../lib/axios";
+import { useLoginStore } from "../store/useAppStore";
+import { goToDashboard } from "../utils/goToDashboard";
 
 type LoginForm = {
   email: string;
@@ -10,10 +10,6 @@ type LoginForm = {
 };
 
 export default function useLogin() {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const from = searchParams.get("from") || "/";
-
   const [loginForm, setLoginForm] = useState<LoginForm>({
     email: "",
     password: "",
@@ -32,7 +28,7 @@ export default function useLogin() {
         },
       );
       setUser(res.data.user);
-      navigate(from);
+      await goToDashboard();
     } catch {}
   };
 

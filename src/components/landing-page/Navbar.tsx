@@ -1,15 +1,14 @@
-import { Link, Links, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { useNavbarScrollAnimation } from "../../hooks/useNavBarColourChange";
 import mainLogoDark from "../../img/svg/main_logo_blue.svg";
 import mainLogoWhite from "../../img/svg/main_logo_white.svg";
 import { useLoginStore } from "../../store/useAppStore";
-import { useState } from "react";
+import { goToDashboard } from "../../utils/goToDashboard";
 
 export default function Navbar() {
   //animations
   useNavbarScrollAnimation();
   const user = useLoginStore((state) => state.user);
-  const navigate = useNavigate();
 
   return (
     <div className="w-full h-fit fixed z-10 flex justify-center">
@@ -44,14 +43,20 @@ export default function Navbar() {
           )}
 
           {user && (
-            <Link to="/dashboard">
-              <button className="flex items-center gap-2 hover:underline hover:text-blue-300 hover:cursor-pointer animate-text-color">
-                <p className="hidden md:block">Hi , {user.fullName} </p>
-                <div className="h-8 w-8 rounded-full bg-neutral-200 overflow-hidden">
-                  <img src={user.avatar} referrerPolicy="no-referrer" alt="" className="object-cover h-full w-full" />
-                </div>
-              </button>
-            </Link>
+            <button
+              onClick={() => goToDashboard()}
+              className="flex items-center gap-2 hover:underline hover:text-blue-300 hover:cursor-pointer animate-text-color"
+            >
+              <p className="hidden md:block">Hi , {user.fullName} </p>
+              <div className="h-8 w-8 rounded-full bg-neutral-200 overflow-hidden">
+                <img
+                  src={user.avatar}
+                  referrerPolicy="no-referrer"
+                  alt=""
+                  className="object-cover h-full w-full"
+                />
+              </div>
+            </button>
           )}
         </nav>
       </div>

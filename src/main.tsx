@@ -43,7 +43,7 @@ import ResetPage from "./pages/login-register/layout/ResetPage.tsx";
 import WorkerDashboardOpenOrders from "./pages/worker-dashboard/WorkerDashboardOpenOrders.tsx";
 const queryClient = new QueryClient();
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
@@ -55,81 +55,87 @@ const router = createBrowserRouter([
       { path: "/register", element: <Register /> },
       { path: "/verified", element: <VerifiedPage /> },
       { path: "/resetpass", element: <ResetPage /> },
-      { path: "reset", element: <ResetPassword /> },
+      { path: "/reset", element: <ResetPassword /> },
     ],
   },
   {
-    path: "/Dashboard",
-    loader: authLoader(["USER"]),
-    element: <UserDashboard />,
+    path: "/dashboard",
     children: [
       {
-        path: "user-profile",
-        element: <UserProfile />,
-        loader: userDataLoader,
+        path: "user",
+        loader: authLoader(["USER"]),
+        element: <UserDashboard />,
+        children: [
+          {
+            path: "user-profile",
+            element: <UserProfile />,
+            loader: userDataLoader,
+          },
+          { path: "orders", element: <OrderHistory /> },
+          { path: "orders/:orderId", element: <OrderDetails /> },
+          {
+            path: "pickup",
+            element: <CreatePickup />,
+            loader: userAddressLoader,
+          },
+          { path: "verify-mail", element: <ReverifyEmail /> },
+          { path: "settings", element: <Settings />, loader: userDataLoader },
+          {
+            path: "",
+            element: <MainDashboard />,
+            loader: async () => {
+              const [userdata, addresses] = await Promise.all([
+                userDataLoader(),
+                userAddressLoader(),
+              ]);
+              return { userdata, addresses };
+            },
+          },
+          {
+            path: "my-addresses",
+            element: <MyAddresses />,
+            loader: userAddressLoader,
+          },
+        ],
       },
-      { path: "orders", element: <OrderHistory /> },
-      { path: "orders/:orderId", element: <OrderDetails /> },
-      { path: "pickup", element: <CreatePickup />, loader: userAddressLoader },
-      { path: "verify-mail", element: <ReverifyEmail /> },
-      { path: "settings", element: <Settings />, loader: userDataLoader },
       {
-        path: "",
-        element: <MainDashboard />,
-        loader: async () => {
-          const [userdata, addresses] = await Promise.all([
-            userDataLoader(),
-            userAddressLoader(),
-          ]);
-          return { userdata, addresses };
-        },
+        path: "driver",
+        element: <DriverDashboard />,
+        children: [
+          { path: "attendance", element: <DriverDashboardAttendance /> },
+          { path: "deliveries", element: <DriverDashboardDeliveries /> },
+          {
+            path: "deliveries/history",
+            element: <DriverDashboardDeliveryHistory />,
+          },
+          { path: "settings", element: <DriverDashboardSettings /> },
+          {
+            path: "settings/change-password",
+            element: <DriverDashboardChangePassword />,
+          },
+        ],
       },
       {
-        path: "my-addresses",
-        element: <MyAddresses />,
-        loader: userAddressLoader,
+        path: "worker",
+        element: <WorkerDashboard />,
+        children: [
+          { path: "attendance", element: <WorkerDashboardAttendance /> },
+          { path: "orders", element: <WorkerDashboardOrders /> },
+          { path: "orders/open", element: <WorkerDashboardOpenOrders /> },
+          { path: "orders/history", element: <WorkerDashboardOrderHistory /> },
+          { path: "settings", element: <WorkerDashboardSettings /> },
+          {
+            path: "settings/change-password",
+            element: <WorkerDashboardChangePassword />,
+          },
+        ],
+      },
+      {
+        path: "admin",
+        element: <AdminDashboard />,
+        children: [{ path: "settings", element: <AdminDashboardSettings /> }],
       },
     ],
-  },
-  {
-    path: "/driver-dashboard",
-    element: <DriverDashboard />,
-    children: [
-      { path: "attendance", element: <DriverDashboardAttendance /> },
-      { path: "deliveries", element: <DriverDashboardDeliveries /> },
-      {
-        path: "deliveries/history",
-        element: <DriverDashboardDeliveryHistory />,
-      },
-      { path: "settings", element: <DriverDashboardSettings /> },
-      {
-        path: "settings/change-password",
-        element: <DriverDashboardChangePassword />,
-      },
-    ],
-  },
-  {
-    path: "/worker-dashboard",
-    element: <WorkerDashboard />,
-    children: [
-      { path: "attendance", element: <WorkerDashboardAttendance /> },
-      {
-        path: "orders",
-        element: <WorkerDashboardOrders />,
-      },
-      { path: "orders/open", element: <WorkerDashboardOpenOrders /> },
-      { path: "orders/history", element: <WorkerDashboardOrderHistory /> },
-      { path: "settings", element: <WorkerDashboardSettings /> },
-      {
-        path: "settings/change-password",
-        element: <WorkerDashboardChangePassword />,
-      },
-    ],
-  },
-  {
-    path: "/admin-dashboard",
-    element: <AdminDashboard />,
-    children: [{ path: "settings", element: <AdminDashboardSettings /> }],
   },
 ]);
 
