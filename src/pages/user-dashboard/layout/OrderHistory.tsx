@@ -57,7 +57,7 @@ export default function OrderHistory() {
   }, [searchQuery]);
 
   return (
-    <main className=" flex-1 flex px-10 py-10  w-screen flex-col gap-5  w-full max-w-300">
+    <main className=" flex-1 flex px-5 py-5 md:px-10 md:py-10  flex-col gap-5  w-full max-w-300">
       <div className="flex flex-col w-full">
         <h1 className="text-2xl font-medium text-claundry-blue">
           Order History

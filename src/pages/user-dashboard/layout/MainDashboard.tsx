@@ -109,21 +109,21 @@ export default function MainDashboard() {
         </div>
         <div className="rounded-xl bg-white flex-1 flex flex-col h-full border py-5 px-10 border-blue-200">
           <h2 className="text-xl">Order Summary</h2>
-          <div className="w-full  text-claundry-blue shrink-0 overflow-x-auto font-medium h-full">
+          <div className="w-full  text-claundry-blue shrink-0 overflow-x-auto text-sm font-medium h-full">
             <div className=" w-full h-10 border-b border-neutral-200 grid grid-cols-6">
-              <div className=" flex items-center justify-center">Order ID</div>
-              <div className=" flex items-center justify-start">Status</div>
-              <div className=" flex items-center justify-start">
-                Scheduled At
+              <div className="col-span-3 md:col-span-1 flex items-center justify-center">Order ID</div>
+              <div className="col-span-3 md:col-span-1 text-right flex items-center justify-center">Status</div>
+              <div className="hidden md:flex  items-center justify-start ">
+                Scheduled
               </div>
-              <div className=" flex items-center justify-start">
-                Picked Up At
+              <div className="hidden md:flex items-center justify-start">
+                Picked Up
               </div>
-              <div className=" flex items-center justify-start">
-                Delivery At
+              <div className="hidden md:flex items-center justify-start">
+                Delivery 
               </div>
-              <div className=" flex items-center justify-start">
-                Completed At
+              <div className="hidden md:flex items-center justify-start">
+                Completed 
               </div>
             </div>
             {!isLoading ? (

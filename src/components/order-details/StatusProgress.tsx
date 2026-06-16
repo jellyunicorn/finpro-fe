@@ -41,7 +41,7 @@ export default function StatusProgress({ status }: { status: OrderStatus }) {
       </div>
       <hr className="border-neutral-200" />
 
-      <div className="flex items-start overflow-x-auto  py-2">
+      <div className="grid-cols-4 grid gap-3 md:flex items-start overflow-x-auto  py-2">
         {STAGES.map((stage, idx) => {
           const isDone = !isCancelled && idx < currentIndex;
           const isActive = !isCancelled && idx === currentIndex;

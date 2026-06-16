@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import type { orderdata, orderitems } from "../../../lib/types";
 import { STATUS } from "../../../lib/statusLookup";
 import {
@@ -50,7 +50,7 @@ export default function OrderDetails() {
     return <p className="px-10 py-10 text-neutral-400">Order not found.</p>;
 
   return (
-    <main className=" flex-1 flex px-10 py-10 w-screen md:w-full md:max-w-300  flex-col gap-5">
+    <main className=" flex-1 flex px-5 py-5 md:px-10 md:py-10 md:w-full md:max-w-250  flex-col gap-5">
       <div className="flex items-start justify-between">
         <div className="flex flex-col ">
           <h1 className="text-2xl font-medium text-claundry-blue">
@@ -61,12 +61,13 @@ export default function OrderDetails() {
           </p>
         </div>
         <div className="flex gap-2">
-          <button
-            onClick={() => navigate(-1)}
-            className="text-md bg-claundry-blue  px-5 py-2 rounded-md text-white hover:bg-claundry-blue/60"
-          >
-            ← Back
-          </button>
+<Link to="/dashboard/user/orders">
+            <button
+              className="text-md bg-claundry-blue  px-5 py-2 rounded-md text-white hover:bg-claundry-blue/60"
+            >
+              ← Back
+            </button>
+</Link>
         </div>
       </div>
 
@@ -89,14 +90,14 @@ export default function OrderDetails() {
 
         <hr className="border-neutral-200" />
 
-        <div className="flex w-full justify-between items-center">
+        <div className="flex flex-col h-fit gap-5 md:flex-row w-full justify-between items-center">
           <div className="flex gap-2 items-center">
             <img src={location_icon} alt="" className="h-5" />
             <p className="font-medium text-claundry-blue">From:</p>
             <p>{order.address?.label ?? "-"}</p>
           </div>
-          <div className="flex relative items-center flex-1 mx-10">
-            <p className="absolute w-full flex justify-center text-sm text-neutral-400 [-webkit-text-stroke:5px_white] [paint-order:stroke_fill] z-5">
+          <div className="flex relative items-center  flex-1 mx-10">
+            <p className="absolute w-full  whitespace-nowrap flex justify-center text-sm text-neutral-400 [-webkit-text-stroke:5px_white] [paint-order:stroke_fill] z-5">
               {order.distance} KM
             </p>
             <div className="flex-1 h-px z-1 bg-neutral-300 relative" />
@@ -107,7 +108,7 @@ export default function OrderDetails() {
             <p>{order.outlet?.name ?? "-"}</p>
           </div>
         </div>
-        <div className="flex text-sm justify-between">
+        <div className="flex text-sm justify-between gap-5">
           <p className="text-neutral-400">
             {order.address?.address ?? "-"}, {order.address?.city}{" "}
             {order.address?.postalCode}
@@ -128,9 +129,9 @@ export default function OrderDetails() {
           <div className="w-full grid grid-cols-7 h-fit items-center text-sm px-5  text-claundry-blue ">
             <div className="col-span-3">item name</div>
             <div>Qty</div>
-            <div>Weight</div>
-            <div>Price/Pcs</div>
-            <div>Sub-Total</div>
+            <div><span className="hidden md:block">Weight</span></div>
+            <div><span className="hidden md:block">Price/Pcs</span></div>
+            <div><span className="whitespace-nowrap">Sub-Total</span></div>
           </div>
         </div>
         <hr className="border-neutral-200 mt-2" />

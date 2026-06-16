@@ -72,7 +72,7 @@ export default function MyAddresses() {
   };
 
   return (
-    <main className="relative flex-1 flex px-10 py-10 flex-col gap-5">
+    <main className="relative flex-1 flex px-5 py-5 md:px-10 md:py-10 flex-col gap-5">
       {/* //---------> edit menu */}
       <AddressEditMenu
         formMode={formMode}

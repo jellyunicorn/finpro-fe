@@ -19,7 +19,7 @@ export default function useCreateOrder() {
             err.response?.data?.message || "Failed to Create Order",
         },
       );
-      navigate("/dashboard");
+      navigate("/dashboard/user");
     } catch {}
   };
 
