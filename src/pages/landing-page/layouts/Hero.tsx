@@ -5,9 +5,9 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="w-full  relative h-dvh p-5 flex flex-col items-center gap-4 bg-[#BAD6F5]"
+      className="w-full  relative h-dvh  p-5 flex flex-col items-center gap-4 bg-[#BAD6F5]"
     >
-      <div className=" relative bg-white w-full h-dvh rounded-[20px] overflow-hidden flex">
+      <div className=" relative bg-white w-full h-full  rounded-[20px] overflow-hidden flex">
         <div className="absolute w-full h-full">
           <div
             aria-label="overlay"

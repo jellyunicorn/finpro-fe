@@ -67,7 +67,7 @@ export const router = createBrowserRouter([
         element: <UserDashboard />,
         children: [
           {
-            path: "user-profile",
+            path: "profile",
             element: <UserProfile />,
             loader: userDataLoader,
           },

@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { parseAsString, useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import location_icon from "../../../img/svg/address_blue.svg";
 import { axiosInstance } from "../../../lib/axios";
 import { STATUS } from "../../../lib/statusLookup";
@@ -198,12 +198,11 @@ export default function OrderHistory() {
               {" "}
               {STATUS[order.orderStatus]?.label ?? order.orderStatus}
             </div>
-            <button
-              onClick={() => navigate(`/dashboard/orders/${order.orderId}`)}
-              className="bg-claundry-blue text-white px-2 py-1 rounded-full"
-            >
-              View Details
-            </button>
+            <Link to={`/dashboard/user/orders/${order.orderId}`}>
+              <button className="bg-claundry-blue text-white px-2 py-1 rounded-full">
+                View Details
+              </button>
+            </Link>
           </div>
         </div>
       ))}
