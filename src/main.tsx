@@ -41,6 +41,7 @@ import CreatePickup from "./pages/user-dashboard/layout/CreatePickup.tsx";
 import OrderDetails from "./pages/user-dashboard/layout/OrderDetails.tsx";
 import ResetPage from "./pages/login-register/layout/ResetPage.tsx";
 import WorkerDashboardOpenOrders from "./pages/worker-dashboard/WorkerDashboardOpenOrders.tsx";
+import AdminDashboardAttendance from "./pages/admin-dashboard/AdminDashboardAttendance.tsx";
 const queryClient = new QueryClient();
 
 export const router = createBrowserRouter([
@@ -133,7 +134,10 @@ export const router = createBrowserRouter([
       {
         path: "admin",
         element: <AdminDashboard />,
-        children: [{ path: "settings", element: <AdminDashboardSettings /> }],
+        children: [
+          { path: "attendance-log", element: <AdminDashboardAttendance /> },
+          { path: "settings", element: <AdminDashboardSettings /> },
+        ],
       },
     ],
   },

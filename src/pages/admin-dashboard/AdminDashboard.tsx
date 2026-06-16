@@ -5,19 +5,29 @@ import logo_home from "../../img/svg/home_menu_icon.svg";
 import logo_home_blue from "../../img/svg/home_menu_icon_blue.svg";
 import logo_settings from "../../img/svg/settings_menu_icon.svg";
 import logo_settings_blue from "../../img/svg/settings_menu_icon_blue.svg";
+import { useState } from "react";
 
 export default function AdminDashboard() {
   const outlet = useOutlet();
+  const [minimize, setMinimize] = useState(false);
 
   return (
     <div className="w-full font-dmsans h-dvh bg-[#FBFDFF] flex">
       <SideBar
+        minimize={minimize}
+        setMinimize={setMinimize}
         menuItems={[
           {
             icon: logo_home,
             iconDark: logo_home_blue,
             label: "Dashboard",
             to: "",
+          },
+          {
+            icon: logo_home,
+            iconDark: logo_home_blue,
+            label: "Attendance",
+            to: "attendance-log",
           },
           {
             icon: logo_settings,
