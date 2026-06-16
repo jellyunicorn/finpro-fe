@@ -24,7 +24,7 @@ export default function SideBarMenu({
   return (
     <div className="w-full">
       <Link to={to} className="flex items-center gap-5 flex-1">
-        <div className="group rounded-lg relative hover:bg-claundry-blue h-15 w-full px-5 flex items-center gap-5">
+        <div title={`${label}`} className="group rounded-lg relative hover:bg-claundry-blue h-15 w-full px-5 flex items-center gap-5">
           <img src={icon} alt={`${label}-icon`} className="h-5" />
           <img
             src={iconDark}
@@ -32,7 +32,7 @@ export default function SideBarMenu({
             className="absolute h-5 group-hover:opacity-0"
           />
           {!minimize && (
-            <span className="font-dmsans group-hover:text-white font-medium text-claundry-blue text-lg">
+            <span title={`${label}`} className="font-dmsans group-hover:text-white font-medium text-claundry-blue text-lg">
               {label}
             </span>
           )}

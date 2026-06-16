@@ -4,19 +4,21 @@ import swoosh from "../../../img/svg/strokes.svg";
 export default function OurService() {
   return (
     <section className="w-full h-fit bg-[#F5F5F0] ">
-      <div className="w-full  gap-20 h-fit flex flex-col  justify-start items-start py-20 container mx-auto px-35">
-        <h1 className="text-7xl text-claundry-blue font-medium">Our Services</h1>
-        <article className=" grid grid-cols-2 w-full h-110 gap-5 rounded-2xl">
+      <h1 className="text-5xl text-left container mx-auto px-35 pt-20 lg:text-7xl text-claundry-blue font-medium">
+        Our Services
+      </h1>
+      <div className="w-full  gap-30 h-fit flex flex-col  justify-start items-start py-20 container mx-auto px-10 lg:px-35">
+        <article className=" grid lg:grid-cols-2 w-full h-fit gap-10 rounded-2xl">
           <div className=" rounded-2xl bg-neutral-300  relative">
             <img
               src={cloudimages.icon_wash_1}
               alt="wash-fold-icon"
-              className="absolute -top-20 -left-20 z-1 w-40"
+              className="absolute -top-10 -left-10 lg:-top-15 lg:-left-15 z-1 w-20 lg:w-25"
             />
             <img
               src={cloudimages.icon_wash_2}
               alt="wash-fold-icon"
-              className="absolute -bottom-10 -right-10 z-1 w-30"
+              className="absolute -bottom-5  -right-5  z-1 w-15 lg:w-25"
             />
             <div className="w-full h-full overflow-hidden rounded-2xl">
               <img
@@ -26,7 +28,7 @@ export default function OurService() {
               />
             </div>
           </div>
-          <div className=" flex flex-col  gap-5 justify-between ">
+          <div className=" flex flex-col gap-5 justify-between ">
             <div className="text-claundry-blue">
               <div className="relative ">
                 <h2 className="text-4xl relative z-1 font-medium ">
@@ -42,7 +44,7 @@ export default function OurService() {
                 Effortless laundry care, designed for busy lives.
               </p>
             </div>
-            <div className="flex gap-5">
+            <div className="flex flex-col md:flex-row gap-5">
               <div>
                 <h3 className="text-claundry-blue font-bold text-lg">
                   Professional cleaning care
@@ -63,39 +65,35 @@ export default function OurService() {
                 </p>
               </div>
             </div>
-            <div className="w-full flex justify-end">
-              {" "}
-              <button className=" w-fit px-5 py-5 rounded-xl text-white bg-claundry-blue">
-                SCHEDULE PICKUP
-              </button>
-            </div>
           </div>
         </article>
-        <article className=" grid grid-cols-2 w-full h-110 gap-5 rounded-2xl">
+        <article className=" grid lg:grid-cols-2 w-full h-fit gap-10 rounded-2xl">
           <div className=" rounded-2xl bg-neutral-300 relative ">
-             <img
+            <img
               src={cloudimages.icon_dryclean_2}
               alt="wash-fold-icon"
-              className="absolute -top-5 right-5 z-1 w-20"
+              className="absolute -top-10 -right-5 z-1 w-20"
             />
             <img
               src={cloudimages.icon_dryclean_1}
               alt="wash-fold-icon"
-              className="absolute -bottom-10 -left-10 z-1 w-30"/>
-<div className="relative w-full h-full rounded-2xl overflow-hidden">
-                <img
-                  src={cloudimages.dryclean}
-                  alt="wash-fold"
-                  className="object-cover w-full h-full object-center scale-150"
-                />
-</div>
+              className="absolute -bottom-5 -left-5 z-1 w-20"
+            />
+            <div className="relative w-full h-full rounded-2xl overflow-hidden">
+              <img
+                src={cloudimages.dryclean}
+                alt="wash-fold"
+                className="object-cover w-full h-full object-center scale-150"
+              />
+            </div>
           </div>
           <div className=" flex flex-col  gap-5 justify-between ">
             <div className="text-claundry-blue">
               <div className="relative w-fit">
                 {" "}
-
-                <h2 className="text-4xl font-medium relative z-1">Premium Dry Cleaning</h2>
+                <h2 className="text-4xl font-medium relative z-1 whitespace-nowrap">
+                  Premium Dry Cleaning
+                </h2>
                 <img
                   src={swoosh}
                   alt="wash-fold-icon"
@@ -103,10 +101,10 @@ export default function OurService() {
                 />
               </div>
               <p className="text-lg relative z-1">
-                Expert garmnet care, tailored for your lifestyle.
+                Expert garment care, tailored for your lifestyle.
               </p>
             </div>
-            <div className="flex gap-5">
+            <div className="flex flex-col md:flex-row gap-10">
               <div>
                 <h3 className="text-claundry-blue font-bold text-lg">
                   Expert cleaning and stain removal{" "}
@@ -126,12 +124,6 @@ export default function OurService() {
                   wear.
                 </p>
               </div>
-            </div>
-            <div className="w-full flex justify-end">
-              {" "}
-              <button className=" w-fit px-5 py-5 rounded-xl text-white bg-claundry-blue">
-                SCHEDULE PICKUP
-              </button>
             </div>
           </div>
         </article>

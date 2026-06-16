@@ -13,7 +13,7 @@ export default function Navbar() {
 
   return (
     <div className="w-full h-fit fixed z-10 flex justify-center">
-      <div className="text-white border border-neutral-50/10 font-dmsans  z-10 inset-x-0 mt-8 mx-10 py-5 rounded-full px-8 w-[35%] transition-all ease-in-out bg-white/10 backdrop-blur-sm ">
+      <div className="text-white border border-neutral-50/10 font-dmsans  z-10 inset-x-0 mt-8 mx-10 py-5 rounded-full px-8 w-[100%] lg:w-[35%] transition-all ease-in-out bg-white/10 backdrop-blur-sm ">
         <nav className=" flex justify-between max-h-10 items-center h-6">
           <div className="relative flex ">
             <img
@@ -46,7 +46,7 @@ export default function Navbar() {
           {user && (
             <Link to="/dashboard">
               <button className="flex items-center gap-2 hover:underline hover:text-blue-300 hover:cursor-pointer animate-text-color">
-                <p>Hi , {user.fullName} </p>
+                <p className="hidden md:block">Hi , {user.fullName} </p>
                 <div className="h-8 w-8 rounded-full bg-neutral-200 overflow-hidden">
                   <img src={user.avatar} referrerPolicy="no-referrer" alt="" className="object-cover h-full w-full" />
                 </div>

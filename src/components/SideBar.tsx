@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { type Dispatch, type SetStateAction } from "react";
 import { Link } from "react-router";
+import useLogout from "../hooks/useLogout";
 import logo_logout from "../img/svg/logout_logo.svg";
 import logo_blue from "../img/svg/main_logo_blue.svg";
 import logo_sidebar from "../img/svg/sidebar_icon.svg";
-import SideBarMenu from "./SideBarMenu";
-import useLogout from "../hooks/useLogout";
 import { useLoginStore } from "../store/useAppStore";
+import SideBarMenu from "./SideBarMenu";
 
 type MenuItem = {
   icon: string;
@@ -16,11 +16,16 @@ type MenuItem = {
 };
 
 type SideBarProps = {
+  minimize:boolean,
+  setMinimize:Dispatch<SetStateAction<boolean>>;
   menuItems: MenuItem[];
 };
 
-export default function SideBar({ menuItems }: SideBarProps) {
-  const [minimize, setMinimize] = useState<boolean>(false);
+export default function SideBar({
+  minimize,
+  setMinimize,
+  menuItems,
+}: SideBarProps) {
   const handleLogout = useLogout();
   const user = useLoginStore((state) => state.user);
 
@@ -47,7 +52,7 @@ export default function SideBar({ menuItems }: SideBarProps) {
           )}
           <button
             onClick={() => setMinimize(!minimize)}
-            className={`${minimize && "rotate-180"} w-7 h-7 flex items-center justify-center hover:cursor-pointer`}
+            className={`${minimize && "rotate-180"} w-7 h-7  items-center justify-center hidden md:flex hover:cursor-pointer`}
           >
             <img src={logo_sidebar} alt="sidebar-toggle" className="max-h-8" />
           </button>

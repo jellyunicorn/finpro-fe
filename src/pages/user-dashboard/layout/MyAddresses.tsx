@@ -14,7 +14,7 @@ export default function MyAddresses() {
   const updateAddress = useUpdateAddress();
   const createAddress = useCreateAddress();
   const deleteAddress = useDeleteAddress();
-  const addresses  = useLoaderData();
+  const addresses = useLoaderData();
   const [hoveredId, setHoveredId] = useState<number | null>();
   const [formMode, setFormMode] = useState<"edit" | "create" | null>(null);
   const [primaryId, setPrimaryId] = useState<number>(
@@ -47,6 +47,7 @@ export default function MyAddresses() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setFormMode(null);
+        setConfirmDelete(false);
       }
     };
 
@@ -94,21 +95,28 @@ export default function MyAddresses() {
           Manage your saved and default addresses here
         </p>
       </div>
-      <div className=" p-4 w-full lg:max-w-[70%] flex gap-5 h-fit border border-blue-300 rounded-lg">
+      <div className=" p-4 w-full  max-w-275 flex gap-5 h-fit border border-blue-300 rounded-lg">
         <h2 className="text-claundry-blue">Primary Address</h2>
-        <div className="flex flex-col gap-2">
-          <p className="px-2 bg-[#BEE6E1] text-blue-800 w-fit rounded-full">
-            {primaryAddress?.label}
-          </p>
-          <p>
-            {primaryAddress?.address} , {primaryAddress?.postalCode}
-          </p>
-          <p> {primaryAddress?.city}</p>
-        </div>
+        {primaryAddress ? (
+          <div className="flex flex-col gap-2">
+            <p className="px-2 bg-[#BEE6E1] text-blue-800 w-fit rounded-full">
+              {primaryAddress?.label ?? "-"}
+            </p>
+            <p>
+              {primaryAddress?.address ?? "-"} ,{" "}
+              {primaryAddress?.postalCode ?? "-"}
+            </p>
+            <p> {primaryAddress?.city ?? "-"}</p>
+          </div>
+        ) : (
+          <div className="bg-red-100 text-red-500 px-5 py-2 rounded-md w-full flex items-center" >
+            <p > No Primary Address is Assigned</p>
+          </div>
+        )}
       </div>
       <h2 className="text-claundry-blue">Other Addresses</h2>
-      <div className="  w-full lg:max-w-[70%] flex flex-col gap-2 h-fit ">
-        <div className="grid grid-cols-3 gap-5  ">
+      <div className="  w-full max-w-275 flex flex-col gap-2 h-fit ">
+        <div className="grid md:grid-cols-3 gap-5  ">
           {otherAddress.map((adrs: addressdata, idx: number) => (
             <div
               key={idx}
