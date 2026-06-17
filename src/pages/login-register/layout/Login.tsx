@@ -1,9 +1,8 @@
 import { Link, useNavigate } from "react-router";
 import useLogin from "../../../hooks/useLogin";
+import useLoginGoogle from "../../../hooks/useLoginGoogle";
 import googleLogo from "../../../img/svg/google_logo.svg";
 import mainLogo from "../../../img/svg/main_logo_blue.svg";
-import { cloudimages } from "../../../lib/cloudinary";
-import useLoginGoogle from "../../../hooks/useLoginGoogle";
 
 export default function Login() {
   const navigate = useNavigate();

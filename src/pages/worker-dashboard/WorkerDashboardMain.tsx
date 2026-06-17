@@ -1,10 +1,13 @@
 import { useState } from "react";
-import Pagination from "../../components/Pagination";
 import useClockIn from "../../hooks/useClockIn";
 import useClockOut from "../../hooks/useClockOut";
 import useGetAttendanceLog from "../../hooks/useGetAttendanceLog";
+import { cloudimages } from "../../lib/cloudinary";
+import { todaysdate } from "../../utils/todaysdateUtils";
+import Pagination from "../../components/Pagination";
+import type { Attendance } from "../../types/attendance";
 
-export default function DriverDashboardAttendance() {
+export default function WorkerDashboardMain() {
   const [page, setPage] = useState(1);
   const { mutateAsync: clockInMutation } = useClockIn();
   const { mutateAsync: clockOutMutation } = useClockOut();
@@ -19,10 +22,13 @@ export default function DriverDashboardAttendance() {
   };
 
   return (
-    <div className="p-6">
-      <div className="bg-white shadow rounded-lg p-4 mb-6 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-gray-700">Attendance</h2>
-        <div className="space-x-2">
+    <div className="p-6 flex flex-col gap-6 mt-4">
+      <div className="h-50  w-full z-2 relative flex flex-col gap-1  p-10 items-center justify-center">
+        <p>{todaysdate}</p>
+        <h1 className="text-4xl z-2 text-claundry-blue max-w-150 text-center">
+          Hallo Workers!
+        </h1>
+        <div className="flex gap-4 items-center justify-center mt-6">
           <button
             onClick={handleClockIn}
             className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white transition"
@@ -31,11 +37,16 @@ export default function DriverDashboardAttendance() {
           </button>
           <button
             onClick={handleClockOut}
-            className="px-4 py-2 rounded bg-red-600 hover:bg-red-700 text-white transition"
+            className="px-4 py-2 rounded border border-red-600 hover:bg-red-600 text-red-600 hover:text-white transition"
           >
             Clock Out
           </button>
         </div>
+        <img
+          src={cloudimages.dashboard_img}
+          alt=""
+          className="h-full absolute right-0 mr-10"
+        />
       </div>
 
       <div className="bg-white shadow rounded-lg p-4">
@@ -46,7 +57,7 @@ export default function DriverDashboardAttendance() {
           <p className="text-gray-500 text-sm">Loading...</p>
         ) : attendanceLog && attendanceLog.data.length > 0 ? (
           <ul className="space-y-2 text-gray-600 text-sm">
-            {attendanceLog.data.map((entry: any) => (
+            {attendanceLog.data.map((entry: Attendance) => (
               <li key={entry.id} className="grid grid-cols-4 gap-2">
                 <span>{new Date(entry.startTime).toLocaleString()}</span>
                 <span className="text-green-600 font-medium">Clock In</span>

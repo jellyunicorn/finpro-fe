@@ -13,7 +13,6 @@ type AddressMapProps = {
 export default function AddressMap({
   longitude,
   latitude,
-  addressForm,
   setAddressForm,
 }: AddressMapProps) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);

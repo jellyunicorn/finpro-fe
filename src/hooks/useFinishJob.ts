@@ -24,7 +24,7 @@ export function useFinishJob() {
       queryClient.invalidateQueries({ queryKey: ["activeJobs"] });
       toast.success(data.message || "Job finished!");
     },
-    onError: (error) => {
+    onError: () => {
       toast.error("Something went wrong!");
     },
   });
