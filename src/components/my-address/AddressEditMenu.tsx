@@ -121,6 +121,7 @@ export default function AddressEditMenu({
 
   const regencyCode = watch("regencyCode");
   const districtCode = watch("districtCode");
+  const villageCode = watch("villageCode");
 
   const onSubmit = (data: AddressFormValues) => {
     const merged: addressform = {
@@ -288,7 +289,7 @@ export default function AddressEditMenu({
               <label className="text-sm text-neutral-600">Village</label>
               <div className="border border-neutral-300 rounded-lg px-3 py-2">
                 <select
-                  {...register("villageCode")}
+                  value={villageCode || ""}
                   onChange={(e) => {
                     setValue("villageCode", e.target.value, {
                       shouldValidate: true,
