@@ -1,5 +1,6 @@
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import type { Feature, FeatureCollection } from "geojson";
 import { useEffect, useRef } from "react";
 import useFindClosest from "../../hooks/useFindClosest";
 import type {
@@ -58,7 +59,7 @@ export default function MapComponent({
     const map = mapRef.current;
     if (!map || !selectedAddress) return;
 
-    const newData: GeoJSON.FeatureCollection = {
+    const newData: FeatureCollection = {
       type: "FeatureCollection",
       features: [
         {
@@ -165,7 +166,7 @@ export default function MapComponent({
     if (!map || !selectedAddress || !chosenoutlet?.lng || !chosenoutlet?.lat)
       return;
 
-    const routeData: GeoJSON.Feature = {
+    const routeData: Feature = {
       type: "Feature",
       geometry: {
         type: "LineString",
