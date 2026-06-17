@@ -14,7 +14,6 @@ import AdminDashboard from "./pages/admin-dashboard/AdminDashboard.tsx";
 import AdminDashboardAttendance from "./pages/admin-dashboard/AdminDashboardAttendance.tsx";
 import AdminDashboardSettings from "./pages/admin-dashboard/AdminDashboardSettings.tsx";
 import DriverDashboard from "./pages/driver-dashboard/DriverDashboard.tsx";
-import DriverDashboardAttendance from "./pages/driver-dashboard/DriverDashboardAttendance.tsx";
 import DriverDashboardDeliveries from "./pages/driver-dashboard/DriverDashboardDeliveries.tsx";
 import DriverDashboardDeliveryHistory from "./pages/driver-dashboard/DriverDashboardDeliveryHistory.tsx";
 import DriverDashboardSettings from "./pages/driver-dashboard/DriverDashboardSettings.tsx";
@@ -35,7 +34,6 @@ import Settings from "./pages/user-dashboard/layout/Settings.tsx";
 import UserProfile from "./pages/user-dashboard/layout/UserProfile.tsx";
 import UserDashboard from "./pages/user-dashboard/UserDashboard.tsx";
 import WorkerDashboard from "./pages/worker-dashboard/WorkerDashboard.tsx";
-import WorkerDashboardAttendance from "./pages/worker-dashboard/WorkerDashboardAttendance.tsx";
 import WorkerDashboardOpenOrders from "./pages/worker-dashboard/WorkerDashboardOpenOrders.tsx";
 import WorkerDashboardOrderHistory from "./pages/worker-dashboard/WorkerDashboardOrderHistory.tsx";
 import WorkerDashboardOrders from "./pages/worker-dashboard/WorkerDashboardOrders.tsx";
@@ -103,7 +101,6 @@ export const router = createBrowserRouter([
         element: <DriverDashboard />,
         loader: authLoader(["DRIVER"]),
         children: [
-          { path: "attendance", element: <DriverDashboardAttendance /> },
           { path: "deliveries", element: <DriverDashboardDeliveries /> },
           {
             path: "deliveries/history",
@@ -121,7 +118,6 @@ export const router = createBrowserRouter([
         element: <WorkerDashboard />,
         loader: authLoader(["WORKER"]),
         children: [
-          { path: "attendance", element: <WorkerDashboardAttendance /> },
           { path: "orders", element: <WorkerDashboardOrders /> },
           { path: "orders/open", element: <WorkerDashboardOpenOrders /> },
           { path: "orders/history", element: <WorkerDashboardOrderHistory /> },
