@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useOutlet } from "react-router";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import SideBar from "../../components/SideBar";
@@ -5,10 +6,11 @@ import logo_home from "../../img/svg/home_menu_icon.svg";
 import logo_home_blue from "../../img/svg/home_menu_icon_blue.svg";
 import logo_settings from "../../img/svg/settings_menu_icon.svg";
 import logo_settings_blue from "../../img/svg/settings_menu_icon_blue.svg";
-import WorkerDashboardStats from "./WorkerDashboardStats";
+import WorkerDashboardMain from "./WorkerDashboardMain";
 
 export default function WorkerDashboard() {
   const outlet = useOutlet();
+  const [minimize, setMinimize] = useState(false);
 
   const menuItems = [
     {
@@ -30,7 +32,7 @@ export default function WorkerDashboard() {
       to: "orders",
       children: [
         { label: "Open", to: "orders/open" },
-        { label: "History", to: "orders/history" }
+        { label: "History", to: "orders/history" },
       ],
     },
     {
@@ -38,18 +40,21 @@ export default function WorkerDashboard() {
       iconDark: logo_settings_blue,
       label: "Settings",
       to: "settings",
-      children: [{ label: "Change Password", to: "settings/change-password" }],
     },
   ];
 
   return (
     <div className="w-full font-dmsans h-dvh bg-[#FBFDFF] flex">
-      <SideBar menuItems={menuItems} />
+      <SideBar
+        menuItems={menuItems}
+        minimize={minimize}
+        setMinimize={setMinimize}
+      />
       <div className="  h-full flex flex-col flex-1">
         <div className="border-b border-[#BAD6F5] text-neutral-400 font-medium w-full h-16 flex items-center px-10">
           <Breadcrumbs />
         </div>
-        {outlet || <WorkerDashboardStats />}
+        {outlet || <WorkerDashboardMain />}
       </div>
     </div>
   );

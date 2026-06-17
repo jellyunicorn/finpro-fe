@@ -2,10 +2,9 @@ import { useState } from "react";
 import { z } from "zod";
 import { Link, useNavigate } from "react-router";
 import useLogin from "../../../hooks/useLogin";
+import useLoginGoogle from "../../../hooks/useLoginGoogle";
 import googleLogo from "../../../img/svg/google_logo.svg";
 import mainLogo from "../../../img/svg/main_logo_blue.svg";
-import { cloudimages } from "../../../lib/cloudinary";
-import useLoginGoogle from "../../../hooks/useLoginGoogle";
 
 const loginSchema = z.object({
   email: z.email("Invalid email address"),

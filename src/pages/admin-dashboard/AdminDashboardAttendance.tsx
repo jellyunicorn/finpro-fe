@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
 import useGetOutletAttendance from "../../hooks/useGetOutletAttendance";
+import { Link } from "react-router";
 
 export default function AdminDashboardAttendance() {
   const [page, setPage] = useState(1);
@@ -35,7 +36,7 @@ export default function AdminDashboardAttendance() {
                 <React.Fragment key={employee.id}>
                   <tr className="border-t hover:bg-[#F3F8FE] transition-colors">
                     <td className="p-4 font-medium text-claundry-blue">
-                      {employee.fullName}
+                      <Link to={`${employee.id}`}>{employee.fullName}</Link>
                     </td>
                     <td className="p-4 text-sm text-gray-600">
                       {employee.attendance.length}
