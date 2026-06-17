@@ -11,6 +11,7 @@ import DriverDashboardMain from "./DriverDashboardMain";
 export default function DriverDashboard() {
   const outlet = useOutlet();
   const [minimize, setMinimize] = useState(false);
+  const [mobileMenu, setMobileMenu] = useState<boolean>(false);
 
   const menuItems = [
     {
@@ -40,6 +41,8 @@ export default function DriverDashboard() {
         menuItems={menuItems}
         minimize={minimize}
         setMinimize={setMinimize}
+        mobilemenu={mobileMenu}
+        setMobileMenu={setMobileMenu}
       />
       <div className="  h-full flex flex-col flex-1">
         <div className="border-b border-[#BAD6F5] text-neutral-400 font-medium w-full h-16 flex items-center px-10">

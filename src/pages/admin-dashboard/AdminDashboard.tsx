@@ -10,12 +10,15 @@ import { useState } from "react";
 export default function AdminDashboard() {
   const outlet = useOutlet();
   const [minimize, setMinimize] = useState(false);
+  const [mobileMenu, setMobileMenu] = useState<boolean>(false);
 
   return (
     <div className="w-full font-dmsans h-dvh bg-[#FBFDFF] flex">
       <SideBar
         minimize={minimize}
         setMinimize={setMinimize}
+        mobilemenu={mobileMenu}
+        setMobileMenu={setMobileMenu}
         menuItems={[
           {
             icon: logo_home,
