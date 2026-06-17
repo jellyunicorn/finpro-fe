@@ -1,17 +1,23 @@
 import { useState } from "react";
 import useGetAvailableJobs from "../../hooks/useGetAvailableJobs";
-import type { AvailableJob } from "../../types/availableJob";
-import { removeDate, removeTime } from "../../utils/dateconverUtils";
-import Popup from "../../components/Popup";
-import Pagination from "../../components/Pagination";
-import ConfirmItemsForm from "../../components/worker-dashboard/ConfirmItemsForm";
 import { useBeginJob } from "../../hooks/useBeginJob";
+import type { AvailableJob } from "../../types/availableJob";
+import type { OrderItem } from "../../types/orderItem";
+import Pagination from "../../components/Pagination";
+import JobTable from "../../components/worker-dashboard/job-requests/JobTable";
+import JobCardList from "../../components/worker-dashboard/job-requests/JobCardList";
+import JobInputPopup from "../../components/worker-dashboard/job-requests/JobInputPopup";
+import JobReviewPopup from "../../components/worker-dashboard/job-requests/JobReviewPopup";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function WorkerDashboardOpenOrders() {
   const [openInputPopup, setOpenInputPopup] = useState(false);
+  const [openReviewPopup, setOpenReviewPopup] = useState(false);
   const [selectedJob, setSelectedJob] = useState<AvailableJob | null>(null);
+  const [pendingItems, setPendingItems] = useState<OrderItem[]>([]);
   const [page, setPage] = useState(1);
-  const { data: availableJobs } = useGetAvailableJobs(page);
+
+  const { data: availableJobs, isLoading } = useGetAvailableJobs(page);
   const { mutateAsync: beginJob } = useBeginJob();
 
   const handleAcceptClick = (job: AvailableJob) => {
@@ -19,84 +25,78 @@ export default function WorkerDashboardOpenOrders() {
     setOpenInputPopup(true);
   };
 
-  const handleSubmitJob = async (values: {
-    items: { id: number; quantity: number }[];
-  }) => {
+  const handleSubmitItems = (values: { items: OrderItem[] }) => {
+    setPendingItems(values.items);
+    setOpenInputPopup(false);
+    setOpenReviewPopup(true);
+  };
+
+  const handleConfirmJob = async () => {
     if (!selectedJob) return;
 
-    const items = values.items.map((i) => ({
-      itemId: i.id,
-      quantity: i.quantity,
+    const items = pendingItems.map((item) => ({
+      itemId: item.id,
+      quantity: item.quantity,
     }));
 
     await beginJob({ jobId: selectedJob.jobId, items });
 
-    setOpenInputPopup(false);
+    setOpenReviewPopup(false);
+    setSelectedJob(null);
+    setPendingItems([]);
   };
 
   return (
-    <div className="p-8 font-dmsans">
-      <h1 className="text-2xl font-semibold text-claundry-blue mb-6">
+    <div className="p-6 sm:p-8 font-dmsans">
+      <h1 className="text-xl sm:text-2xl font-semibold text-claundry-blue mb-6">
         Open Jobs
       </h1>
 
-      <div className="bg-white shadow rounded-lg border border-[#BAD6F5] pb-3">
-        <table className="w-full text-left border-collapse">
-          <thead className="bg-[#BAD6F5] text-claundry-blue">
-            <tr>
-              <th className="p-4">Job ID</th>
-              <th className="p-4">Station</th>
-              <th className="p-4">Date</th>
-              <th className="p-4">Time Created</th>
-              <th className="p-4">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {availableJobs &&
-              availableJobs.data.map((job: AvailableJob) => (
-                <tr
-                  key={job.jobId}
-                  className="border-t hover:bg-[#F3F8FE] transition-colors"
-                >
-                  <td className="p-4 font-medium text-claundry-blue">
-                    {job.jobId}
-                  </td>
-                  <td className="p-4">{job.station}</td>
-                  <td className="p-4">{removeTime(job.createdAt)}</td>
-                  <td className="p-4">{removeDate(job.createdAt)}</td>
-                  <td className="p-4">
-                    <button
-                      onClick={() => handleAcceptClick(job)}
-                      className="px-3 py-1 rounded text-sm bg-claundry-blue text-white hover:bg-blue-700"
-                    >
-                      Accept
-                    </button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-        {availableJobs && (
+      <p className="text-gray-500">
+        No jobs available at the moment.
+      </p>
+
+      {isLoading && (
+        <div className="flex items-center justify-center">
+          <LoadingSpinner />
+        </div>
+      )}
+
+      {availableJobs && availableJobs.data.length > 0 && (
+        <div className="bg-white shadow rounded-lg border border-[#BAD6F5] pb-3">
+          <JobTable jobs={availableJobs.data} onAccept={handleAcceptClick} />
+          <JobCardList jobs={availableJobs.data} onAccept={handleAcceptClick} />
           <Pagination
             currentPage={availableJobs.meta.page}
             totalPages={Math.ceil(
               availableJobs.meta.total / availableJobs.meta.take,
             )}
-            onPageChange={(pg) => setPage(pg)}
+            onPageChange={setPage}
           />
-        )}
-      </div>
+        </div>
+      )}
 
       {selectedJob && (
-        <Popup open={openInputPopup} onClose={() => setOpenInputPopup(false)}>
-          <p className="absolute top-1 left-1 p-2">
-            Please input item quantities
-          </p>
-          <ConfirmItemsForm
-            orderItems={{ items: selectedJob.orderItems }}
-            onSubmit={handleSubmitJob}
-          />
-        </Popup>
+        <JobInputPopup
+          open={openInputPopup}
+          job={selectedJob}
+          onClose={() => setOpenInputPopup(false)}
+          onSubmit={handleSubmitItems}
+        />
+      )}
+
+      {selectedJob && (
+        <JobReviewPopup
+          open={openReviewPopup}
+          job={selectedJob}
+          items={pendingItems}
+          onClose={() => setOpenReviewPopup(false)}
+          onConfirm={handleConfirmJob}
+          onBack={() => {
+            setOpenReviewPopup(false);
+            setOpenInputPopup(true);
+          }}
+        />
       )}
     </div>
   );

@@ -6,6 +6,8 @@ import logo_home from "../../img/svg/home_menu_icon.svg";
 import logo_home_blue from "../../img/svg/home_menu_icon_blue.svg";
 import logo_settings from "../../img/svg/settings_menu_icon.svg";
 import logo_settings_blue from "../../img/svg/settings_menu_icon_blue.svg";
+import logo_jobs from "../../img/svg/jobs_logo.svg";
+import logo_jobs_blue from "../../img/svg/jobs_logo_blue.svg";
 import WorkerDashboardMain from "./WorkerDashboardMain";
 
 export default function WorkerDashboard() {
@@ -21,14 +23,8 @@ export default function WorkerDashboard() {
       to: "",
     },
     {
-      icon: logo_home,
-      iconDark: logo_home_blue,
-      label: "Attendance",
-      to: "attendance",
-    },
-    {
-      icon: logo_home,
-      iconDark: logo_home_blue,
+      icon: logo_jobs,
+      iconDark: logo_jobs_blue,
       label: "Jobs",
       to: "orders",
       children: [
