@@ -1,5 +1,5 @@
-import { toReadableDateTime } from "../../utils/dateconverUtils";
 import { STATUS, type OrderStatus } from "../../lib/statusLookup";
+import TimeSummary from "./TimeSummary";
 
 type Props = {
   orderId: string;
@@ -24,27 +24,27 @@ export default function OrderSummaryData({
     <div
       className={` w-full h-13 text-sm  grid grid-cols-6 ${index % 2 == 0 && "bg-neutral-100"}`}
     >
-      <div className=" flex items-center justify-center">
+      <div className="col-span-3 md:col-span-1 flex items-center justify-center">
         <div className="w-30 line-clamp-1">{orderId}</div>
       </div>
-      <div className=" flex items-center justify-start ">
+      <div className="col-span-3 md:col-span-1 flex items-center justify-center ">
         <div
           className={`border px-2 py-1 rounded-full ${STATUS[status]?.color} `}
         >
           {STATUS[status]?.label ?? status}
         </div>
       </div>
-      <div className=" flex items-center justify-start">
-        {toReadableDateTime(schedule)}
+      <div className="hidden md:flex items-center justify-start">
+        <TimeSummary data={schedule}/>
       </div>
-      <div className=" flex items-center justify-start">
-        {toReadableDateTime(pick)}
+      <div className="hidden md:flex items-center justify-start">
+        <TimeSummary data={pick}/>
       </div>
-      <div className=" flex items-center justify-start">
-        {toReadableDateTime(delivery)}
+      <div className="hidden md:flex items-center justify-start">
+        <TimeSummary data={delivery}/>
       </div>
-      <div className=" flex items-center justify-start">
-        {toReadableDateTime(complete)}
+      <div className="hidden md:flex items-center justify-start">
+        <TimeSummary data={complete}/>
       </div>
     </div>
   );

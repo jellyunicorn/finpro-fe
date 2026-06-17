@@ -93,7 +93,7 @@ export default function AddressEditMenu({
       setRegCode(addressForm.regencyCode ?? "");
       setDisCode(addressForm.districtCode ?? "");
     }
-  }, [addressForm, reset]);
+  }, [addressForm?.id, formMode, reset]);
 
   const { data: regencydata } = useQuery<regencyquery[]>({
     queryKey: ["regency"],
@@ -121,6 +121,7 @@ export default function AddressEditMenu({
 
   const regencyCode = watch("regencyCode");
   const districtCode = watch("districtCode");
+  const villageCode = watch("villageCode");
 
   const onSubmit = (data: AddressFormValues) => {
     const merged: addressform = {
@@ -138,7 +139,7 @@ export default function AddressEditMenu({
       )}
 
       <div
-        className={`bg-white border-l ${!isEditing && "translate-x-full"} transition-all ease-in shadow-[-19px_0px_28px_0px_rgba(0,0,0,0.1)] border-blue-300 w-[50%] h-dvh overflow-y-auto p-10 right-0 top-0 z-10 flex flex-col gap-6 fixed`}
+        className={`bg-white border-l ${!isEditing && "translate-x-full"} transition-all ease-in shadow-[-19px_0px_28px_0px_rgba(0,0,0,0.1)] border-blue-300 md:w-[50%] h-dvh overflow-y-auto p-5 md:p-10 right-0 top-0 z-30 flex flex-col gap-6 fixed`}
       >
         {confirmDelete && (
           <DeletePopUp
@@ -153,7 +154,7 @@ export default function AddressEditMenu({
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-4 flex-1"
         >
-          <div className="flex justify-between   items-center">
+          <div className="flex  gap-5 justify-between   items-center">
             <div className="flex flex-col">
               <h1 className="text-2xl font-medium text-claundry-blue">
                 {formMode === "create" ? "Add New Address" : "Edit Address"}
@@ -165,21 +166,23 @@ export default function AddressEditMenu({
               </p>
             </div>
             <div className="flex gap-4">
-              <button
-                type="submit"
-                className=" bg-claundry-blue text-white rounded-md px-2 py-2 hover:bg-blue-700"
-              >
-                {formMode === "create" ? "Add New Address" : "Save Changes"}
-              </button>
-              {formMode === "edit" && (
+              <div className="hidden md:flex gap-4">
                 <button
-                  type="button"
-                  onClick={() => setConfirmDelete(true)}
-                  className="border rounded-md px-2 py-1.5 border-red-500 text-red-500 hover:bg-red-100"
+                  type="submit"
+                  className=" bg-claundry-blue text-white rounded-md px-2 py-2 hover:bg-blue-700"
                 >
-                  Delete Address
+                  {formMode === "create" ? "Add New Address" : "Save Changes"}
                 </button>
-              )}
+                {formMode === "edit" && (
+                  <button
+                    type="button"
+                    onClick={() => setConfirmDelete(true)}
+                    className="border rounded-md px-2 py-1.5 border-red-500 text-red-500 hover:bg-red-100"
+                  >
+                    Delete Address
+                  </button>
+                )}
+              </div>
               <button
               type="button"
                 onClick={() => setFormMode(null)}
@@ -286,7 +289,7 @@ export default function AddressEditMenu({
               <label className="text-sm text-neutral-600">Village</label>
               <div className="border border-neutral-300 rounded-lg px-3 py-2">
                 <select
-                  {...register("villageCode")}
+                  value={villageCode || ""}
                   onChange={(e) => {
                     setValue("villageCode", e.target.value, {
                       shouldValidate: true,
@@ -336,7 +339,25 @@ export default function AddressEditMenu({
               setAddressForm={setAddressForm}
             />
           </div>
+          
         </form>
+        <div className="md:hidden justify-between flex flex-col gap-4">
+                <button
+                  type="submit"
+                  className=" bg-claundry-blue text-white rounded-md px-2 py-2 hover:bg-blue-700"
+                >
+                  {formMode === "create" ? "Add New Address" : "Save Changes"}
+                </button>
+                {formMode === "edit" && (
+                  <button
+                    type="button"
+                    onClick={() => setConfirmDelete(true)}
+                    className="border rounded-md px-2 py-1.5 border-red-500 text-red-500 hover:bg-red-100"
+                  >
+                    Delete Address
+                  </button>
+                )}
+              </div>
       </div>
     </>
   );

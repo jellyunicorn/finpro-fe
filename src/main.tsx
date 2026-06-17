@@ -69,7 +69,11 @@ export const router = createBrowserRouter([
         element: <UserDashboard />,
         loader: authLoader(["USER"]),
         children: [
-          { path: "user-profile", element: <UserProfile />, loader: userDataLoader },
+          {
+            path: "profile",
+            element: <UserProfile />,
+            loader: userDataLoader,
+          },
           { path: "orders", element: <OrderHistory /> },
           { path: "orders/:orderId", element: <OrderDetails /> },
           { path: "pickup", element: <CreatePickup />, loader: userAddressLoader },

@@ -4,7 +4,7 @@ import swoosh from "../../../img/svg/strokes.svg";
 export default function OurService() {
   return (
     <section className="w-full h-fit bg-[#F5F5F0] ">
-      <h1 className="text-5xl text-left container mx-auto px-35 pt-20 lg:text-7xl text-claundry-blue font-medium">
+      <h1 className="text-5xl md:text-left text-center container mx-auto md:px-35 pt-20 lg:text-7xl text-claundry-blue font-medium">
         Our Services
       </h1>
       <div className="w-full  gap-30 h-fit flex flex-col  justify-start items-start py-20 container mx-auto px-10 lg:px-35">

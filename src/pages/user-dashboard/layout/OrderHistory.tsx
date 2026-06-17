@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { parseAsString, useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import location_icon from "../../../img/svg/address_blue.svg";
 import { axiosInstance } from "../../../lib/axios";
 import { STATUS } from "../../../lib/statusLookup";
@@ -57,7 +57,7 @@ export default function OrderHistory() {
   }, [searchQuery]);
 
   return (
-    <main className=" flex-1 flex px-10 py-10  w-screen flex-col gap-5  w-full max-w-300">
+    <main className=" flex-1 flex px-5 py-5 md:px-10 md:py-10  flex-col gap-5  w-full max-w-300">
       <div className="flex flex-col w-full">
         <h1 className="text-2xl font-medium text-claundry-blue">
           Order History
@@ -162,7 +162,7 @@ export default function OrderHistory() {
             <div className="flex  flex-1 ">
               <div className="flex relative items-center flex-1 mx-10">
                 <p className="md:absolute  w-full flex justify-center text-sm text-neutral-400 [-webkit-text-stroke:5px_white] [paint-order:stroke_fill] z-5">
-                  {order.distance} KM
+                  {Number(order.distance).toFixed(2)} KM
                 </p>
                 {order.orderStatus === "OTW_TO_CUSTOMER" && (
                   <div className="w-0 h-0 border-y-4 border-y-transparent border-r-8 relative border-r-neutral-300" />
@@ -198,12 +198,11 @@ export default function OrderHistory() {
               {" "}
               {STATUS[order.orderStatus]?.label ?? order.orderStatus}
             </div>
-            <button
-              onClick={() => navigate(`/dashboard/orders/${order.orderId}`)}
-              className="bg-claundry-blue text-white px-2 py-1 rounded-full"
-            >
-              View Details
-            </button>
+            <Link to={`/dashboard/user/orders/${order.orderId}`}>
+              <button className="bg-claundry-blue text-white px-2 py-1 rounded-full">
+                View Details
+              </button>
+            </Link>
           </div>
         </div>
       ))}

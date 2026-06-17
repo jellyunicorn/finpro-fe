@@ -7,7 +7,7 @@ export default function WhoWeAre() {
         <h1 className="text-4xl lg:text-5xl text-center text-claundry-blue w-[85%] font-medium">
           Effortless laundry care, designed for busy lives.
         </h1>
-        <img src={cloudimages.whoWeAre} alt="who-we-are" className="w-100" />
+        <img src={cloudimages.whoWeAre} alt="who-we-are" className="w-70 lg:w-100" />
       </div>
       <div className=" h-full max-h-125 w-full lg:py-20 px-10 pb-20 lg:px-20 flex justify-start  items-center flex-col">
         <article className=" w-full lg:max-w-100 flex flex-col gap-5">

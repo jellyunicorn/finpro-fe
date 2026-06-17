@@ -82,7 +82,7 @@ useEffect(() => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
   return (
-    <main className=" relative flex-1 flex px-10 py-10 flex-col min-h-full gap-5 ">
+    <main className=" relative flex-1 flex px-5 md:px-10 py-10 flex-col  w-screen md:w-full min-h-full gap-5 ">
       {/* //------> */}
 
       {isReset && (
@@ -114,8 +114,8 @@ useEffect(() => {
         </div>
         <hr className="border-neutral-400" />
       </div>
-      <div className="flex w-fit  gap-10">
-        <div className="w-40 min-w-40 flex flex-col gap-5 items-center ">
+      <div className="flex flex-col md:flex-row w-full flex-1   items-center gap-10">
+        <div className="w-40 min-w-40 flex flex-col gap-5 items-center  ">
           <p className="italic text-neutral-500 text-sm">Profile Picture</p>
           <div className="relative">
             <img
@@ -146,8 +146,8 @@ useEffect(() => {
             Only .jpg, .jpeg, .png dan .gif & Maximum file size is 1MB.
           </p>
         </div>
-        <div className="flex w-fit flex-col gap-5 justify-center ">
-          <div className="flex flex-col gap-1 w-100">
+        <div className="flex w-full  flex-col gap-5 justify-center ">
+          <div className="flex flex-col gap-1 w-full">
             <h2>Full Name</h2>
             <input
               type="text"
@@ -225,14 +225,14 @@ useEffect(() => {
         </div>
       </div>
 
-      <div className="mt-5">
+      <div className="mt-5 w-full">
         <div className="w-fit">
           <h3 className="text-sm">Security Credentials</h3>
           <hr className=" border-neutral-400" />
         </div>
         <hr className="border-neutral-400" />
       </div>
-      <div className=" w-full  flex gap-5 items-end">
+      <div className=" w-full flex-col md:flex-row flex gap-5 md:items-end">
         <div className="flex flex-col w-full  gap-1">
           <h2 className="text-lg">E-Mail</h2>
           <div className="flex gap-2 ">
@@ -244,7 +244,7 @@ useEffect(() => {
         </div>
         <div className="flex items-center gap-5">
           {profiledata.provider !== "CREDENTIALS" && (
-            <small className="text-red-400 whitespace-nowrap">
+            <small className="text-red-400 w-60">
               Social logins are unable to change email
             </small>
           )}
@@ -268,7 +268,7 @@ useEffect(() => {
         </div>
       </div>
       <hr className="border-neutral-200" />
-      <div className="flex justify-between items-end gap-1">
+      <div className="flex justify-between  flex-col md:flex-row md:items-end gap-1">
         <h2 className="text-lg">Password</h2>
         <div className="flex gap-5 items-center">
           {profiledata.provider !== "CREDENTIALS" && (

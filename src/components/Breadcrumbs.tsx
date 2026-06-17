@@ -4,8 +4,6 @@ import { formatLabel } from "../utils/breadcrumbUtils";
 export default function Breadcrumbs() {
   const location = useLocation();
 
-  
-
   const segments = location.pathname.split("/").filter(Boolean);
 
   const crumbs = segments.map((segment, index) => {
@@ -28,6 +26,8 @@ export default function Breadcrumbs() {
               <span className="font-medium text-gray-700">
                 {crumb.breadcrumb}
               </span>
+            ) : isFirst ? (
+              <p>{crumb.breadcrumb}</p>
             ) : (
               <Link to={crumb.pathname} className="hover:text-blue-600">
                 {crumb.breadcrumb}

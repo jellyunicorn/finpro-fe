@@ -79,7 +79,6 @@ export default function AddressMap({
       mapRef.current = null;
       markerRef.current = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

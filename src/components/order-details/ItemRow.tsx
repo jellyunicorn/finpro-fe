@@ -9,12 +9,12 @@ export default function ItemRow({
   description,
 }: orderitems) {
   return (
-    <div className="px-5 py-2 text-sm">
+    <div className="px-2 md:px-5 pr-5 py-2 text-sm">
       <div className="w-full grid grid-cols-7 h-fit items-center  ">
         <div className="col-span-3">{name}</div>
-        <div>{quantity} {quantity>1 ? "pcs" : "piece"}</div>
-        <div>{weight} kg</div>
-        <div className="text-neutral-400">{toRupiah(price)}</div>
+        <div className="whitespace-nowrap">{quantity} {quantity>1 ? "pcs" : "piece"}</div>
+        <div><span className="hidden md:block">{weight} kg</span></div>
+        <div className="text-neutral-400"><span className="hidden md:block">{toRupiah(price)}</span></div>
         <div>{toRupiah(price*quantity)}</div>
       </div>
       <div className="text-neutral-400">{description || "-"}</div>
