@@ -38,6 +38,7 @@ import WorkerDashboardOpenOrders from "./pages/worker-dashboard/WorkerDashboardO
 import WorkerDashboardOrderHistory from "./pages/worker-dashboard/WorkerDashboardOrderHistory.tsx";
 import WorkerDashboardOrders from "./pages/worker-dashboard/WorkerDashboardOrders.tsx";
 import WorkerDashboardSettings from "./pages/worker-dashboard/WorkerDashboardSettings.tsx";
+import AdminDashboardAttendanceDetail from "./pages/admin-dashboard/AdminDashboardAttendanceDetail.tsx";
 const queryClient = new QueryClient();
 
 export const router = createBrowserRouter([
@@ -134,6 +135,10 @@ export const router = createBrowserRouter([
         loader: authLoader(["ADMIN"]),
         children: [
           { path: "attendance-log", element: <AdminDashboardAttendance /> },
+          {
+            path: "attendance-log/:id",
+            element: <AdminDashboardAttendanceDetail />,
+          },
           {
             path: "settings",
             element: <AdminDashboardSettings />,
