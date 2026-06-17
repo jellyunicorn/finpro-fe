@@ -1,5 +1,5 @@
-import { toReadableDateTime } from "../../utils/dateconverUtils";
 import { STATUS, type OrderStatus } from "../../lib/statusLookup";
+import TimeSummary from "./TimeSummary";
 
 type Props = {
   orderId: string;
@@ -35,16 +35,16 @@ export default function OrderSummaryData({
         </div>
       </div>
       <div className="hidden md:flex items-center justify-start">
-        {toReadableDateTime(schedule)}
+        <TimeSummary data={schedule}/>
       </div>
       <div className="hidden md:flex items-center justify-start">
-        {toReadableDateTime(pick)}
+        <TimeSummary data={pick}/>
       </div>
       <div className="hidden md:flex items-center justify-start">
-        {toReadableDateTime(delivery)}
+        <TimeSummary data={delivery}/>
       </div>
       <div className="hidden md:flex items-center justify-start">
-        {toReadableDateTime(complete)}
+        <TimeSummary data={complete}/>
       </div>
     </div>
   );

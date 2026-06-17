@@ -63,11 +63,11 @@ export default function MainDashboard() {
           <div className="flex flex-col md:flex-row gap-2">
             <h2 className="px-2 bg-[#BEE6E1] text-blue-800 w-fit rounded-full">
               {" "}
-              {primaryAddress.label}
+              {primaryAddress.label?? "-"}
             </h2>
             <p>
-              {primaryAddress.address}, {primaryAddress.regency.name},{" "}
-              {primaryAddress.postalCode}
+              {primaryAddress.address?? "-"}, {primaryAddress.regency?.name ?? "-"},{" "}
+              {primaryAddress.postalCode?? "-"}
             </p>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import AddressEditMenu, {
   type addressdata,
 } from "../../../components/my-address/AddressEditMenu";
@@ -7,6 +8,7 @@ import useCreateAddress from "../../../hooks/useCreateAddress";
 import useDeleteAddress from "../../../hooks/useDeleteAddress";
 import useSwitchPrimary from "../../../hooks/useSwitchPrimary";
 import useUpdateAddress from "../../../hooks/useUpdateAddress";
+import { axiosInstance } from "../../../lib/axios";
 import type { addressform } from "../../../lib/types";
 
 export default function MyAddresses() {
@@ -14,17 +16,33 @@ export default function MyAddresses() {
   const updateAddress = useUpdateAddress();
   const createAddress = useCreateAddress();
   const deleteAddress = useDeleteAddress();
-  const addresses = useLoaderData();
+  const loaderData = useLoaderData();
+  const [page, setPage] = useState<number>(1);
+
+  const { data: addresses } = useQuery({
+    queryKey: ["useraddress", page],
+    queryFn: async () => {
+      const res = await axiosInstance.get(`/address/user?page=${page}`);
+      return res.data;
+    },
+    initialData: page === 1 ? loaderData : undefined,
+    placeholderData: keepPreviousData,
+  });
+
   const [hoveredId, setHoveredId] = useState<number | null>();
   const [formMode, setFormMode] = useState<"edit" | "create" | null>(null);
   const [primaryId, setPrimaryId] = useState<number>(
-    addresses.useraddress.find((e: addressdata) => e.isPrimary)?.id,
+    loaderData.meta?.primary?.id,
   );
   const [addressForm, setAddressForm] = useState<addressform>();
   const [confirmDelete, setConfirmDelete] = useState<boolean>();
-  const primaryAddress = addresses.useraddress.find(
-    (e: addressdata) => e.id === primaryId,
-  );
+
+  const totalPages = addresses?.meta?.totalPages ?? 1;
+  const currentPage = addresses?.meta?.page ?? page;
+
+  const primaryAddress =
+    addresses.useraddress.find((e: addressdata) => e.id === primaryId) ??
+    addresses.meta?.primary;
   const otherAddress = addresses.useraddress.filter(
     (e: addressdata) => e.id !== primaryId,
   );
@@ -106,11 +124,11 @@ export default function MyAddresses() {
               {primaryAddress?.address ?? "-"} ,{" "}
               {primaryAddress?.postalCode ?? "-"}
             </p>
-            <p> {primaryAddress?.regency.name ?? "-"}</p>
+            <p> {primaryAddress?.regency?.name ?? "-"}</p>
           </div>
         ) : (
-          <div className="bg-red-100 text-red-500 px-5 py-2 rounded-md w-full flex items-center" >
-            <p > No Primary Address is Assigned</p>
+          <div className="bg-red-100 text-red-500 px-5 py-2 rounded-md w-full flex items-center">
+            <p> No Primary Address is Assigned</p>
           </div>
         )}
       </div>
@@ -126,14 +144,23 @@ export default function MyAddresses() {
             >
               <div>
                 <p className="px-2 bg-claundry-accent text-blue-800 w-fit rounded-full">
-                  {adrs.label}
+                  {adrs.label ?? "-"}
                 </p>
                 <div>
-                  <p>{adrs.address}</p>
-                  <p className="text-neutral-400"> {adrs.regency.name}</p>
-                  <p className="text-neutral-400"> {adrs.district.name}</p>
-                  <p className="text-neutral-400"> {adrs.village.name}</p>
-                  <p className="text-neutral-400"> {adrs.postalCode}</p>
+                  <p>{adrs.address ?? "-"}</p>
+                  <p className="text-neutral-400">
+                    {" "}
+                    {adrs.regency?.name ?? "-"}
+                  </p>
+                  <p className="text-neutral-400">
+                    {" "}
+                    {adrs.district?.name ?? "-"}
+                  </p>
+                  <p className="text-neutral-400">
+                    {" "}
+                    {adrs.village?.name ?? "-"}
+                  </p>
+                  <p className="text-neutral-400"> {adrs.postalCode ?? "-"}</p>
                 </div>
               </div>
               {hoveredId === adrs.id && (
@@ -182,6 +209,27 @@ export default function MyAddresses() {
             <p className="italic text-neutral-300">Add new address</p>
           </div>
         </div>
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-3 mt-3">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="border rounded-full px-3 py-1 border-blue-500 text-blue-800 hover:bg-blue-500 hover:text-white disabled:opacity-40 disabled:pointer-events-none"
+            >
+              Prev
+            </button>
+            <span className="text-sm text-neutral-500">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="border rounded-full px-3 py-1 border-blue-500 text-blue-800 hover:bg-blue-500 hover:text-white disabled:opacity-40 disabled:pointer-events-none"
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
     </main>
   );
