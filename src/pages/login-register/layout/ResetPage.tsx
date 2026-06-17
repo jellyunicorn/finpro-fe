@@ -28,7 +28,7 @@ export default function ResetPage() {
   };
 
   return (
-    <main className="w-full md:w-[50%] h-fit md:h-full  relative z-5 bg-white p-5  md:p-10 lg:p-10 items-center justify-center font-dmsans  rounded-2xl flex">
+    <main className="w-full md:w-[50%] h-full   relative z-5 bg-white p-10  md:p-10 lg:p-10 items-center justify-center font-dmsans  rounded-2xl flex">
       <Link to="/login">
         {" "}
         <button className="border border-claundry-blue rounded-full px-2 w-20 absolute top-0 left-0 m-8 py-2">
@@ -36,7 +36,7 @@ export default function ResetPage() {
           ← Back{" "}
         </button>
       </Link>
-      <div className="max-w-125 w-full  h-full flex flex-col md:gap-5 justify-center items-center ">
+      <div className="max-w-125 w-full  h-full flex flex-col gap-5 justify-center items-center ">
         <Link to="/login">
           <img src={mainLogo} alt="main-logo-blue" className="h-8" />
         </Link>
@@ -57,7 +57,7 @@ export default function ResetPage() {
             />
           </div>
           {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email.message}</p>
+            <p className="text-red-500 text-sm bg-red-100 text-center w-full rounded-md py-1">{errors.email.message}</p>
           )}
           <button
             type="submit"

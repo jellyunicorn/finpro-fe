@@ -1,19 +1,18 @@
-import { Link, Links, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { useNavbarScrollAnimation } from "../../hooks/useNavBarColourChange";
 import mainLogoDark from "../../img/svg/main_logo_blue.svg";
 import mainLogoWhite from "../../img/svg/main_logo_white.svg";
 import { useLoginStore } from "../../store/useAppStore";
-import { useState } from "react";
+import { goToDashboard } from "../../utils/goToDashboard";
 
 export default function Navbar() {
   //animations
   useNavbarScrollAnimation();
   const user = useLoginStore((state) => state.user);
-  const navigate = useNavigate();
 
   return (
     <div className="w-full h-fit fixed z-10 flex justify-center">
-      <div className="text-white border border-neutral-50/10 font-dmsans  z-10 inset-x-0 mt-8 mx-10 py-5 rounded-full px-8 w-[35%] transition-all ease-in-out bg-white/10 backdrop-blur-sm ">
+      <div className="text-white border border-neutral-50/10 font-dmsans  z-10 inset-x-0 mt-8 mx-10 py-5 rounded-full px-8 w-[100%] lg:w-[35%] transition-all ease-in-out bg-white/10 backdrop-blur-sm ">
         <nav className=" flex justify-between max-h-10 items-center h-6">
           <div className="relative flex ">
             <img
@@ -37,21 +36,29 @@ export default function Navbar() {
                   LOGIN
                 </span>
               </Link>
-              <button className="hover:cursor-pointer hover:bg-blue-900 ease-in transition-all px-5 py-1 h-full rounded-full bg-claundry-blue">
-                REGISTER
-              </button>
+<Link to="/register">
+                <button className="hover:cursor-pointer hover:bg-blue-900 ease-in transition-all px-5 py-1 h-full rounded-full bg-claundry-blue">
+                  REGISTER
+                </button>
+</Link>
             </div>
           )}
 
           {user && (
-            <Link to="/dashboard">
-              <button className="flex items-center gap-2 hover:underline hover:text-blue-300 hover:cursor-pointer animate-text-color">
-                <p>Hi , {user.fullName} </p>
-                <div className="h-8 w-8 rounded-full bg-neutral-200 overflow-hidden">
-                  <img src={user.avatar} referrerPolicy="no-referrer" alt="" className="object-cover h-full w-full" />
-                </div>
-              </button>
-            </Link>
+            <button
+              onClick={() => goToDashboard()}
+              className="flex items-center gap-2 hover:underline hover:text-blue-300 hover:cursor-pointer animate-text-color"
+            >
+              <p className="hidden md:block">Hi , {user.fullName} </p>
+              <div className="h-8 w-8 rounded-full bg-neutral-200 overflow-hidden">
+                <img
+                  src={user.avatar}
+                  referrerPolicy="no-referrer"
+                  alt=""
+                  className="object-cover h-full w-full"
+                />
+              </div>
+            </button>
           )}
         </nav>
       </div>

@@ -13,14 +13,28 @@ type RegisterForm = {
 };
 
 export default function Register() {
-  const [nameError, setNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [errors, setErrors] = useState<{ fullName?: string; email?: string }>(
+    {},
+  );
   const navigate = useNavigate();
   const [registerForm, setRegisterForm] = useState<RegisterForm>({
     fullName: "",
     email: "",
   });
 
+  const handleRegister = () => {
+    const result = registerAccountSchema.safeParse(registerForm);
+    if (!result.success) {
+      const fieldErrors = result.error.flatten().fieldErrors;
+      setErrors({
+        fullName: fieldErrors.fullName?.[0],
+        email: fieldErrors.email?.[0],
+      });
+      return;
+    }
+    setErrors({});
+    sendVerifyEmail();
+  };
 
   const sendVerifyEmail = async () => {
     try {
@@ -29,7 +43,7 @@ export default function Register() {
         success: "Verification email sent! Check your inbox.",
         error: (err) => err.response?.data?.message || "Registration failed.",
       });
-      
+
       navigate("/login");
     } catch {}
   };
@@ -37,17 +51,21 @@ export default function Register() {
   const handleRegisterGoogle = useRegisterGoogle();
 
   return (
-    <main className="w-full md:w-[50%] h-full md:h-full  relative z-5 bg-white p-5  items-center justify-center font-dmsans  rounded-2xl flex">
+    <main className="w-full md:w-[50%] h-full md:h-full  relative z-5 bg-white p-10  items-center justify-center font-dmsans  rounded-2xl flex">
       <div className="max-w-125 justify-between w-full  h-full flex flex-col md:gap-5  items-center ">
-        <div></div>
-        <div className="w-full flex flex-col  items-center gap-3">
+        <div>
+          {" "}
           <Link to="/">
             <img src={mainLogo} alt="main-logo-blue" className="h-8 mb-20" />
           </Link>
-
-          <h1 className="text-3xl mb-5">Create an Account</h1>
+        </div>
+        <div className="w-full flex flex-col  items-center gap-3">
+          <h1 className="text-3xl mb-10">Create an Account</h1>
           <div className="flex flex-col gap-2 w-full mt-5">
-            <button onClick={()=>handleRegisterGoogle()}className="  hover:cursor-pointer border rounded-xl h-12 border-neutral-500 flex items-center justify-center gap-5 text-neutral-500">
+            <button
+              onClick={() => handleRegisterGoogle()}
+              className="  hover:cursor-pointer border rounded-xl h-12 border-neutral-500 flex items-center justify-center gap-5 text-neutral-500"
+            >
               <img src={googleLogo} alt="" className="w-5 " /> Sign Up by Google
             </button>
             {/* <button className="  hover:cursor-pointer border rounded-xl h-12 border-neutral-500 flex items-center justify-center gap-5 text-neutral-500">
@@ -68,22 +86,18 @@ export default function Register() {
                 id="name"
                 type="text"
                 value={registerForm.fullName}
-                onChange={(e) => {
-                  setRegisterForm({
-                    ...registerForm,
+                onChange={(e) =>
+                  setRegisterForm((prev) => ({
+                    ...prev,
                     fullName: e.target.value,
-                  });
-                  const result = registerAccountSchema.shape.fullName.safeParse(
-                    registerForm.fullName,
-                  );
-                  setNameError(
-                    result.success ? "" : result.error.issues[0].message,
-                  );
-                }}
+                  }))
+                }
                 className="h-10  border rounded-lg border-neutral-500 px-5"
               />
-              {nameError && (
-                <small className="text-sm text-red-600">{nameError}</small>
+              {errors.fullName && (
+                <p className="text-red-500 text-sm bg-red-100 w-full py-1 rounded-md text-center">
+                  {errors.fullName}
+                </p>
               )}
               <label htmlFor="email" className="text-neutral-500">
                 E-MAIL
@@ -92,31 +106,25 @@ export default function Register() {
                 id="email"
                 type="text"
                 value={registerForm.email}
-                onChange={(e) => {
-                  setRegisterForm({ ...registerForm, email: e.target.value });
-                  const result = registerAccountSchema.shape.email.safeParse(
-                    registerForm.email,
-                  );
-                  setEmailError(
-                    result.success ? "" : result.error.issues[0].message,
-                  );
-                }}
+                onChange={(e) =>
+                  setRegisterForm((prev) => ({
+                    ...prev,
+                    email: e.target.value,
+                  }))
+                }
                 className="h-10  border rounded-lg border-neutral-500 px-5"
               />
-              {emailError && (
-                <small className="text-sm text-red-600">{emailError}</small>
+              {errors.email && (
+                <p className="text-red-500 text-sm bg-red-100 w-full py-1 rounded-md text-center">
+                  {errors.email}
+                </p>
               )}
             </div>
 
             <div className="flex flex-col gap-1 w-full mt-8">
               <button
-                disabled={!!emailError || !!nameError}
-                onClick={sendVerifyEmail}
-                className={`border rounded-full text-white py-2 transition-all ease-in ${
-                  emailError || nameError
-                    ? "bg-neutral-300 cursor-not-allowed"
-                    : "bg-claundry-blue hover:cursor-pointer"
-                }`}
+                onClick={handleRegister}
+                className="border rounded-full text-white py-2 transition-all ease-in bg-claundry-blue hover:cursor-pointer"
               >
                 SIGN UP
               </button>

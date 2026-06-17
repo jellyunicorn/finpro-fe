@@ -25,7 +25,7 @@ export default function CreatePickup() {
     },
   });
   const [selectedTime, setSelectedTime] = useState<number | null>(null);
-  const [notClosest, setNotClosest] = useState<boolean>(false)
+  const [notClosest, setNotClosest] = useState<boolean>(false);
   const [outlet, setOutlet] = useState<closestoutletinfo>({
     outletname: "",
     outletid: null,
@@ -57,7 +57,7 @@ export default function CreatePickup() {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const [PickUpForm, setPickUpForm] = useState<pickupform>({
-    pickupAddressId: primaryAddress.id,
+    pickupAddressId: primaryAddress?.id,
     outletId: outlet.outletid,
     pickupDate: null,
     pickupTime: null,
@@ -68,16 +68,38 @@ export default function CreatePickup() {
   }, [addressdata]);
 
   useEffect(() => {
-   console.log(PickUpForm)
-  }, [PickUpForm,selectedAddress,outlet]);
+    console.log(PickUpForm);
+  }, [PickUpForm, selectedAddress, outlet]);
 
   const isFormValid = Object.values(PickUpForm).every(
     (value) => value !== null,
   );
 
   return (
-    <main className="flex-1 h-full relative  flex">
-      <div className="flex min-w-[30%] h-fit overflow-hidden  border-[#BEE6E1] border shadow-md px-10 gap-2 py-10 flex-1 rounded-lg  m-10 absolute z-1 bg-white  flex-col">
+    <main className="flex-1 h-fit lg:h-full relative flex flex-col md:flex-row">
+      <div className="h-70 md:h-full w-full md:absolute relative md:inset-0 ">
+        {/* //------> map */}
+        {selectedAddress && (
+          <MapComponent
+            initialcoordinate={{
+              longitude: Number(primaryAddress.longitude),
+              latitude: Number(primaryAddress.latitude),
+            }}
+            selectedAddress={selectedAddress}
+            outletdata={outletdata}
+            chosenoutlet={outlet}
+            setOutlet={(outlet) => {
+              setOutlet(outlet);
+              setPickUpForm((prev) => ({
+                ...prev,
+                outletId: outlet.outletid,
+                distance: outlet.distance,
+              }));
+            }}
+          />
+        )}
+      </div>
+      <div className="flex min-w-[30%] h-fit md:overflow-hidden  border-[#BEE6E1] border shadow-md px-4 md:px-8 gap-2 py-5 flex-1 md:rounded-lg  md:m-5 md:absolute z-1 bg-white  flex-col">
         <div className="flex flex-col ">
           <h1 className="text-2xl font-medium text-claundry-blue">
             Schedule a Pick Up
@@ -114,7 +136,7 @@ export default function CreatePickup() {
               ))}
             </select>
             <p className="font-sm text-neutral-400">
-              {selectedAddress?.address}
+              {selectedAddress?.address ?? "-"}
             </p>
           </div>
           <div className="flex gap-2 w-full items-center">
@@ -122,10 +144,10 @@ export default function CreatePickup() {
             <div className="border rounded-md h-10 items-center justify-between flex border-claundry-accent px-2 py-2 w-full">
               <select
                 className="w-full"
-                value={outlet.outletid ?? ""} // controlled: reflects current selection
+                value={outlet.outletid ?? ""}
                 onChange={(e) => {
                   const o = outletdata?.find(
-                    (o: outletdata) => o.id === Number(e.target.value)
+                    (o: outletdata) => o.id === Number(e.target.value),
                   );
                   if (!o || !selectedAddress) return;
                   const distance = haversineDistance(
@@ -153,9 +175,7 @@ export default function CreatePickup() {
                   setNotClosest(o.id !== closestoutletId);
                 }}
               >
-                <option>
-                  {outlet.outletname || "-"} 
-                </option>
+                <option>{outlet.outletname || "-"}</option>
                 <option value="" disabled>
                   ------------
                 </option>
@@ -170,7 +190,11 @@ export default function CreatePickup() {
               </p>
             </div>
           </div>
-          {notClosest && <small className="bg-red-100 text-red-500 py-2 rounded-md flex justify-center">This outlet is not the most efficient distance</small>}
+          {notClosest && (
+            <small className="bg-red-100 text-red-500 py-2 rounded-md flex justify-center">
+              This outlet is not the most efficient distance
+            </small>
+          )}
         </div>
         <div className=" w-full border rounded-xl flex flex-col gap-2 h-full flex-1 border-[#BEE6E1] bg-white p-5  ">
           <div className="flex gap-2 w-full items-center">
@@ -214,29 +238,6 @@ export default function CreatePickup() {
         >
           Request Pickup
         </button>
-      </div>
-
-      {/* //------> map */}
-      <div className=" h-full w-full absolute inset-0 ">
-        {selectedAddress && (
-          <MapComponent
-            initialcoordinate={{
-              longitude: Number(primaryAddress.longitude),
-              latitude: Number(primaryAddress.latitude),
-            }}
-            selectedAddress={selectedAddress}
-            outletdata={outletdata}
-            chosenoutlet={outlet}
-            setOutlet={(outlet) => {
-              setOutlet(outlet);
-              setPickUpForm((prev) => ({
-                ...prev,
-                outletId: outlet.outletid,
-                distance: outlet.distance,
-              }));
-            }}
-          />
-        )}
       </div>
     </main>
   );

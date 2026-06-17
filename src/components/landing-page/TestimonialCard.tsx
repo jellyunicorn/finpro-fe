@@ -11,7 +11,7 @@ export default function TestimonialCard(
   { data,index }: { data: dataprops, index:number }
 ) {
   return (
-    <article className="bg-white flex flex-col rounded-4xl overflow-hidden  w-80 h-120 z-1 relative">
+    <article className="bg-white shrink-0 snap-start flex flex-col rounded-4xl overflow-hidden  w-80 h-120 z-1 relative">
       {" "}
       <div className="p-15 h-[75%]">
         <p>{data.review}</p>

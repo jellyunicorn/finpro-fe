@@ -128,7 +128,12 @@ export default function MapComponent({
       ],
       zoom: 15,
       duration: 2000,
-      padding: { left: 420, top: 0, right: 0, bottom: 0 },
+      padding: {
+        left: window.matchMedia("(min-width: 768px)").matches ? 420 : 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+      },
     });
   }, [selectedAddress]);
 

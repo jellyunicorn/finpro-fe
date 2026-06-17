@@ -21,8 +21,14 @@ export const authLoader = (allowedRoutes?: String[]) => {
     try {
       const { data } = await axiosInstance.get("/auth/me");
       if (allowedRoutes && !allowedRoutes.includes(data)) {
-        toast.error("Unauthorized access");
-        return redirect("/");
+        if (data === "DRIVER")
+        return redirect("/dashboard/driver");
+       if (data === "WORKER")
+        return redirect("/dashboard/worker");
+       if (data === "ADMIN")
+        return redirect("/dashboard/admin");
+      toast.error("Unauthorized access")
+       redirect("/")
       }
 
       return;

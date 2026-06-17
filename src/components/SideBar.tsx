@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { type Dispatch, type SetStateAction } from "react";
 import { Link } from "react-router";
+import useLogout from "../hooks/useLogout";
 import logo_logout from "../img/svg/logout_logo.svg";
 import logo_blue from "../img/svg/main_logo_blue.svg";
 import logo_sidebar from "../img/svg/sidebar_icon.svg";
-import SideBarMenu from "./SideBarMenu";
-import useLogout from "../hooks/useLogout";
 import { useLoginStore } from "../store/useAppStore";
+import SideBarMenu from "./SideBarMenu";
 
 type MenuItem = {
   icon: string;
@@ -16,18 +16,27 @@ type MenuItem = {
 };
 
 type SideBarProps = {
+  minimize:boolean,
+  mobilemenu:boolean,
+  setMinimize:Dispatch<SetStateAction<boolean>>;
+  setMobileMenu:Dispatch<SetStateAction<boolean>>;
   menuItems: MenuItem[];
 };
 
-export default function SideBar({ menuItems }: SideBarProps) {
-  const [minimize, setMinimize] = useState<boolean>(false);
+export default function SideBar({
+  minimize,
+  setMinimize,
+  setMobileMenu,
+  mobilemenu,
+  menuItems,
+}: SideBarProps) {
   const handleLogout = useLogout();
   const user = useLoginStore((state) => state.user);
 
   return (
     <aside
-      className={`flex flex-col  ${
-        !minimize ? "w-[20%] max-w-75 min-w-64" : "min-w-20"
+      className={`${!mobilemenu ? "hidden md:flex" :"fixed md:relative z-10"} flex flex-col  ${
+        !minimize ? "w-screen md:max-w-75 min-w-64" : "min-w-20"
       } transition-all justify-between h-full bg-[#BAD6F5]`}
     >
       <div className="h-full w-full">
@@ -37,7 +46,7 @@ export default function SideBar({ menuItems }: SideBarProps) {
           } h-16 border items-center border-[#BAD6F5] p-4 w-full bg-white`}
         >
           {!minimize && (
-            <Link to="/" className="h-full flex items-center">
+            <Link to="/" className="h-full flex items-center w-full justify-end md:justify-start">
               <img
                 src={logo_blue}
                 alt="main-logo"
@@ -47,7 +56,7 @@ export default function SideBar({ menuItems }: SideBarProps) {
           )}
           <button
             onClick={() => setMinimize(!minimize)}
-            className={`${minimize && "rotate-180"} w-7 h-7 flex items-center justify-center hover:cursor-pointer`}
+            className={`${minimize && "rotate-180"} w-7 h-7  items-center justify-center hidden md:flex hover:cursor-pointer`}
           >
             <img src={logo_sidebar} alt="sidebar-toggle" className="max-h-8" />
           </button>
@@ -58,6 +67,7 @@ export default function SideBar({ menuItems }: SideBarProps) {
             {menuItems.map((item, idx) => (
               <SideBarMenu
                 key={idx}
+                setMobileMenu={setMobileMenu}
                 icon={item.icon}
                 iconDark={item.iconDark}
                 label={item.label}
@@ -71,7 +81,9 @@ export default function SideBar({ menuItems }: SideBarProps) {
       </div>
 
       <div className="w-full ">
-        <Link to="/dashboard/user-profile">
+        <Link 
+        onClick={()=>setMobileMenu(false)}
+        to="/dashboard/user/profile">
           <div className="w-fit h-15 hover:cursor-pointer hover:underline flex items-center justify-start px-5 font-medium text-neutral-600 text-md  gap-5">
             <img
               src={user?.avatar}

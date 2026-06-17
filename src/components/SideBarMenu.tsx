@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import { Link } from "react-router";
 
 type SideBarMenuProps = {
@@ -7,6 +7,7 @@ type SideBarMenuProps = {
   label: string;
   minimize: boolean;
   to: string;
+  setMobileMenu:Dispatch<SetStateAction<boolean>>;
   children?: { label: string; to: string }[];
 };
 
@@ -17,14 +18,17 @@ export default function SideBarMenu({
   minimize,
   to,
   children,
+  setMobileMenu,
 }: SideBarMenuProps) {
   const [open, setOpen] = useState(false);
   const hasChildren = children && children.length > 0;
 
   return (
     <div className="w-full">
-      <Link to={to} className="flex items-center gap-5 flex-1">
-        <div className="group rounded-lg relative hover:bg-claundry-blue h-15 w-full px-5 flex items-center gap-5">
+      <Link to={to}
+      onClick={()=>setMobileMenu(false)} 
+      className="flex items-center gap-5 flex-1">
+        <div title={`${label}`} className="group rounded-lg relative hover:bg-claundry-blue h-15 w-full px-5 flex items-center gap-5">
           <img src={icon} alt={`${label}-icon`} className="h-5" />
           <img
             src={iconDark}
@@ -32,7 +36,7 @@ export default function SideBarMenu({
             className="absolute h-5 group-hover:opacity-0"
           />
           {!minimize && (
-            <span className="font-dmsans group-hover:text-white font-medium text-claundry-blue text-lg">
+            <span title={`${label}`} className="font-dmsans group-hover:text-white font-medium text-claundry-blue text-lg">
               {label}
             </span>
           )}

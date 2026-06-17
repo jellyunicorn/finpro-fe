@@ -12,14 +12,14 @@ export default function WorkerDashboardOpenOrders() {
   const [selectedJob, setSelectedJob] = useState<AvailableJob | null>(null);
   const [page, setPage] = useState(1);
   const { data: availableJobs } = useGetAvailableJobs(page);
-  const { mutate: beginJob } = useBeginJob();
+  const { mutateAsync: beginJob } = useBeginJob();
 
   const handleAcceptClick = (job: AvailableJob) => {
     setSelectedJob(job);
     setOpenInputPopup(true);
   };
 
-  const handleSubmitJob = (values: {
+  const handleSubmitJob = async (values: {
     items: { id: number; quantity: number }[];
   }) => {
     if (!selectedJob) return;
@@ -29,7 +29,7 @@ export default function WorkerDashboardOpenOrders() {
       quantity: i.quantity,
     }));
 
-    beginJob({ jobId: selectedJob.jobId, items });
+    await beginJob({ jobId: selectedJob.jobId, items });
 
     setOpenInputPopup(false);
   };
