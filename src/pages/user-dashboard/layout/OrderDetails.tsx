@@ -1,24 +1,23 @@
-import { Link, useNavigate, useParams } from "react-router";
-import type { orderdata, orderitems } from "../../../lib/types";
+import { useQuery } from "@tanstack/react-query";
+import { Link, useParams } from "react-router";
+import DetailRow from "../../../components/order-details/DetailRow";
+import ItemRow from "../../../components/order-details/ItemRow";
+import StatusProgress from "../../../components/order-details/StatusProgress";
+import TimelineRow from "../../../components/order-details/TimelineRow";
+import useConfirmOrder from "../../../hooks/useConfirmOrder";
+import usePaymentSession from "../../../hooks/usePaymentSession";
+import location_icon from "../../../img/svg/address_blue.svg";
+import { axiosInstance } from "../../../lib/axios";
+import { cloudimages } from "../../../lib/cloudinary";
 import { STATUS } from "../../../lib/statusLookup";
+import type { orderdata, orderitems } from "../../../lib/types";
 import {
   dateConverter,
   toReadableDateTime,
 } from "../../../utils/dateconverUtils";
-import location_icon from "../../../img/svg/address_blue.svg";
-import DetailRow from "../../../components/order-details/DetailRow";
-import TimelineRow from "../../../components/order-details/TimelineRow";
-import StatusProgress from "../../../components/order-details/StatusProgress";
 import { toRupiah } from "../../../utils/toRupiah";
-import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "../../../lib/axios";
-import ItemRow from "../../../components/order-details/ItemRow";
-import usePaymentSession from "../../../hooks/usePaymentSession";
-import useConfirmOrder from "../../../hooks/useConfirmOrder";
-import { cloudimages } from "../../../lib/cloudinary";
 
 export default function OrderDetails() {
-  const navigate = useNavigate();
   const handleConfirmOrder = useConfirmOrder();
   const { orderId } = useParams();
   const { createPaymentSession, isPending } = usePaymentSession();

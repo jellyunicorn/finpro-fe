@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { parseAsString, useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import location_icon from "../../../img/svg/address_blue.svg";
 import { axiosInstance } from "../../../lib/axios";
 import { STATUS } from "../../../lib/statusLookup";
@@ -19,7 +19,6 @@ export default function OrderHistory() {
   const [dateQuery, setDateQuery] = useState<string>("-");
   const [monthQuery, setMonthQuery] = useState<string>("-");
   const [debouncedSearch, setDebouncedSearch] = useState<string>("");
-  const navigate = useNavigate();
 
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
