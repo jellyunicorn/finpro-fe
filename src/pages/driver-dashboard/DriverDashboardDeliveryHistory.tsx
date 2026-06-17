@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import useGetDeliveryHistory from "../../hooks/useGetDeliveryHistory";
-import useGetPickupHistory from "../../hooks/useGetPickupHistory";
+import useGetDeliveryHistory from "../../hooks/driver/useGetDeliveryHistory";
+import useGetPickupHistory from "../../hooks/driver/useGetPickupHistory";
 import { formatDateTime } from "../../utils/driverDashboardHelpers";
 import Pagination from "../../components/Pagination";
 

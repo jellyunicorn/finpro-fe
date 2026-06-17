@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "../lib/axios";
-import type { PageableResponse } from "../types/pagination";
-import type { Delivery } from "../types/delivery";
+import { axiosInstance } from "../../lib/axios";
+import type { PageableResponse } from "../../types/pagination";
+import type { Delivery } from "../../types/delivery";
 
 export default function useGetAvailableDeliveries(page: number, take?: number) {
   return useQuery({
@@ -11,7 +11,6 @@ export default function useGetAvailableDeliveries(page: number, take?: number) {
         "/driver/available-deliveries",
         { params: { page: page, take: take } },
       );
-      console.log(data);
       return data;
     },
   });

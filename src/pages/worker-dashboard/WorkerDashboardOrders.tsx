@@ -1,9 +1,9 @@
 import { useState } from "react";
 import type { Job } from "../../types/job";
 import type { OrderItem } from "../../types/orderItem";
-import useGetActiveJobs from "../../hooks/useGetActiveJobs";
-import { useBeginJob } from "../../hooks/useBeginJob";
-import { useFinishJob } from "../../hooks/useFinishJob";
+import useGetActiveJobs from "../../hooks/worker/useGetActiveJobs";
+import { useBeginJob } from "../../hooks/worker/useBeginJob";
+import { useFinishJob } from "../../hooks/worker/useFinishJob";
 import StationFilterTabs from "../../components/worker-dashboard/active-jobs/StationFilterTabs";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import JobsTable from "../../components/worker-dashboard/active-jobs/JobsTable";

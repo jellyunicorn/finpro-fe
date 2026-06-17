@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Pagination from "../../components/Pagination";
-import useGetOutletAttendance from "../../hooks/useGetOutletAttendance";
+import useGetOutletAttendance from "../../hooks/admin/useGetOutletAttendance";
 import AttendanceTable from "../../components/admin-dashboard/AttendanceTable";
 
 export default function AdminDashboardAttendance() {

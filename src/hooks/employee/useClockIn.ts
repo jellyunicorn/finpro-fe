@@ -1,18 +1,18 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { axiosInstance } from "../lib/axios";
+import { axiosInstance } from "../../lib/axios";
 import toast from "react-hot-toast";
 import type { AxiosError } from "axios";
 
-export default function useClockOut() {
+export default function useClockIn() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async () => {
-      const response = await axiosInstance.put("/attendance/clock-out");
+      const response = await axiosInstance.put("/attendance/clock-in");
       return response.data;
     },
     onSuccess: () => {
-      toast.success("Clocked out!");
+      toast.success("Clocked in!");
       queryClient.invalidateQueries({ queryKey: ["attendanceLog"] });
     },
     onError: (error: AxiosError<{ message: string }>) => {

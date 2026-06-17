@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router";
 import Pagination from "../../components/Pagination";
-import useGetEmployeeAttendance from "../../hooks/useGetEmployeeAttendance";
+import useGetEmployeeAttendance from "../../hooks/admin/useGetEmployeeAttendance";
 
 export default function AdminDashboardAttendanceDetail() {
   const { id } = useParams();

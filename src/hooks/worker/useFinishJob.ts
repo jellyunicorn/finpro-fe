@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { axiosInstance } from "../lib/axios";
+import { axiosInstance } from "../../lib/axios";
 import toast from "react-hot-toast";
-import type { Job } from "../types/job";
+import type { Job } from "../../types/job";
 
 interface FinishJobPayload {
   jobId: string;

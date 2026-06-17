@@ -1,7 +1,7 @@
 import { useState } from "react";
-import useClockIn from "../../hooks/useClockIn";
-import useClockOut from "../../hooks/useClockOut";
-import useGetAttendanceLog from "../../hooks/useGetAttendanceLog";
+import useClockIn from "../../hooks/employee/useClockIn";
+import useClockOut from "../../hooks/employee/useClockOut";
+import useGetAttendanceLog from "../../hooks/employee/useGetAttendanceLog";
 import { cloudimages } from "../../lib/cloudinary";
 import { todaysdate } from "../../utils/todaysdateUtils";
 import Pagination from "../../components/Pagination";

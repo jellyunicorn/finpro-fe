@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useGetJobHistory from "../../hooks/useGetJobHistory";
+import useGetJobHistory from "../../hooks/worker/useGetJobHistory";
 import Pagination from "../../components/Pagination";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import JobHistoryTable from "../../components/worker-dashboard/job-history/JobHistoryTable";

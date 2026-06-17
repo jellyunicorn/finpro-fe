@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { axiosInstance } from '../lib/axios';
-import type { PageableResponse } from '../types/pagination';
-import type { EmployeeAttendance } from '../types/employeeAttendance';
+import { axiosInstance } from '../../lib/axios';
+import type { PageableResponse } from '../../types/pagination';
+import type { EmployeeAttendance } from '../../types/employeeAttendance';
 
 export default function useGetOutletAttendance(page: number, take?: number) {
   return useQuery({
@@ -11,7 +11,6 @@ export default function useGetOutletAttendance(page: number, take?: number) {
         "/attendance/outlet",
         { params: { page: page, take: take } },
       );
-      console.log(data);
       return data;
     },
   });

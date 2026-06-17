@@ -1,31 +1,29 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { axiosInstance } from "../lib/axios";
+import { axiosInstance } from "../../lib/axios";
 import toast from "react-hot-toast";
 
-interface BeginDriverJobPayload {
+interface NextDriverJobStatusPayload {
   jobId: string;
   type: "pickup" | "delivery";
 }
 
-export function useBeginDriverJob() {
+export function useNextDriverJobStatus() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ jobId, type }: BeginDriverJobPayload) => {
+    mutationFn: async ({ jobId, type }: NextDriverJobStatusPayload) => {
       if (type !== "pickup" && type != "delivery") {
         toast.error("Something went wrong!");
         return;
       }
       const response = await axiosInstance.patch(
-        `/driver/${type}/${jobId}/assign`,
+        `/driver/${type}/${jobId}/next`,
       );
       return response.data;
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["activeDriverJob"] });
-      queryClient.invalidateQueries({ queryKey: ["availablePickups"] });
-      queryClient.invalidateQueries({ queryKey: ["availableDeliveries"] });
-      toast.success(data.message || "Pickup accepted!");
+      toast.success(data.message || "You have arrived at your destination!");
     },
     onError: () => {
       toast.error("Something went wrong!");

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "../lib/axios";
-import type { DriverJob } from "../types/driverJob";
+import { axiosInstance } from "../../lib/axios";
+import type { DriverJob } from "../../types/driverJob";
 
 export default function useGetActiveDriverJob() {
   return useQuery({
@@ -9,7 +9,6 @@ export default function useGetActiveDriverJob() {
         const { data } = await axiosInstance.get<DriverJob>(
           "/driver/active-request",
         );
-        console.log(data);
         return data;
       },
     });

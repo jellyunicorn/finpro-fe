@@ -1,6 +1,6 @@
 import { useState } from "react";
-import useGetAvailableJobs from "../../hooks/useGetAvailableJobs";
-import { useBeginJob } from "../../hooks/useBeginJob";
+import useGetAvailableJobs from "../../hooks/worker/useGetAvailableJobs";
+import { useBeginJob } from "../../hooks/worker/useBeginJob";
 import type { AvailableJob } from "../../types/availableJob";
 import type { OrderItem } from "../../types/orderItem";
 import Pagination from "../../components/Pagination";

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "../lib/axios";
-import type { PageableResponse } from "../types/pagination";
-import type { Pickup } from "../types/pickup";
+import { axiosInstance } from "../../lib/axios";
+import type { PageableResponse } from "../../types/pagination";
+import type { Pickup } from "../../types/pickup";
 
 export default function useGetAvailablePickups(page: number, take?: number) {
   return useQuery({
@@ -11,7 +11,6 @@ export default function useGetAvailablePickups(page: number, take?: number) {
         "/driver/available-pickups",
         { params: { page: page, take: take } },
       );
-      console.log(data);
       return data;
     },
   });
