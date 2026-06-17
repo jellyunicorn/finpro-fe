@@ -98,7 +98,7 @@ export default function OrderDetails() {
           </div>
           <div className="flex relative items-center  flex-1 mx-10">
             <p className="absolute w-full  whitespace-nowrap flex justify-center text-sm text-neutral-400 [-webkit-text-stroke:5px_white] [paint-order:stroke_fill] z-5">
-              {order.distance} KM
+              {Number(order.distance).toFixed(2)} KM
             </p>
             <div className="flex-1 h-px z-1 bg-neutral-300 relative" />
             <div className="w-0 h-0 border-y-4 border-y-transparent border-l-8 relative border-l-neutral-300" />

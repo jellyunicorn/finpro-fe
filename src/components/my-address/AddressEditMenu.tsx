@@ -93,7 +93,7 @@ export default function AddressEditMenu({
       setRegCode(addressForm.regencyCode ?? "");
       setDisCode(addressForm.districtCode ?? "");
     }
-  }, [addressForm, reset]);
+  }, [addressForm?.id, formMode, reset]);
 
   const { data: regencydata } = useQuery<regencyquery[]>({
     queryKey: ["regency"],

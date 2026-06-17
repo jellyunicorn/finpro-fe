@@ -36,9 +36,11 @@ export default function Navbar() {
                   LOGIN
                 </span>
               </Link>
-              <button className="hover:cursor-pointer hover:bg-blue-900 ease-in transition-all px-5 py-1 h-full rounded-full bg-claundry-blue">
-                REGISTER
-              </button>
+<Link to="/register">
+                <button className="hover:cursor-pointer hover:bg-blue-900 ease-in transition-all px-5 py-1 h-full rounded-full bg-claundry-blue">
+                  REGISTER
+                </button>
+</Link>
             </div>
           )}
 

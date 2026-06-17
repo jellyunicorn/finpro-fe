@@ -66,14 +66,14 @@ export default function MainDashboard() {
               {primaryAddress.label}
             </h2>
             <p>
-              {primaryAddress.address}, {primaryAddress.city},{" "}
+              {primaryAddress.address}, {primaryAddress.regency.name},{" "}
               {primaryAddress.postalCode}
             </p>
           </div>
         </div>
       )}
       <div className=" w-full flex flex-col lg:flex-row gap-5 h-150">
-        <div className="lg:w-[25%] justify-between lg:justify-start h-full rounded-xl gap-5 flex flex-col">
+        <div className="lg:w-[25%] justify-between lg:justify-start md:h-full rounded-xl gap-5 flex flex-col">
           <Link
             to="/dashboard/user/pickup"
             onClick={(e) =>

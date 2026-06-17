@@ -162,7 +162,7 @@ export default function OrderHistory() {
             <div className="flex  flex-1 ">
               <div className="flex relative items-center flex-1 mx-10">
                 <p className="md:absolute  w-full flex justify-center text-sm text-neutral-400 [-webkit-text-stroke:5px_white] [paint-order:stroke_fill] z-5">
-                  {order.distance} KM
+                  {Number(order.distance).toFixed(2)} KM
                 </p>
                 {order.orderStatus === "OTW_TO_CUSTOMER" && (
                   <div className="w-0 h-0 border-y-4 border-y-transparent border-r-8 relative border-r-neutral-300" />

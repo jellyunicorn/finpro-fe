@@ -57,7 +57,7 @@ export default function ResetPage() {
             />
           </div>
           {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email.message}</p>
+            <p className="text-red-500 text-sm bg-red-100 text-center w-full rounded-md py-1">{errors.email.message}</p>
           )}
           <button
             type="submit"

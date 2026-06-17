@@ -106,7 +106,7 @@ export default function MyAddresses() {
               {primaryAddress?.address ?? "-"} ,{" "}
               {primaryAddress?.postalCode ?? "-"}
             </p>
-            <p> {primaryAddress?.city ?? "-"}</p>
+            <p> {primaryAddress?.regency.name ?? "-"}</p>
           </div>
         ) : (
           <div className="bg-red-100 text-red-500 px-5 py-2 rounded-md w-full flex items-center" >
@@ -122,7 +122,7 @@ export default function MyAddresses() {
               key={idx}
               onMouseEnter={() => setHoveredId(adrs.id)}
               onMouseLeave={() => setHoveredId(null)}
-              className="flex gap-2 justify-between border border-blue-300 rounded-lg p-5 flex-col w-full h-70 hover:outline-2 outline-blue-500 transition-all ease-in"
+              className="flex gap-2 justify-between border border-blue-300 rounded-lg p-5 flex-col w-full h-80 hover:outline-2 outline-blue-500 transition-all ease-in"
             >
               <div>
                 <p className="px-2 bg-claundry-accent text-blue-800 w-fit rounded-full">
@@ -130,7 +130,9 @@ export default function MyAddresses() {
                 </p>
                 <div>
                   <p>{adrs.address}</p>
-                  <p className="text-neutral-400"> {adrs.city}</p>
+                  <p className="text-neutral-400"> {adrs.regency.name}</p>
+                  <p className="text-neutral-400"> {adrs.district.name}</p>
+                  <p className="text-neutral-400"> {adrs.village.name}</p>
                   <p className="text-neutral-400"> {adrs.postalCode}</p>
                 </div>
               </div>
@@ -172,7 +174,7 @@ export default function MyAddresses() {
               });
               setFormMode("create");
             }}
-            className="flex gap-2 border border-neutral-300 border-dashed rounded-lg p-5 flex-col justify-center items-center w-full h-70 hover:outline-2 outline-blue-300 cursor-pointer"
+            className="flex gap-2 border border-neutral-300 border-dashed rounded-lg p-5 flex-col justify-center items-center w-full h-80 hover:outline-2 outline-blue-300 cursor-pointer"
           >
             <div className="rounded-full border-2 w-15 h-15 flex items-center justify-center border-neutral-300 text-neutral-300">
               <span className="text-2xl">+</span>
