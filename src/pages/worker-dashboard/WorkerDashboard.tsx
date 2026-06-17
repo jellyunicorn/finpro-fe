@@ -6,9 +6,11 @@ import logo_home_blue from "../../img/svg/home_menu_icon_blue.svg";
 import logo_settings from "../../img/svg/settings_menu_icon.svg";
 import logo_settings_blue from "../../img/svg/settings_menu_icon_blue.svg";
 import WorkerDashboardStats from "./WorkerDashboardStats";
+import { useState } from "react";
 
 export default function WorkerDashboard() {
   const outlet = useOutlet();
+  const [minimize, setMinimize] = useState(false);
 
   const menuItems = [
     {
@@ -30,7 +32,7 @@ export default function WorkerDashboard() {
       to: "orders",
       children: [
         { label: "Open", to: "orders/open" },
-        { label: "History", to: "orders/history" }
+        { label: "History", to: "orders/history" },
       ],
     },
     {
@@ -44,7 +46,11 @@ export default function WorkerDashboard() {
 
   return (
     <div className="w-full font-dmsans h-dvh bg-[#FBFDFF] flex">
-      <SideBar menuItems={menuItems} />
+      <SideBar
+        menuItems={menuItems}
+        minimize={minimize}
+        setMinimize={setMinimize}
+      />
       <div className="  h-full flex flex-col flex-1">
         <div className="border-b border-[#BAD6F5] text-neutral-400 font-medium w-full h-16 flex items-center px-10">
           <Breadcrumbs />

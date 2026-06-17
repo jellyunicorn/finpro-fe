@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router";
+import { Outlet } from "react-router";
 import { cloudvideos } from "../../lib/cloudinary";
 
 export default function AuthLayout() {

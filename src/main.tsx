@@ -61,11 +61,12 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
+    loader: authLoader(["USER", "ADMIN", "WORKER", "DRIVER"]),
     children: [
       {
         path: "user",
-        loader: authLoader(["USER"]),
         element: <UserDashboard />,
+        loader: authLoader(["USER"]),
         children: [
           {
             path: "user-profile",
@@ -102,6 +103,7 @@ export const router = createBrowserRouter([
       {
         path: "driver",
         element: <DriverDashboard />,
+        loader: authLoader(["DRIVER"]),
         children: [
           { path: "attendance", element: <DriverDashboardAttendance /> },
           { path: "deliveries", element: <DriverDashboardDeliveries /> },
@@ -119,6 +121,7 @@ export const router = createBrowserRouter([
       {
         path: "worker",
         element: <WorkerDashboard />,
+        loader: authLoader(["WORKER"]),
         children: [
           { path: "attendance", element: <WorkerDashboardAttendance /> },
           { path: "orders", element: <WorkerDashboardOrders /> },
@@ -134,6 +137,7 @@ export const router = createBrowserRouter([
       {
         path: "admin",
         element: <AdminDashboard />,
+        loader: authLoader(["ADMIN"]),
         children: [
           { path: "attendance-log", element: <AdminDashboardAttendance /> },
           { path: "settings", element: <AdminDashboardSettings /> },

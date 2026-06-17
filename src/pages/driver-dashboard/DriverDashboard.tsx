@@ -6,9 +6,11 @@ import logo_home_blue from "../../img/svg/home_menu_icon_blue.svg";
 import logo_settings from "../../img/svg/settings_menu_icon.svg";
 import logo_settings_blue from "../../img/svg/settings_menu_icon_blue.svg";
 import DriverDashboardStats from "./DriverDashboardStats";
+import { useState } from "react";
 
 export default function DriverDashboard() {
   const outlet = useOutlet();
+  const [minimize, setMinimize] = useState(false);
 
   const menuItems = [
     {
@@ -41,7 +43,11 @@ export default function DriverDashboard() {
 
   return (
     <div className="w-full font-dmsans h-dvh bg-[#FBFDFF] flex">
-      <SideBar menuItems={menuItems} />
+      <SideBar
+        menuItems={menuItems}
+        minimize={minimize}
+        setMinimize={setMinimize}
+      />
       <div className="  h-full flex flex-col flex-1">
         <div className="border-b border-[#BAD6F5] text-neutral-400 font-medium w-full h-16 flex items-center px-10">
           <Breadcrumbs />

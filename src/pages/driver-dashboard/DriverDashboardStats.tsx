@@ -7,9 +7,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { todaysdate } from "../../utils/todaysdateUtils";
-import Greetings from "../../components/user-dashboard/Greetings";
 import { cloudimages } from "../../lib/cloudinary";
+import { todaysdate } from "../../utils/todaysdateUtils";
 
 const data = [
   { day: "Mon", deliveries: 7 },
