@@ -40,7 +40,6 @@ export default function WorkerDashboard() {
       iconDark: logo_settings_blue,
       label: "Settings",
       to: "settings",
-      children: [{ label: "Change Password", to: "settings/change-password" }],
     },
   ];
 

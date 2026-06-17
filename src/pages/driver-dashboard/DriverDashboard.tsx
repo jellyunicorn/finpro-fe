@@ -37,7 +37,6 @@ export default function DriverDashboard() {
       iconDark: logo_settings_blue,
       label: "Settings",
       to: "settings",
-      children: [{ label: "Change Password", to: "settings/change-password" }],
     },
   ];
 

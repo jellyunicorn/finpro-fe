@@ -1,6 +1,6 @@
-import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
@@ -8,40 +8,38 @@ import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import "./index.css";
 import { authLoader } from "./loaders/auth.ts";
+import { userAddressLoader } from "./loaders/userAddressLoader.ts";
 import { userDataLoader } from "./loaders/userDataLoader.ts";
 import AdminDashboard from "./pages/admin-dashboard/AdminDashboard.tsx";
+import AdminDashboardAttendance from "./pages/admin-dashboard/AdminDashboardAttendance.tsx";
 import AdminDashboardSettings from "./pages/admin-dashboard/AdminDashboardSettings.tsx";
 import DriverDashboard from "./pages/driver-dashboard/DriverDashboard.tsx";
+import DriverDashboardAttendance from "./pages/driver-dashboard/DriverDashboardAttendance.tsx";
+import DriverDashboardDeliveries from "./pages/driver-dashboard/DriverDashboardDeliveries.tsx";
+import DriverDashboardDeliveryHistory from "./pages/driver-dashboard/DriverDashboardDeliveryHistory.tsx";
 import DriverDashboardSettings from "./pages/driver-dashboard/DriverDashboardSettings.tsx";
 import LandingPage from "./pages/landing-page/LandingPage.tsx";
 import AuthLayout from "./pages/login-register/AuthLayout.tsx";
 import Login from "./pages/login-register/layout/Login.tsx";
 import Register from "./pages/login-register/layout/Register.tsx";
-import VerifiedPage from "./pages/login-register/layout/VerifiedPage.tsx";
+import ResetPage from "./pages/login-register/layout/ResetPage.tsx";
 import ResetPassword from "./pages/login-register/layout/ResetPassword.tsx";
+import VerifiedPage from "./pages/login-register/layout/VerifiedPage.tsx";
+import CreatePickup from "./pages/user-dashboard/layout/CreatePickup.tsx";
+import MainDashboard from "./pages/user-dashboard/layout/MainDashboard.tsx";
+import MyAddresses from "./pages/user-dashboard/layout/MyAddresses.tsx";
+import OrderDetails from "./pages/user-dashboard/layout/OrderDetails.tsx";
+import OrderHistory from "./pages/user-dashboard/layout/OrderHistory.tsx";
+import ReverifyEmail from "./pages/user-dashboard/layout/ReverifyEmail.tsx";
+import Settings from "./pages/user-dashboard/layout/Settings.tsx";
 import UserProfile from "./pages/user-dashboard/layout/UserProfile.tsx";
 import UserDashboard from "./pages/user-dashboard/UserDashboard.tsx";
 import WorkerDashboard from "./pages/worker-dashboard/WorkerDashboard.tsx";
 import WorkerDashboardAttendance from "./pages/worker-dashboard/WorkerDashboardAttendance.tsx";
+import WorkerDashboardOpenOrders from "./pages/worker-dashboard/WorkerDashboardOpenOrders.tsx";
+import WorkerDashboardOrderHistory from "./pages/worker-dashboard/WorkerDashboardOrderHistory.tsx";
 import WorkerDashboardOrders from "./pages/worker-dashboard/WorkerDashboardOrders.tsx";
 import WorkerDashboardSettings from "./pages/worker-dashboard/WorkerDashboardSettings.tsx";
-import Settings from "./pages/user-dashboard/layout/Settings.tsx";
-import WorkerDashboardChangePassword from "./pages/worker-dashboard/WorkerDashboardChangePassword.tsx";
-import WorkerDashboardOrderHistory from "./pages/worker-dashboard/WorkerDashboardOrderHistory.tsx";
-import DriverDashboardAttendance from "./pages/driver-dashboard/DriverDashboardAttendance.tsx";
-import DriverDashboardChangePassword from "./pages/driver-dashboard/DriverDashboardChangePassword.tsx";
-import DriverDashboardDeliveries from "./pages/driver-dashboard/DriverDashboardDeliveries.tsx";
-import DriverDashboardDeliveryHistory from "./pages/driver-dashboard/DriverDashboardDeliveryHistory.tsx";
-import ReverifyEmail from "./pages/user-dashboard/layout/ReverifyEmail.tsx";
-import MyAddresses from "./pages/user-dashboard/layout/MyAddresses.tsx";
-import { userAddressLoader } from "./loaders/userAddressLoader.ts";
-import MainDashboard from "./pages/user-dashboard/layout/MainDashboard.tsx";
-import OrderHistory from "./pages/user-dashboard/layout/OrderHistory.tsx";
-import CreatePickup from "./pages/user-dashboard/layout/CreatePickup.tsx";
-import OrderDetails from "./pages/user-dashboard/layout/OrderDetails.tsx";
-import ResetPage from "./pages/login-register/layout/ResetPage.tsx";
-import WorkerDashboardOpenOrders from "./pages/worker-dashboard/WorkerDashboardOpenOrders.tsx";
-import AdminDashboardAttendance from "./pages/admin-dashboard/AdminDashboardAttendance.tsx";
 const queryClient = new QueryClient();
 
 export const router = createBrowserRouter([
@@ -111,10 +109,10 @@ export const router = createBrowserRouter([
             path: "deliveries/history",
             element: <DriverDashboardDeliveryHistory />,
           },
-          { path: "settings", element: <DriverDashboardSettings /> },
           {
-            path: "settings/change-password",
-            element: <DriverDashboardChangePassword />,
+            path: "settings",
+            element: <DriverDashboardSettings />,
+            loader: userDataLoader,
           },
         ],
       },
@@ -127,10 +125,10 @@ export const router = createBrowserRouter([
           { path: "orders", element: <WorkerDashboardOrders /> },
           { path: "orders/open", element: <WorkerDashboardOpenOrders /> },
           { path: "orders/history", element: <WorkerDashboardOrderHistory /> },
-          { path: "settings", element: <WorkerDashboardSettings /> },
           {
-            path: "settings/change-password",
-            element: <WorkerDashboardChangePassword />,
+            path: "settings",
+            element: <WorkerDashboardSettings />,
+            loader: userDataLoader,
           },
         ],
       },
@@ -140,7 +138,11 @@ export const router = createBrowserRouter([
         loader: authLoader(["ADMIN"]),
         children: [
           { path: "attendance-log", element: <AdminDashboardAttendance /> },
-          { path: "settings", element: <AdminDashboardSettings /> },
+          {
+            path: "settings",
+            element: <AdminDashboardSettings />,
+            loader: userDataLoader,
+          },
         ],
       },
     ],
