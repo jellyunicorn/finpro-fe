@@ -160,3 +160,15 @@ export type villagequery = {
   name: string;
   districtCode: string;
 };
+
+export type notification = {
+  userId: number;
+  notificationId: number;
+  readAt: string | null;
+  createdAt: string;
+  deletedAt: string | null;
+  notification: {
+    title: string;
+    body: string;
+  };
+};

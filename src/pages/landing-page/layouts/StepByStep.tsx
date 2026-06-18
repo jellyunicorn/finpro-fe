@@ -36,9 +36,10 @@ export default function StepByStep() {
             </h1>
           </div>
           <p className="text-md max-w-100 z-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
-            tempora iure dolorem harum voluptas. Unde voluptate beatae fugiat!
-            Quia, modi in? Cum tenetur excepturi vel!
+            Fresh laundry shouldn’t feel like a chore. From the moment you book
+            a pickup to the day it lands back at your door, we’ve made every
+            step effortless — just four simple steps between you and a clean
+            closet.
           </p>
         </div>
 
