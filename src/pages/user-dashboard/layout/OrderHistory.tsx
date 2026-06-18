@@ -10,6 +10,7 @@ import {
   dateConverter,
   toReadableDateTime,
 } from "../../../utils/dateconverUtils";
+import { cloudimages } from "../../../lib/cloudinary";
 
 export default function OrderHistory() {
   const [searchQuery, setSearchQuery] = useQueryState(
@@ -125,6 +126,12 @@ export default function OrderHistory() {
         </div>
       </div>
       {isLoading && <p>Loading Data...</p>}
+      {userorders.length <= 0 && (
+        <div className="w-full h-150 flex flex-col items-center justify-center">
+          <img src={cloudimages.noorderworker} className="w-100" />
+          <p className="text-neutral-400">We couldn't find any orders</p>
+        </div>
+      )}
       {userorders.map((order: orderdata, idx: number) => (
         <div
           key={idx}

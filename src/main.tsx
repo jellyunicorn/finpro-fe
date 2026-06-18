@@ -12,18 +12,19 @@ import { userAddressLoader } from "./loaders/userAddressLoader.ts";
 import { userDataLoader } from "./loaders/userDataLoader.ts";
 
 import LandingPage from "./pages/landing-page/LandingPage.tsx";
-import AuthLayout from "./pages/login-register/AuthLayout.tsx";
-import Login from "./pages/login-register/layout/Login.tsx";
-import Register from "./pages/login-register/layout/Register.tsx";
-import ResetPage from "./pages/login-register/layout/ResetPage.tsx";
-import ResetPassword from "./pages/login-register/layout/ResetPassword.tsx";
-import VerifiedPage from "./pages/login-register/layout/VerifiedPage.tsx";
-import UserDashboard from "./pages/user-dashboard/UserDashboard.tsx";
-import DriverDashboard from "./pages/driver-dashboard/DriverDashboard.tsx";
-import WorkerDashboard from "./pages/worker-dashboard/WorkerDashboard.tsx";
-import AdminDashboard from "./pages/admin-dashboard/AdminDashboard.tsx";
-import MainDashboard from "./pages/user-dashboard/layout/MainDashboard.tsx";
 import LoadingSpinner from "./components/LoadingSpinner.tsx";
+
+const AuthLayout = lazy(() => import("./pages/login-register/AuthLayout.tsx"));
+const Login = lazy(() => import("./pages/login-register/layout/Login.tsx"));
+const Register = lazy(() => import("./pages/login-register/layout/Register.tsx"));
+const ResetPage = lazy(() => import("./pages/login-register/layout/ResetPage.tsx"));
+const ResetPassword = lazy(() => import("./pages/login-register/layout/ResetPassword.tsx"));
+const VerifiedPage = lazy(() => import("./pages/login-register/layout/VerifiedPage.tsx"));
+const UserDashboard = lazy(() => import("./pages/user-dashboard/UserDashboard.tsx"));
+const DriverDashboard = lazy(() => import("./pages/driver-dashboard/DriverDashboard.tsx"));
+const WorkerDashboard = lazy(() => import("./pages/worker-dashboard/WorkerDashboard.tsx"));
+const AdminDashboard = lazy(() => import("./pages/admin-dashboard/AdminDashboard.tsx"));
+const MainDashboard = lazy(() => import("./pages/user-dashboard/layout/MainDashboard.tsx"));
 
 const UserProfile = lazy(() => import("./pages/user-dashboard/layout/UserProfile.tsx"));
 const OrderHistory = lazy(() => import("./pages/user-dashboard/layout/OrderHistory.tsx"));
@@ -124,6 +125,10 @@ export const router = createBrowserRouter([
           { path: "settings", element: <AdminDashboardSettings />, loader: userDataLoader },
         ],
       },
+      {
+        path:"verify-mail",
+        element:<ReverifyEmail/>
+      }
     ],
   },
 ]);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import MapComponent from "../../../components/schedule-pickup/MapComponent";
 import addressicon from "../../../img/svg/address_blue.svg";
 import { timetable } from "../../../lib/timeLookup";
@@ -14,6 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import useCreateOrder from "../../../hooks/useCreateOrder";
 import useFindClosest from "../../../hooks/useFindClosest";
 import { haversineDistance } from "../../../utils/haversine";
+import { cloudimages } from "../../../lib/cloudinary";
 
 export default function CreatePickup() {
   const { data: addressdata } = useQuery({
@@ -77,6 +78,27 @@ export default function CreatePickup() {
 
   return (
     <main className="flex-1 h-fit lg:h-full relative flex flex-col md:flex-row">
+      {!primaryAddress  && (
+        <div className="w-full h-full absolute inset-0 bg-white/10 backdrop-blur-[1px] z-99 flex justify-center items-center">
+          <div className="w-fit border flex-col relative inset-0 h-fit p-10  z-100 bg-white border-claundry-accent flex items-center justify-center rounded-2xl">
+            <p className="text-xl text-claundry-blue">
+              You haven't set a primary address
+            </p>
+            <p className="text-neutral-400 w-75 text-center">
+              {" "}
+              we wouldn't know where to pickup your clothes , let's set it up
+              fist!
+            </p>
+            <img src={cloudimages.noorderworker} alt="" className="w-75" />
+            <Link to="/dashboard/user/my-addresses" className="w-full">
+              {" "}
+              <button className="bg-claundry-blue text-white w-full rounded-full py-2 hover:bg-blue-400 hover:text-white border ">
+                Set Up My Address
+              </button>
+            </Link>
+          </div>
+        </div>
+      )}
       <div className="h-70 md:h-full w-full md:absolute relative md:inset-0 ">
         {/* //------> map */}
         {selectedAddress && (
@@ -223,7 +245,7 @@ export default function CreatePickup() {
                     setSelectedTime(idx);
                     setPickUpForm((prev) => ({ ...prev, pickupTime: e.value }));
                   }}
-                  className={`p-1 hover:bg-blue-50 border rounded-md border-neutral-200 ${selectedTime === idx && "bg-claundry-blue text-white hover:bg-claundry-blue"}`}
+                  className={`p-1 hover:bg-blue-50 border rounded-md text-sm border-neutral-200 ${selectedTime === idx && "bg-claundry-blue text-white hover:bg-claundry-blue"}`}
                 >
                   {e.label}
                 </button>

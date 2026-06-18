@@ -63,11 +63,12 @@ export default function MainDashboard() {
           <div className="flex flex-col md:flex-row gap-2">
             <h2 className="px-2 bg-[#BEE6E1] text-blue-800 w-fit rounded-full">
               {" "}
-              {primaryAddress.label?? "-"}
+              {primaryAddress.label ?? "-"}
             </h2>
             <p>
-              {primaryAddress.address?? "-"}, {primaryAddress.regency?.name ?? "-"},{" "}
-              {primaryAddress.postalCode?? "-"}
+              {primaryAddress.address ?? "-"},{" "}
+              {primaryAddress.regency?.name ?? "-"},{" "}
+              {primaryAddress.postalCode ?? "-"}
             </p>
           </div>
         </div>
@@ -107,12 +108,16 @@ export default function MainDashboard() {
             </div>
           </div>
         </div>
-        <div className="rounded-xl bg-white flex-1 flex flex-col h-full border py-5 px-10 border-blue-200">
-          <h2 className="text-xl">Order Summary</h2>
-          <div className="w-full  text-claundry-blue shrink-0 overflow-x-auto text-sm font-medium h-full">
+        <div className="rounded-xl bg-white flex-1 flex flex-col h-full scrollbar-thin scrollbar-thumb-blue-200 overflow-y-auto border py-5 px-10 border-blue-200">
+          <h2 className="text-xl">Recent Laundry</h2>
+          <div className="w-full  text-claundry-blue shrink-0 overflow-x-auto text-sm font-medium   flex-1 h-full">
             <div className=" w-full h-10 border-b border-neutral-200 grid grid-cols-6">
-              <div className="col-span-3 md:col-span-1 flex items-center justify-center">Order ID</div>
-              <div className="col-span-3 md:col-span-1 text-right flex items-center justify-center">Status</div>
+              <div className="col-span-3 md:col-span-1 flex items-center justify-center">
+                Order ID
+              </div>
+              <div className="col-span-3 md:col-span-1 text-right flex items-center justify-center">
+                Status
+              </div>
               <div className="hidden md:flex  items-center justify-start ">
                 Scheduled
               </div>
@@ -120,10 +125,10 @@ export default function MainDashboard() {
                 Picked Up
               </div>
               <div className="hidden md:flex items-center justify-start">
-                Delivery 
+                Delivery
               </div>
               <div className="hidden md:flex items-center justify-start">
-                Completed 
+                Completed
               </div>
             </div>
             {!isLoading ? (
@@ -144,9 +149,16 @@ export default function MainDashboard() {
                 Loading Data...
               </div>
             )}
+            {userorder && userorder?.length <= 0 && (
+              <div className=" w-full py-20 flex flex-col items-center text-neutral-400 justify-center">
+                {" "}
+                <img src={cloudimages.noorderworker} className="w-100" />
+                <p>No orders are found</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
-  </main>
+    </main>
   );
 }

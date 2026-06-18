@@ -51,7 +51,7 @@ export default function Register() {
   const handleRegisterGoogle = useRegisterGoogle();
 
   return (
-    <main className="w-full md:w-[50%] h-full md:h-full  relative z-5 bg-white p-10  items-center justify-center font-dmsans  rounded-2xl flex">
+    <main className="w-full md:w-[50%] h-full md:h-full overflow-y-auto relative z-5 bg-white p-10  items-center justify-center font-dmsans  rounded-2xl flex">
       <div className="max-w-125 justify-between w-full  h-full flex flex-col md:gap-5  items-center ">
         <div>
           {" "}

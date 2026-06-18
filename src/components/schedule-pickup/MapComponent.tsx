@@ -37,7 +37,7 @@ export default function MapComponent({
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
       style: "https://tiles.openfreemap.org/styles/bright",
-      center: [initialcoordinate.longitude, initialcoordinate.latitude],
+      center: [Number(initialcoordinate.longitude) || 106.826667 , Number(initialcoordinate.latitude) || -6.175],
       zoom: 15,
     });
 
