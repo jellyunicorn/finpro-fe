@@ -138,9 +138,12 @@ export default function MyAddresses() {
           {otherAddress.map((adrs: addressdata, idx: number) => (
             <div
               key={idx}
+              onClick={() => {hoveredId === null ?
+                setHoveredId(adrs.id) : setHoveredId(null);
+              }}
               onMouseEnter={() => setHoveredId(adrs.id)}
               onMouseLeave={() => setHoveredId(null)}
-              className="flex gap-2 justify-between border border-blue-300 rounded-lg p-5 flex-col w-full h-80 hover:outline-2 outline-blue-500 transition-all ease-in"
+              className={`flex gap-2 justify-between border border-blue-300 rounded-lg p-5 flex-col w-full h-80 ${hoveredId === adrs.id ? "outline-2": ""} outline-blue-500 transition-all ease-in`}
             >
               <div>
                 <p className="px-2 bg-claundry-accent text-blue-800 w-fit rounded-full">
