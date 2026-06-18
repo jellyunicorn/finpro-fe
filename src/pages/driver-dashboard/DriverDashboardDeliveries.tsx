@@ -1,30 +1,46 @@
 import { useState } from "react";
-import type { DriverJob } from "../../types/driverJob";
-import useGetAvailablePickups from "../../hooks/driver/useGetAvailablePickups";
-import useGetAvailableDeliveries from "../../hooks/driver/useGetAvailableDeliveries";
-import useGetActiveDriverJob from "../../hooks/driver/useGetActiveDriverJob";
-import { useBeginDriverJob } from "../../hooks/driver/useBeginDriverJob";
-import { useNextDriverJobStatus } from "../../hooks/driver/useNextDriverJobStatus";
-import { useFinishDriverJob } from "../../hooks/driver/useFinishDriverJob";
-import { useCancelDriverJob } from "../../hooks/driver/useCancelDriverJob";
-import { ActiveJobCard } from "../../components/driver-dashboard/jobs-page/ActiveJobCard";
 import DriverActiveMap from "../../components/driver-dashboard/DriverActiveMap";
-import Pagination from "../../components/Pagination";
+import { ActiveJobCard } from "../../components/driver-dashboard/jobs-page/ActiveJobCard";
 import { JobRequestsTable } from "../../components/driver-dashboard/jobs-page/JobRequestsTable";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import Pagination from "../../components/Pagination";
+import { useBeginDriverJob } from "../../hooks/driver/useBeginDriverJob";
+import { useCancelDriverJob } from "../../hooks/driver/useCancelDriverJob";
+import { useFinishDriverJob } from "../../hooks/driver/useFinishDriverJob";
+import useGetActiveDriverJob from "../../hooks/driver/useGetActiveDriverJob";
+import useGetAvailableDeliveries from "../../hooks/driver/useGetAvailableDeliveries";
+import useGetAvailablePickups from "../../hooks/driver/useGetAvailablePickups";
+import { useNextDriverJobStatus } from "../../hooks/driver/useNextDriverJobStatus";
+import type { DriverJob } from "../../types/driverJob";
 import {
   getDestinationCoords,
   getFromCoords,
 } from "../../utils/driverDashboardHelpers";
+import JobFilterTabs from "../../components/driver-dashboard/JobFilterTabs";
+import ConfirmPopup from "../../components/driver-dashboard/jobs-page/ConfirmPopup";
 
 export default function DriverDashboardDeliveries() {
-  const [pickupPage, setPickupPage] = useState<number>(1);
-  const [deliveryPage, setDeliveryPage] = useState<number>(1);
+  const [pickupPage, setPickupPage] = useState(1);
+  const [deliveryPage, setDeliveryPage] = useState(1);
   const [activeTab, setActiveTab] = useState<DriverJob["type"]>("pickup");
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
-  const { data: pickups } = useGetAvailablePickups(pickupPage);
-  const { data: deliveries } = useGetAvailableDeliveries(deliveryPage);
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [popupAction, setPopupAction] = useState<
+    "accept" | "cancel" | "complete" | "advance" | null
+  >(null);
+  const [selectedJob, setSelectedJob] = useState<{
+    id: string;
+    type: DriverJob["type"];
+  } | null>(null);
+
+  const { data: pickups, isLoading: pickupsLoading } =
+    useGetAvailablePickups(pickupPage);
+  const { data: deliveries, isLoading: deliveriesLoading } =
+    useGetAvailableDeliveries(deliveryPage);
   const { data: activeJob } = useGetActiveDriverJob();
+
+  const isLoading = pickupsLoading || deliveriesLoading;
 
   const pickupJobs: DriverJob[] | undefined = pickups?.data.map((pickup) => ({
     ...pickup,
@@ -38,43 +54,69 @@ export default function DriverDashboardDeliveries() {
     }),
   );
 
-  const { mutateAsync: beginJob } = useBeginDriverJob();
-  const { mutateAsync: nextJobStatus } = useNextDriverJobStatus();
-  const { mutateAsync: finishJob } = useFinishDriverJob();
-  const { mutateAsync: cancelJob } = useCancelDriverJob();
-
-  const handleAcceptClick = async (jobId: string) => {
-    await beginJob({ jobId, type: activeTab });
-  };
-
-  const handleAdvanceClick = async (jobId: string, type: DriverJob["type"]) => {
-    await nextJobStatus({ jobId, type });
-  };
-
-  const handleMarkCompleteClick = async (
-    jobId: string,
-    type: DriverJob["type"],
-  ) => {
-    await finishJob({ jobId, type });
-  };
-
-  const handleCancelClick = async (jobId: string, type: DriverJob["type"]) => {
-    await cancelJob({ jobId, type });
-  };
+  const { mutateAsync: beginJob, isPending: isPendingBegin } =
+    useBeginDriverJob();
+  const { mutateAsync: nextJobStatus, isPending: isPendingAdvance } =
+    useNextDriverJobStatus();
+  const { mutateAsync: finishJob, isPending: isPendingComplete } =
+    useFinishDriverJob();
+  const { mutateAsync: cancelJob, isPending: isPendingCancel } =
+    useCancelDriverJob();
 
   const toggleRow = (id: string) => {
     setExpandedRow(expandedRow === id ? null : id);
   };
 
+  const openConfirm = (
+    jobId: string,
+    type: DriverJob["type"],
+    action: "accept" | "cancel" | "complete" | "advance",
+  ) => {
+    setSelectedJob({ id: jobId, type });
+    setPopupAction(action);
+    setPopupOpen(true);
+  };
+
+  const handleAcceptConfirm = async () => {
+    if (!selectedJob) return;
+    await beginJob({ jobId: selectedJob.id, type: selectedJob.type });
+    setPopupOpen(false);
+  };
+
+  const handleAdvanceConfirm = async () => {
+    if (!selectedJob) return;
+    await nextJobStatus({ jobId: selectedJob.id, type: selectedJob.type });
+    setPopupOpen(false);
+  };
+
+  const handleCompleteConfirm = async () => {
+    if (!selectedJob) return;
+    await finishJob({ jobId: selectedJob.id, type: selectedJob.type });
+    setPopupOpen(false);
+  };
+
+  const handleCancelConfirm = async () => {
+    if (!selectedJob) return;
+    await cancelJob({ jobId: selectedJob.id, type: selectedJob.type });
+    setPopupOpen(false);
+  };
+
+  const isPending =
+    isPendingBegin || isPendingAdvance || isPendingComplete || isPendingCancel;
+
   return (
-    <div className="p-8 font-dmsans">
+    <div className="p-6 sm:p-8 font-dmsans">
+      <h1 className="text-2xl font-semibold text-claundry-blue mb-6">
+        Pickup & Delivery Requests
+      </h1>
+
       {activeJob ? (
         <div className="w-full flex gap-6">
           <ActiveJobCard
             activeJob={activeJob}
-            onAdvance={handleAdvanceClick}
-            onComplete={handleMarkCompleteClick}
-            onCancel={handleCancelClick}
+            onAdvance={(id, type) => openConfirm(id, type, "advance")}
+            onComplete={(id, type) => openConfirm(id, type, "complete")}
+            onCancel={(id, type) => openConfirm(id, type, "cancel")}
           />
           <div className="w-1/2 bg-gray-200 shadow rounded-lg border border-gray-300 flex items-center justify-center">
             <DriverActiveMap
@@ -86,61 +128,93 @@ export default function DriverDashboardDeliveries() {
           </div>
         </div>
       ) : (
-        <div className="w-full bg-white shadow rounded-lg border border-[#BAD6F5] pb-4">
-          <h1 className="text-2xl font-semibold text-claundry-blue mb-6 p-4">
-            Pickup & Delivery Requests
-          </h1>
-
-          <div className="flex border-b border-[#BAD6F5]">
-            <button
-              className={`px-4 py-2 ${
-                activeTab === "pickup"
-                  ? "text-claundry-blue font-semibold border-b-2 border-claundry-blue"
-                  : "text-gray-500"
-              }`}
-              onClick={() => setActiveTab("pickup")}
-            >
-              Pickups
-            </button>
-            <button
-              className={`px-4 py-2 ${
-                activeTab === "delivery"
-                  ? "text-claundry-blue font-semibold border-b-2 border-claundry-blue"
-                  : "text-gray-500"
-              }`}
-              onClick={() => setActiveTab("delivery")}
-            >
-              Deliveries
-            </button>
-          </div>
-
-          <JobRequestsTable
-            data={activeTab === "pickup" ? pickupJobs : deliveryJobs}
-            expandedRow={expandedRow}
-            onAccept={handleAcceptClick}
-            onToggle={toggleRow}
-          />
-
-          {activeTab === "pickup" && pickups && pickups.data.length > 0 && (
-            <Pagination
-              currentPage={pickups.meta.page}
-              totalPages={Math.ceil(pickups.meta.total / pickups.meta.take)}
-              onPageChange={(pg) => setPickupPage(pg)}
-            />
-          )}
-
-          {activeTab === "delivery" &&
-            deliveries &&
-            deliveries.data.length > 0 && (
-              <Pagination
-                currentPage={deliveries.meta.page}
-                totalPages={Math.ceil(
-                  deliveries.meta.total / deliveries.meta.take,
-                )}
-                onPageChange={(pg) => setDeliveryPage(pg)}
+        <>
+          {isLoading ? (
+            <div className="flex justify-center items-center">
+              <LoadingSpinner />
+            </div>
+          ) : (
+            <>
+              <JobFilterTabs
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
               />
-            )}
-        </div>
+              <div className="bg-white shadow rounded-lg border border-[#BAD6F5] pb-3">
+                <JobRequestsTable
+                  data={activeTab === "pickup" ? pickupJobs : deliveryJobs}
+                  expandedRow={expandedRow}
+                  onAccept={(id) => openConfirm(id, activeTab, "accept")}
+                  onToggle={toggleRow}
+                />
+
+                {activeTab === "pickup" &&
+                  pickups &&
+                  pickups?.data.length > 0 && (
+                    <Pagination
+                      currentPage={pickups.meta.page}
+                      totalPages={Math.ceil(
+                        pickups.meta.total / pickups.meta.take,
+                      )}
+                      onPageChange={setPickupPage}
+                    />
+                  )}
+
+                {activeTab === "delivery" &&
+                  deliveries &&
+                  deliveries?.data.length > 0 && (
+                    <Pagination
+                      currentPage={deliveries.meta.page}
+                      totalPages={Math.ceil(
+                        deliveries.meta.total / deliveries.meta.take,
+                      )}
+                      onPageChange={setDeliveryPage}
+                    />
+                  )}
+              </div>
+            </>
+          )}
+        </>
+      )}
+
+      {popupAction === "accept" && (
+        <ConfirmPopup
+          open={popupOpen}
+          onClose={() => setPopupOpen(false)}
+          onConfirm={handleAcceptConfirm}
+          isPending={isPending}
+          action="accept"
+          jobType={selectedJob?.type}
+        />
+      )}
+      {popupAction === "advance" && (
+        <ConfirmPopup
+          open={popupOpen}
+          onClose={() => setPopupOpen(false)}
+          onConfirm={handleAdvanceConfirm}
+          isPending={isPending}
+          action="advance"
+          jobType={selectedJob?.type}
+        />
+      )}
+      {popupAction === "complete" && (
+        <ConfirmPopup
+          open={popupOpen}
+          onClose={() => setPopupOpen(false)}
+          onConfirm={handleCompleteConfirm}
+          isPending={isPending}
+          action="complete"
+          jobType={selectedJob?.type}
+        />
+      )}
+      {popupAction === "cancel" && (
+        <ConfirmPopup
+          open={popupOpen}
+          onClose={() => setPopupOpen(false)}
+          onConfirm={handleCancelConfirm}
+          isPending={isPending}
+          action="cancel"
+          jobType={selectedJob?.type}
+        />
       )}
     </div>
   );

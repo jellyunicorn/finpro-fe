@@ -52,9 +52,9 @@ export default function WorkerDashboardOpenOrders() {
         Open Jobs
       </h1>
 
-      <p className="text-gray-500">
-        No jobs available at the moment.
-      </p>
+      {!isLoading && availableJobs && availableJobs?.data.length === 0 && (
+        <p className="text-gray-500">No jobs available at the moment.</p>
+      )}
 
       {isLoading && (
         <div className="flex items-center justify-center">

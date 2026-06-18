@@ -8,9 +8,14 @@ interface JobRequestsTableProps {
   onToggle: (jobId: string) => void;
 }
 
-export function JobRequestsTable({ data, expandedRow, onAccept, onToggle }: JobRequestsTableProps) {
+export function JobRequestsTable({
+  data,
+  expandedRow,
+  onAccept,
+  onToggle,
+}: JobRequestsTableProps) {
   return (
-    <table className="w-full text-left border-collapse">
+    <table className="w-full text-left rounded-lg overflow-hidden">
       <thead className="bg-[#BAD6F5] text-claundry-blue">
         <tr>
           <th className="p-4">Order ID</th>

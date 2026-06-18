@@ -35,7 +35,7 @@ export default function WorkerDashboardMain() {
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mt-4 sm:mt-6 w-full sm:w-auto">
           <button
             onClick={handleClockIn}
-            className="w-full sm:w-auto px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white transition"
+            className="w-full sm:w-auto px-4 py-2 rounded bg-claundry-blue hover:bg-blue-700 text-white transition"
           >
             Clock In
           </button>

@@ -8,7 +8,7 @@ interface JobTableProps {
 
 export default function JobTable({ jobs, onAccept }: JobTableProps) {
   return (
-    <div className="overflow-x-auto hidden sm:block">
+    <div className="overflow-x-auto hidden sm:block rounded-lg">
       <table className="w-full text-left border-collapse min-w-150px">
         <thead className="bg-[#BAD6F5] text-claundry-blue sticky top-0">
           <tr>

@@ -9,7 +9,7 @@ interface JobsTableProps {
 export default function JobsTable({ jobs, onCompleteClick }: JobsTableProps) {
   return (
     <>
-      <div className="hidden md:block overflow-x-auto">
+      <div className="hidden md:block overflow-x-auto rounded-lg">
         <table className="min-w-full text-left border-collapse">
           <thead className="bg-[#BAD6F5] text-claundry-blue">
             <tr>

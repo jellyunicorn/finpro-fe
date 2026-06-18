@@ -13,7 +13,7 @@ export default function AttendanceList({ data }: AttendanceListProps) {
           className="grid grid-cols-2 sm:grid-cols-4 gap-2 border-b pb-2"
         >
           <span>{new Date(entry.startTime).toLocaleString()}</span>
-          <span className="text-green-600 font-medium">Clock In</span>
+          <span className="text-claundry-blue font-medium">Clock In</span>
           {entry.endTime ? (
             <>
               <span>{new Date(entry.endTime).toLocaleString()}</span>

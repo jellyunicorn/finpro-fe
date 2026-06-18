@@ -8,7 +8,7 @@ interface JobHistoryTableProps {
 
 export default function JobHistoryTable({ jobs }: JobHistoryTableProps) {
   return (
-    <div className="hidden sm:block overflow-x-auto">
+    <div className="hidden sm:block overflow-x-auto rounded-lg">
       <table className="w-full text-left border-collapse">
         <thead className="bg-[#BAD6F5] text-claundry-blue">
           <tr>

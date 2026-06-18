@@ -1,4 +1,3 @@
-// components/EmployeeRow.tsx
 import { Link } from "react-router";
 import type { EmployeeAttendance } from "../../types/employeeAttendance";
 import AttendanceDropDown from "./AttendanceDropDown";
