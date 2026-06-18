@@ -57,9 +57,6 @@ export default function MyAddresses() {
     }
   };
 
-  useEffect(() => {
-    console.log(addressForm);
-  }, [addressForm]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -134,7 +131,7 @@ export default function MyAddresses() {
       </div>
       <h2 className="text-claundry-blue">Other Addresses</h2>
       <div className="  w-full max-w-275 flex flex-col gap-2 h-fit ">
-        <div className="grid md:grid-cols-3 gap-5  ">
+        <div className="grid lg:grid-cols-3 gap-5  ">
           {otherAddress.map((adrs: addressdata, idx: number) => (
             <div
               key={idx}

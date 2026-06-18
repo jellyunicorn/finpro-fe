@@ -16,7 +16,8 @@ export const cloudimages = {
   dashboard_img: `${BASE}/image/upload/v1780028188/dashboard_image_fxwltx.png`,
   waitingworker: `${BASE}/image/upload/v1780998224/waitingworker_illus_emtcdj.png`,
   noorderworker: `${BASE}/image/upload/v1781704662/noorder_illus_kibenx.png`,
-  navbarillus: `${BASE}/image/upload/v1781710138/navbar_illus_xlckew.png`
+  navbarillus: `${BASE}/image/upload/v1781710138/navbar_illus_xlckew.png`,
+  notfoundillus : `${BASE}/image/upload/v1781777087/404illus_hddxvb.png`
 };
 
 
@@ -24,6 +25,12 @@ export const testi_icons = [
   `${BASE}/image/upload/v1778924226/icon_illust_3_i4ad9a.png`,
   `${BASE}/image/upload/v1778924226/icon_illust_4_p5a2bi.png`,
   `${BASE}/image/upload/v1778924226/icon_illust_2_asb905.png`,
+  `${BASE}/image/upload/v1778924226/icon_illust_1_n0wi2r.png`,
+    `${BASE}/image/upload/v1778924226/icon_illust_3_i4ad9a.png`,
+  `${BASE}/image/upload/v1778924226/icon_illust_4_p5a2bi.png`,
+  `${BASE}/image/upload/v1778924226/icon_illust_2_asb905.png`,
+  `${BASE}/image/upload/v1778924226/icon_illust_1_n0wi2r.png`,
+    `${BASE}/image/upload/v1778924226/icon_illust_2_asb905.png`,
   `${BASE}/image/upload/v1778924226/icon_illust_1_n0wi2r.png`,
 ];
 

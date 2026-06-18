@@ -66,8 +66,8 @@ export default function OrderHistory() {
           Inspect and Manage your order here
         </p>
       </div>
-      <div className="flex flex-col md:flex-row gap-2  justify-between">
-        <div className="flex flex-col md:flex-row gap-2">
+      <div className="flex flex-col lg:flex-row gap-2  justify-between">
+        <div className="flex flex-col lg:flex-row gap-2">
           <button
             onClick={() => {
               setDateQuery("-");
@@ -190,7 +190,7 @@ export default function OrderHistory() {
           </div>
           <hr className="border-neutral-200 my-2" />
 
-          <div className="grid md:grid-cols-3 my-2">
+          <div className="grid lg:grid-cols-3 my-2">
             <div className="border w-full p-4 rounded-2xl flex items-center justify-center border-claundry-accent">
               <p className="font-medium text-claundry-blue">Scheduled :</p>{" "}
               <p>{toReadableDateTime(order.scheduledTime)}</p>

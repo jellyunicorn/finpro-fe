@@ -13,6 +13,7 @@ import { userDataLoader } from "./loaders/userDataLoader.ts";
 
 import LandingPage from "./pages/landing-page/LandingPage.tsx";
 import LoadingSpinner from "./components/LoadingSpinner.tsx";
+import NotFound from "./pages/NotFound.tsx";
 
 const AuthLayout = lazy(() => import("./pages/login-register/AuthLayout.tsx"));
 const Login = lazy(() => import("./pages/login-register/layout/Login.tsx"));
@@ -129,6 +130,7 @@ export const router = createBrowserRouter([
       }
     ],
   },
+  { path: "*", element: <NotFound /> }, 
 ]);
 
 createRoot(document.getElementById("root")!).render(
