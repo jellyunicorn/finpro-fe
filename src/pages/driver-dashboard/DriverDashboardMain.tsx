@@ -87,7 +87,7 @@ export default function WorkerDashboardMain() {
           )}
 
           {isLoading ? (
-            <p className="flex justify-center items-center">
+            <p className="">
               <LoadingSpinner />
             </p>
           ) : attendanceLog && attendanceLog.data.length > 0 ? (
