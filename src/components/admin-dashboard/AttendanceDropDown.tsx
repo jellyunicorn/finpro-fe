@@ -18,8 +18,7 @@ export default function AttendanceDropDown({
       <thead className="text-claundry-blue">
         <tr>
           <th className="p-2">Date</th>
-          <th className="p-2">Check-In</th>
-          <th className="p-2">Check-Out</th>
+          <th className="p-2">Type</th>
         </tr>
       </thead>
       <tbody>
@@ -28,12 +27,7 @@ export default function AttendanceDropDown({
             <td className="p-2">
               {new Date(log.startTime).toLocaleDateString()}
             </td>
-            <td className="p-2">
-              {new Date(log.startTime).toLocaleTimeString()}
-            </td>
-            <td className="p-2">
-              {log.endTime ? new Date(log.endTime).toLocaleTimeString() : "-"}
-            </td>
+            <td className="p-2">{log.type}</td>
           </tr>
         ))}
       </tbody>
