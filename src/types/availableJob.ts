@@ -4,6 +4,7 @@ export interface AvailableJob {
   jobId: string;
   station: string;
   createdAt: string;
+  scheduledTime: string;
   startTime: string;
   endTime: string;
   orderItems: OrderItem[];

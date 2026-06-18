@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import JobFilterTabs from "../../components/driver-dashboard/JobFilterTabs";
 import JobHistoryCards from "../../components/driver-dashboard/jobs-history/JobHistoryCards";
 import JobHistoryTable from "../../components/driver-dashboard/jobs-history/JobHistoryTable";
@@ -8,16 +11,31 @@ import useGetDeliveryHistory from "../../hooks/driver/useGetDeliveryHistory";
 import useGetPickupHistory from "../../hooks/driver/useGetPickupHistory";
 import type { DriverJob } from "../../types/driverJob";
 
+import {
+  jobHistoryFilterSchema,
+  type JobHistoryFilterSchema,
+} from "../../schemas/jobHistoryFilterSchema";
+import JobHistoryFilterForm from "../../components/driver-dashboard/jobs-history/JobHistoryFilterForm";
+
 export default function DriverDashboardDeliveryHistory() {
   const [pickupsPage, setPickupsPage] = useState(1);
   const [deliveriesPage, setDeliveriesPage] = useState(1);
   const [activeTab, setActiveTab] = useState<"pickup" | "delivery">("pickup");
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
+  const [filters, setFilters] = useState<JobHistoryFilterSchema>({});
 
-  const { data: pickups, isLoading: pickupsLoading } =
-    useGetPickupHistory(pickupsPage);
+  const { data: pickups, isLoading: pickupsLoading } = useGetPickupHistory(
+    pickupsPage,
+    filters.startDate ?? undefined,
+    filters.endDate ?? undefined,
+  );
+
   const { data: deliveries, isLoading: deliveriesLoading } =
-    useGetDeliveryHistory(deliveriesPage);
+    useGetDeliveryHistory(
+      deliveriesPage,
+      filters.startDate ?? undefined,
+      filters.endDate ?? undefined,
+    );
 
   const isLoading = pickupsLoading || deliveriesLoading;
 
@@ -39,6 +57,29 @@ export default function DriverDashboardDeliveryHistory() {
 
   const toggleRow = (id: string) => {
     setExpandedRow(expandedRow === id ? null : id);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<JobHistoryFilterSchema>({
+    resolver: zodResolver(jobHistoryFilterSchema),
+    defaultValues: { startDate: undefined, endDate: undefined },
+  });
+
+  const onSubmit = (data: JobHistoryFilterSchema) => {
+    setFilters(data);
+    setPickupsPage(1);
+    setDeliveriesPage(1);
+  };
+
+  const clearFilters = () => {
+    reset();
+    setFilters({});
+    setPickupsPage(1);
+    setDeliveriesPage(1);
   };
 
   let emptyMessage: string | null = null;
@@ -63,6 +104,7 @@ export default function DriverDashboardDeliveryHistory() {
       ) : (
         <>
           <JobFilterTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+          <JobHistoryFilterForm onSubmit={onSubmit} onClear={clearFilters} />
 
           {emptyMessage ? (
             <div className="p-6 text-center text-gray-600">{emptyMessage}</div>
