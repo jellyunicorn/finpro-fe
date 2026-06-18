@@ -73,8 +73,8 @@ export default function MainDashboard() {
           </div>
         </div>
       )}
-      <div className=" w-full flex flex-col lg:flex-row gap-5 h-150">
-        <div className="lg:w-[25%] justify-between lg:justify-start md:h-full rounded-xl gap-5 flex flex-col">
+      <div className=" w-full flex flex-col lg:flex-row gap-5 h-full">
+        <div className="lg:w-[25%] justify-between md:justify-start md:h-full rounded-xl gap-5 flex flex-col">
           <Link
             to="/dashboard/user/pickup"
             onClick={(e) =>
@@ -108,7 +108,7 @@ export default function MainDashboard() {
             </div>
           </div>
         </div>
-        <div className="rounded-xl bg-white flex-1 flex flex-col h-full scrollbar-thin scrollbar-thumb-blue-200 overflow-y-auto border py-5 px-10 border-blue-200">
+        <div className="rounded-xl bg-white flex-1 flex flex-col h-full  scrollbar-thin scrollbar-thumb-blue-200 overflow-y-auto border py-5 px-10 border-blue-200">
           <h2 className="text-xl">Recent Laundry</h2>
           <div className="w-full  text-claundry-blue shrink-0 overflow-x-auto text-sm font-medium   flex-1 h-full">
             <div className=" w-full h-10 border-b border-neutral-200 grid grid-cols-6">

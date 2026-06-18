@@ -135,7 +135,13 @@ export default function AddressEditMenu({
   return (
     <>
       {isEditing && (
-        <div className="w-screen h-dvh bg-black/20 backdrop-blur-[2px] fixed inset-0 z-0" />
+        <div
+          onClick={() => {
+            setFormMode(null);
+            setConfirmDelete(false);
+          }}
+          className="w-screen h-dvh bg-black/20 backdrop-blur-[2px] fixed inset-0 z-0"
+        />
       )}
 
       <div
@@ -184,13 +190,37 @@ export default function AddressEditMenu({
                 )}
               </div>
               <button
-              type="button"
+                type="button"
                 onClick={() => setFormMode(null)}
                 className="text-neutral-400 hover:text-black text-xl font-medium"
               >
                 ✕
               </button>
             </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-neutral-600">
+              Make This Primary Address
+            </span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={addressForm?.isPrimary ?? false}
+              onClick={() =>
+                setAddressForm((prev) =>
+                  prev ? { ...prev, isPrimary: !prev.isPrimary } : prev,
+                )
+              }
+              className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${
+                addressForm?.isPrimary ? "bg-claundry-blue" : "bg-neutral-300"
+              }`}
+            >
+              <span
+                className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white transition-transform ${
+                  addressForm?.isPrimary ? "translate-x-5" : "translate-x-0"
+                }`}
+              />
+            </button>
           </div>
           <div className="flex flex-col gap-1">
             <label className="text-sm text-neutral-600">Label</label>
@@ -339,25 +369,24 @@ export default function AddressEditMenu({
               setAddressForm={setAddressForm}
             />
           </div>
-          
         </form>
         <div className="md:hidden justify-between flex flex-col gap-4">
-                <button
-                  type="submit"
-                  className=" bg-claundry-blue text-white rounded-md px-2 py-2 hover:bg-blue-700"
-                >
-                  {formMode === "create" ? "Add New Address" : "Save Changes"}
-                </button>
-                {formMode === "edit" && (
-                  <button
-                    type="button"
-                    onClick={() => setConfirmDelete(true)}
-                    className="border rounded-md px-2 py-1.5 border-red-500 text-red-500 hover:bg-red-100"
-                  >
-                    Delete Address
-                  </button>
-                )}
-              </div>
+          <button
+            type="submit"
+            className=" bg-claundry-blue text-white rounded-md px-2 py-2 hover:bg-blue-700"
+          >
+            {formMode === "create" ? "Add New Address" : "Save Changes"}
+          </button>
+          {formMode === "edit" && (
+            <button
+              type="button"
+              onClick={() => setConfirmDelete(true)}
+              className="border rounded-md px-2 py-1.5 border-red-500 text-red-500 hover:bg-red-100"
+            >
+              Delete Address
+            </button>
+          )}
+        </div>
       </div>
     </>
   );

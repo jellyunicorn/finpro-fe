@@ -21,7 +21,6 @@ export default function CreatePickup() {
     queryKey: ["useraddress"],
     queryFn: async () => {
       const result = await axiosInstance.get("/address/user");
-      console.log(result.data);
       return result.data.useraddress;
     },
   });
@@ -39,7 +38,6 @@ export default function CreatePickup() {
     queryKey: ["outlets"],
     queryFn: async () => {
       const result = await axiosInstance.get("/address/outlets");
-      console.log(result.data);
       return result.data.outlets;
     },
   });
@@ -68,16 +66,13 @@ export default function CreatePickup() {
     if (addressdata?.length) setSelectedAddress(primaryAddress);
   }, [addressdata]);
 
-  useEffect(() => {
-    console.log(PickUpForm);
-  }, [PickUpForm, selectedAddress, outlet]);
 
   const isFormValid = Object.values(PickUpForm).every(
     (value) => value !== null,
   );
 
   return (
-    <main className="flex-1 h-fit lg:h-full relative flex flex-col md:flex-row">
+    <main className="flex-1 h-fit md:h-full relative flex flex-col lg:flex-row">
       {!primaryAddress  && (
         <div className="w-full h-full absolute inset-0 bg-white/10 backdrop-blur-[1px] z-99 flex justify-center items-center">
           <div className="w-fit border flex-col relative inset-0 h-fit p-10  z-100 bg-white border-claundry-accent flex items-center justify-center rounded-2xl">
@@ -99,7 +94,7 @@ export default function CreatePickup() {
           </div>
         </div>
       )}
-      <div className="h-70 md:h-full w-full md:absolute relative md:inset-0 ">
+      <div className="h-70 md:h-[50%] lg:h-full w-full lg:absolute relative lg:inset-0 ">
         {/* //------> map */}
         {selectedAddress && (
           <MapComponent
@@ -121,7 +116,7 @@ export default function CreatePickup() {
           />
         )}
       </div>
-      <div className="flex min-w-[30%] h-fit md:overflow-hidden  border-[#BEE6E1] border shadow-md px-4 md:px-8 gap-2 py-5 flex-1 md:rounded-lg  md:m-5 md:absolute z-1 bg-white  flex-col">
+      <div className="flex min-w-[30%] h-fit lg:overflow-hidden  border-[#BEE6E1] border shadow-lg px-4 lg:px-8 gap-2 py-5 flex-1 lg:rounded-lg  lg:m-5 lg:absolute z-1 bg-white  flex-col">
         <div className="flex flex-col ">
           <h1 className="text-2xl font-medium text-claundry-blue">
             Schedule a Pick Up
@@ -163,7 +158,7 @@ export default function CreatePickup() {
           </div>
           <div className="flex gap-2 w-full items-center">
             <p className="font-bold whitespace-nowrap">Outlet</p>
-            <div className="border rounded-md h-10 items-center justify-between flex border-claundry-accent px-2 py-2 w-full">
+            <div className="border rounded-lg h-10 items-center justify-between flex border-claundry-accent px-2 py-2 w-full">
               <select
                 className="w-full"
                 value={outlet.outletid ?? ""}
@@ -213,7 +208,7 @@ export default function CreatePickup() {
             </div>
           </div>
           {notClosest && (
-            <small className="bg-red-100 text-red-500 py-2 rounded-md flex justify-center">
+            <small className="bg-red-100 text-red-500 py-2 rounded-lg flex justify-center">
               This outlet is not the most efficient distance
             </small>
           )}
@@ -221,7 +216,7 @@ export default function CreatePickup() {
         <div className=" w-full border rounded-xl flex flex-col gap-2 h-full flex-1 border-[#BEE6E1] bg-white p-5  ">
           <div className="flex gap-2 w-full items-center">
             <p className="font-bold">Date</p>
-            <div className="border rounded-md border-neutral-200 px-2 py-2 w-full">
+            <div className="border rounded-lg border-neutral-200 px-2 py-2 w-full">
               <input
                 type="date"
                 min={tomorrow.toISOString().slice(0, 10)}
@@ -237,7 +232,7 @@ export default function CreatePickup() {
           </div>
           <div className="flex gap-2 w-full items-center">
             <p className="font-bold">Time</p>
-            <div className="border rounded-md grid grid-cols-3 gap-2 border-neutral-200 px-2 py-2 w-full">
+            <div className="border rounded-lg grid grid-cols-3 gap-2 border-neutral-200 px-2 py-2 w-full">
               {timetable.map((e, idx) => (
                 <button
                   key={idx}
@@ -245,7 +240,7 @@ export default function CreatePickup() {
                     setSelectedTime(idx);
                     setPickUpForm((prev) => ({ ...prev, pickupTime: e.value }));
                   }}
-                  className={`p-1 hover:bg-blue-50 border rounded-md text-sm border-neutral-200 ${selectedTime === idx && "bg-claundry-blue text-white hover:bg-claundry-blue"}`}
+                  className={`p-1 hover:bg-blue-50 border rounded-lg text-sm border-neutral-200 ${selectedTime === idx && "bg-claundry-blue text-white hover:bg-claundry-blue"}`}
                 >
                   {e.label}
                 </button>
