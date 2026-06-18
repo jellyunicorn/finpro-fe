@@ -1,7 +1,12 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { Link, useLoaderData } from "react-router";
 import MapComponent from "../../../components/schedule-pickup/MapComponent";
+import useCreateOrder from "../../../hooks/order/useCreateOrder";
+import useFindClosest from "../../../hooks/user/useFindClosest";
 import addressicon from "../../../img/svg/address_blue.svg";
+import { axiosInstance } from "../../../lib/axios";
+import { cloudimages } from "../../../lib/cloudinary";
 import { timetable } from "../../../lib/timeLookup";
 import type {
   addressdata,
@@ -9,12 +14,7 @@ import type {
   outletdata,
   pickupform,
 } from "../../../lib/types";
-import { axiosInstance } from "../../../lib/axios";
-import { useQuery } from "@tanstack/react-query";
-import useCreateOrder from "../../../hooks/useCreateOrder";
-import useFindClosest from "../../../hooks/useFindClosest";
 import { haversineDistance } from "../../../utils/haversine";
-import { cloudimages } from "../../../lib/cloudinary";
 
 export default function CreatePickup() {
   const { data: addressdata } = useQuery({
@@ -78,7 +78,7 @@ export default function CreatePickup() {
 
   return (
     <main className="flex-1 h-fit lg:h-full relative flex flex-col md:flex-row">
-      {!primaryAddress  && (
+      {!primaryAddress && (
         <div className="w-full h-full absolute inset-0 bg-white/10 backdrop-blur-[1px] z-99 flex justify-center items-center">
           <div className="w-fit border flex-col relative inset-0 h-fit p-10  z-100 bg-white border-claundry-accent flex items-center justify-center rounded-2xl">
             <p className="text-xl text-claundry-blue">

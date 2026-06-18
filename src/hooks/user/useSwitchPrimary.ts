@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { axiosInstance } from "../lib/axios";
+import { axiosInstance } from "../../lib/axios";
 
 export default function useSwitchPrimary() {
 

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { axiosInstance } from "../lib/axios";
-import { useLoginStore } from "../store/useAppStore";
-import { goToDashboard } from "../utils/goToDashboard";
+import { axiosInstance } from "../../lib/axios";
+import { useLoginStore } from "../../store/useAppStore";
+import { goToDashboard } from "../../utils/goToDashboard";
 
 type LoginForm = {
   email: string;

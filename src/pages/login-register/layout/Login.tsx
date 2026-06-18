@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { z } from "zod";
 import { Link, useNavigate } from "react-router";
-import useLogin from "../../../hooks/useLogin";
-import useLoginGoogle from "../../../hooks/useLoginGoogle";
+import useLogin from "../../../hooks/auth/useLogin";
+import useLoginGoogle from "../../../hooks/auth/useLoginGoogle";
 import googleLogo from "../../../img/svg/google_logo.svg";
 import mainLogo from "../../../img/svg/main_logo_blue.svg";
 

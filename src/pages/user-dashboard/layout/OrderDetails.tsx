@@ -4,7 +4,7 @@ import DetailRow from "../../../components/order-details/DetailRow";
 import ItemRow from "../../../components/order-details/ItemRow";
 import StatusProgress from "../../../components/order-details/StatusProgress";
 import TimelineRow from "../../../components/order-details/TimelineRow";
-import useConfirmOrder from "../../../hooks/useConfirmOrder";
+import useConfirmOrder from "../../../hooks/order/useConfirmOrder";
 import usePaymentSession from "../../../hooks/usePaymentSession";
 import location_icon from "../../../img/svg/address_blue.svg";
 import { axiosInstance } from "../../../lib/axios";

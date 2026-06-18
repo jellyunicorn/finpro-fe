@@ -1,5 +1,5 @@
-import type { addressdata, outletdata } from "../lib/types";
-import { haversineDistance } from "../utils/haversine";
+import type { addressdata, outletdata } from "../../lib/types";
+import { haversineDistance } from "../../utils/haversine";
 
 export default function useFindClosest() {
   const closestOutlet = (

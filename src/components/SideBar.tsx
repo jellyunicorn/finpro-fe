@@ -1,6 +1,6 @@
 import { type Dispatch, type SetStateAction } from "react";
 import { Link } from "react-router";
-import useLogout from "../hooks/useLogout";
+import useLogout from "../hooks/auth/useLogout";
 import logo_logout from "../img/svg/logout_logo.svg";
 import logo_blue from "../img/svg/main_logo_blue.svg";
 import logo_sidebar from "../img/svg/sidebar_icon.svg";

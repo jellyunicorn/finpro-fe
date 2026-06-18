@@ -2,7 +2,7 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Feature, FeatureCollection } from "geojson";
 import { useEffect, useRef } from "react";
-import useFindClosest from "../../hooks/useFindClosest";
+import useFindClosest from "../../hooks/user/useFindClosest";
 import type {
   addressdata,
   closestoutletinfo,
