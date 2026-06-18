@@ -6,6 +6,8 @@ import logo_home from "../../img/svg/home_menu_icon.svg";
 import logo_home_blue from "../../img/svg/home_menu_icon_blue.svg";
 import logo_settings from "../../img/svg/settings_menu_icon.svg";
 import logo_settings_blue from "../../img/svg/settings_menu_icon_blue.svg";
+import logo_deliveries from "../../img/svg/deliveries_logo.svg";
+import logo_deliveries_blue from "../../img/svg/deliveries_logo_blue.svg";
 import DriverDashboardMain from "./DriverDashboardMain";
 
 export default function DriverDashboard() {
@@ -21,8 +23,8 @@ export default function DriverDashboard() {
       to: "",
     },
     {
-      icon: logo_home,
-      iconDark: logo_home_blue,
+      icon: logo_deliveries,
+      iconDark: logo_deliveries_blue,
       label: "Deliveries",
       to: "deliveries",
       children: [{ label: "History", to: "deliveries/history" }],
