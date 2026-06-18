@@ -46,6 +46,11 @@ export default function NotificationBell() {
           open ? "opacity-100" : "pointer-events-none opacity-0 -translate-y-2"
         }`}
       >
+        {!notification?.length && (
+          <div className="text-neutral-300 w-full h-full flex justify-center items-center">
+            No Notification found...
+          </div>
+        )}
         {notification?.map((n: notification) => (
           <div
             key={n.notificationId}
