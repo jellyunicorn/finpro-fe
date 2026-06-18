@@ -19,11 +19,11 @@ export default function TimeSummary({data}:timesummaryprops) {
     : "-";
 
   return (
-    <div className="flex flex-col text-left w-full ">
-      <span>
+    <div className="flex flex-col text-left w-full my-1 ">
+      <span className={`${date !== "-" && month !== "-" && "bg-claundry-blue text-white"} px-2  rounded-full w-fit`}>
         {date} {month}
       </span>
-      <span className="text-neutral-400">{time}</span>
+      <span className="text-neutral-400 px-3 w-fit ">{time}</span>
     </div>
   );
 }

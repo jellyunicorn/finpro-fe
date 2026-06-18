@@ -22,7 +22,7 @@ export default function OrderSummaryData({
 }: Props) {
   return (
     <div
-      className={` w-full h-13 text-sm  grid grid-cols-6 ${index % 2 == 0 && "bg-neutral-100"}`}
+      className={` w-full h-fit text-sm py-1   grid grid-cols-6 ${index % 2 == 0 && "bg-neutral-100"}`}
     >
       <div className="col-span-3 md:col-span-1 flex items-center justify-center">
         <div className="w-30 line-clamp-1">{orderId}</div>
