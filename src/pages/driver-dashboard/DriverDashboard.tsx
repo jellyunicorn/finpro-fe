@@ -9,6 +9,8 @@ import logo_settings_blue from "../../img/svg/settings_menu_icon_blue.svg";
 import logo_deliveries from "../../img/svg/deliveries_logo.svg";
 import logo_deliveries_blue from "../../img/svg/deliveries_logo_blue.svg";
 import DriverDashboardMain from "./DriverDashboardMain";
+import NotificationBell from "../../components/NotificationBell";
+import burger_menu from "../../img/svg/burger_menu.svg";
 
 export default function DriverDashboard() {
   const outlet = useOutlet();
@@ -47,8 +49,17 @@ export default function DriverDashboard() {
         setMobileMenu={setMobileMenu}
       />
       <div className="  h-full flex flex-col flex-1">
-        <div className="border-b border-[#BAD6F5] text-neutral-400 font-medium w-full h-16 flex items-center px-10">
-          <Breadcrumbs />
+        <div className="border-b shrink-0 border-[#BAD6F5] relative justify-between  text-neutral-400 font-medium w-full h-16 flex items-center px-4 md:px-10">
+          <button
+            className="md:hidden z-20 "
+            onClick={() => setMobileMenu(!mobileMenu)}
+          >
+            <img src={burger_menu} alt="" />
+          </button>
+          <div className="hidden md:block">
+            <Breadcrumbs />
+          </div>
+          <NotificationBell />
         </div>
         {outlet || <DriverDashboardMain />}
       </div>

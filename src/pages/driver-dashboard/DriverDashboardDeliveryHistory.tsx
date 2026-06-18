@@ -1,6 +1,6 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import JobFilterTabs from "../../components/driver-dashboard/JobFilterTabs";
 import JobHistoryCards from "../../components/driver-dashboard/jobs-history/JobHistoryCards";
@@ -11,11 +11,11 @@ import useGetDeliveryHistory from "../../hooks/driver/useGetDeliveryHistory";
 import useGetPickupHistory from "../../hooks/driver/useGetPickupHistory";
 import type { DriverJob } from "../../types/driverJob";
 
+import JobHistoryFilterForm from "../../components/driver-dashboard/jobs-history/JobHistoryFilterForm";
 import {
   jobHistoryFilterSchema,
   type JobHistoryFilterSchema,
 } from "../../schemas/jobHistoryFilterSchema";
-import JobHistoryFilterForm from "../../components/driver-dashboard/jobs-history/JobHistoryFilterForm";
 
 export default function DriverDashboardDeliveryHistory() {
   const [pickupsPage, setPickupsPage] = useState(1);
@@ -59,12 +59,7 @@ export default function DriverDashboardDeliveryHistory() {
     setExpandedRow(expandedRow === id ? null : id);
   };
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<JobHistoryFilterSchema>({
+  const { reset } = useForm<JobHistoryFilterSchema>({
     resolver: zodResolver(jobHistoryFilterSchema),
     defaultValues: { startDate: undefined, endDate: undefined },
   });
