@@ -1,8 +1,12 @@
-import React, { useState } from "react";
-import useGetDeliveryHistory from "../../hooks/useGetDeliveryHistory";
-import useGetPickupHistory from "../../hooks/useGetPickupHistory";
-import { formatDateTime } from "../../utils/driverDashboardHelpers";
+import { useEffect, useState } from "react";
+import JobFilterTabs from "../../components/driver-dashboard/JobFilterTabs";
+import JobHistoryCards from "../../components/driver-dashboard/jobs-history/JobHistoryCards";
+import JobHistoryTable from "../../components/driver-dashboard/jobs-history/JobHistoryTable";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import Pagination from "../../components/Pagination";
+import useGetDeliveryHistory from "../../hooks/driver/useGetDeliveryHistory";
+import useGetPickupHistory from "../../hooks/driver/useGetPickupHistory";
+import type { DriverJob } from "../../types/driverJob";
 
 export default function DriverDashboardDeliveryHistory() {
   const [pickupsPage, setPickupsPage] = useState(1);
@@ -10,131 +14,92 @@ export default function DriverDashboardDeliveryHistory() {
   const [activeTab, setActiveTab] = useState<"pickup" | "delivery">("pickup");
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
-  const { data: pickups } = useGetPickupHistory(pickupsPage);
-  const { data: deliveries } = useGetDeliveryHistory(deliveriesPage);
+  const { data: pickups, isLoading: pickupsLoading } =
+    useGetPickupHistory(pickupsPage);
+  const { data: deliveries, isLoading: deliveriesLoading } =
+    useGetDeliveryHistory(deliveriesPage);
+
+  const isLoading = pickupsLoading || deliveriesLoading;
+
+  const pickupJobs: DriverJob[] =
+    pickups?.data.map((p) => ({ ...p, type: "pickup" })) ?? [];
+  const deliveryJobs: DriverJob[] =
+    deliveries?.data.map((d) => ({ ...d, type: "delivery" })) ?? [];
+
+  const hasPickups = pickupJobs.length > 0;
+  const hasDeliveries = deliveryJobs.length > 0;
+
+  useEffect(() => {
+    if (!hasPickups && hasDeliveries) {
+      setActiveTab("delivery");
+    } else if (!hasDeliveries && hasPickups) {
+      setActiveTab("pickup");
+    }
+  }, [hasPickups, hasDeliveries]);
 
   const toggleRow = (id: string) => {
     setExpandedRow(expandedRow === id ? null : id);
   };
 
+  let emptyMessage: string | null = null;
+  if (!hasPickups && !hasDeliveries && !isLoading) {
+    emptyMessage = "No pickup or delivery history found.";
+  } else if (activeTab === "pickup" && !hasPickups && hasDeliveries) {
+    emptyMessage = "No pickup history available.";
+  } else if (activeTab === "delivery" && !hasDeliveries && hasPickups) {
+    emptyMessage = "No delivery history available.";
+  }
+
   return (
-    <div className="p-8 font-dmsans">
-      <div className="w-full bg-white shadow rounded-lg border border-[#BAD6F5] pb-4">
-        <h1 className="text-2xl font-semibold text-claundry-blue mb-6 p-4">
-          Pickup & Delivery History
-        </h1>
+    <div className="p-6 sm:p-8 font-dmsans">
+      <h1 className="text-2xl font-semibold text-claundry-blue mb-6">
+        Pickup & Delivery History
+      </h1>
 
-        <div className="flex border-b border-[#BAD6F5]">
-          <button
-            className={`px-4 py-2 ${
-              activeTab === "pickup"
-                ? "text-claundry-blue font-semibold border-b-2 border-claundry-blue"
-                : "text-gray-500"
-            }`}
-            onClick={() => setActiveTab("pickup")}
-          >
-            Pickups
-          </button>
-          <button
-            className={`px-4 py-2 ${
-              activeTab === "delivery"
-                ? "text-claundry-blue font-semibold border-b-2 border-claundry-blue"
-                : "text-gray-500"
-            }`}
-            onClick={() => setActiveTab("delivery")}
-          >
-            Deliveries
-          </button>
+      {isLoading ? (
+        <div className="flex justify-center items-center">
+          <LoadingSpinner />
         </div>
+      ) : (
+        <>
+          <JobFilterTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        <table className="w-full text-left border-collapse">
-          <thead className="bg-[#BAD6F5] text-claundry-blue">
-            <tr>
-              <th className="p-4">Order ID</th>
-              <th className="p-4">Distance</th>
-              <th className="p-4">Date & Time</th>
-              <th className="p-4">Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            {(activeTab === "pickup" ? pickups?.data : deliveries?.data)?.map(
-              (item) => {
-                const isExpanded = expandedRow === item.id;
-                return (
-                  <React.Fragment key={item.id}>
-                    <tr className="border-t hover:bg-[#F3F8FE] transition-colors">
-                      <td className="p-4 font-medium text-claundry-blue">
-                        {item.id}
-                      </td>
-                      <td className="p-4 text-sm text-gray-600">
-                        {item.distance} km
-                      </td>
-                      <td className="p-4 text-sm text-gray-600">
-                        {formatDateTime(item.createdAt)}
-                      </td>
-                      <td className="p-4">
-                        <button
-                          onClick={() => toggleRow(item.id)}
-                          className="p-1 rounded transition-transform duration-300"
-                        >
-                          <span
-                            className={`inline-block transform transition-transform duration-300 ${
-                              isExpanded ? "-rotate-90" : "rotate-90"
-                            }`}
-                          >
-                            &gt;
-                          </span>
-                        </button>
-                      </td>
-                    </tr>
-                    {isExpanded && (
-                      <tr className="bg-[#F9FCFF]">
-                        <td colSpan={4} className="p-4 text-sm text-gray-700">
-                          <p>
-                            <span className="font-semibold">Customer:</span>{" "}
-                            {item.customerName || "N/A"}
-                          </p>
-                          <p>
-                            <span className="font-semibold">Address:</span>{" "}
-                            {item.address || "N/A"}
-                          </p>
-                          <p>
-                            <span className="font-semibold">Postal Code:</span>{" "}
-                            {item.postalCode || "N/A"}
-                          </p>
-                          <p>
-                            <span className="font-semibold">Status:</span>{" "}
-                            {item.status || "N/A"}
-                          </p>
-                        </td>
-                      </tr>
-                    )}
-                  </React.Fragment>
-                );
-              },
-            )}
-          </tbody>
-        </table>
+          {emptyMessage ? (
+            <div className="p-6 text-center text-gray-600">{emptyMessage}</div>
+          ) : (
+            <div className="w-full bg-white shadow rounded-lg border border-[#BAD6F5] pb-4">
+              <JobHistoryCards
+                data={activeTab === "pickup" ? pickupJobs : deliveryJobs}
+              />
 
-        {activeTab === "pickup" && pickups && pickups.data.length > 0 && (
-          <Pagination
-            currentPage={pickups.meta.page}
-            totalPages={Math.ceil(pickups.meta.total / pickups.meta.take)}
-            onPageChange={(pg) => setPickupsPage(pg)}
-          />
-        )}
-        {activeTab === "delivery" &&
-          deliveries &&
-          deliveries.data.length > 0 && (
-            <Pagination
-              currentPage={deliveries.meta.page}
-              totalPages={Math.ceil(
-                deliveries.meta.total / deliveries.meta.take,
+              <JobHistoryTable
+                data={activeTab === "pickup" ? pickupJobs : deliveryJobs}
+                expandedRow={expandedRow}
+                toggleRow={toggleRow}
+              />
+
+              {activeTab === "pickup" && hasPickups && pickups?.meta && (
+                <Pagination
+                  currentPage={pickups.meta.page}
+                  totalPages={Math.ceil(pickups.meta.total / pickups.meta.take)}
+                  onPageChange={(pg) => setPickupsPage(pg)}
+                />
               )}
-              onPageChange={(pg) => setDeliveriesPage(pg)}
-            />
+              {activeTab === "delivery" &&
+                hasDeliveries &&
+                deliveries?.meta && (
+                  <Pagination
+                    currentPage={deliveries.meta.page}
+                    totalPages={Math.ceil(
+                      deliveries.meta.total / deliveries.meta.take,
+                    )}
+                    onPageChange={(pg) => setDeliveriesPage(pg)}
+                  />
+                )}
+            </div>
           )}
-      </div>
+        </>
+      )}
     </div>
   );
 }

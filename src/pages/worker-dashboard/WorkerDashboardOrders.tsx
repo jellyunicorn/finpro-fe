@@ -1,26 +1,36 @@
 import { useState } from "react";
-import Pagination from "../../components/Pagination";
-import Popup from "../../components/Popup";
-import ConfirmItemsForm from "../../components/worker-dashboard/ConfirmItemsForm";
-import { useBeginJob } from "../../hooks/useBeginJob";
-import { useFinishJob } from "../../hooks/useFinishJob";
-import useGetActiveJobs from "../../hooks/useGetActiveJobs";
 import type { Job } from "../../types/job";
-import { removeDate, removeTime } from "../../utils/dateconverUtils";
+import type { OrderItem } from "../../types/orderItem";
+import useGetActiveJobs from "../../hooks/worker/useGetActiveJobs";
+import { useBeginJob } from "../../hooks/worker/useBeginJob";
+import { useFinishJob } from "../../hooks/worker/useFinishJob";
+import StationFilterTabs from "../../components/worker-dashboard/active-jobs/StationFilterTabs";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import JobsTable from "../../components/worker-dashboard/active-jobs/JobsTable";
+import Pagination from "../../components/Pagination";
+import CompleteJobPopup from "../../components/worker-dashboard/active-jobs/CompleteJobPopup";
+import BeginNextJobPopup from "../../components/worker-dashboard/active-jobs/BeginNextJobPopup";
+import InputQuantitiesPopup from "../../components/worker-dashboard/active-jobs/InputQuantitiesPopup";
+import ReviewInputQuantitiesPopup from "../../components/worker-dashboard/active-jobs/ReviewInputQuantitiesPopup";
 
 export default function WorkerDashboardOrders() {
   const stations = ["WASHING", "IRONING", "PACKING"];
+
+  const [page, setPage] = useState(1);
+  const [currentStation, setCurrentStation] = useState<string | null>(null);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const [nextJob, setNextJob] = useState<Job | null>(null);
+  const [pendingItems, setPendingItems] = useState<OrderItem[]>([]);
+
   const [openCompletePopup, setOpenCompletePopup] = useState(false);
   const [openBeginNextPopup, setOpenBeginNextPopup] = useState(false);
   const [openInputPopup, setOpenInputPopup] = useState(false);
-  const [page, setPage] = useState(1);
-  const { data: activeJobs } = useGetActiveJobs(page);
-  const { mutateAsync: beginJob } = useBeginJob();
-  const { mutateAsync: finishJob } = useFinishJob();
+  const [openReviewPopup, setOpenReviewPopup] = useState(false);
 
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const [nextJob, setNextJob] = useState<Job | null>(null);
-  const [currentStation, setCurrentStation] = useState<string | null>(null);
+  const { data: activeJobs, isLoading } = useGetActiveJobs(page);
+  const { mutateAsync: beginJob, isPending: beginJobPending } = useBeginJob();
+  const { mutateAsync: finishJob, isPending: finishJobPending } =
+    useFinishJob();
 
   const handleCompleteClick = (job: Job) => {
     setSelectedJob(job);
@@ -51,19 +61,22 @@ export default function WorkerDashboardOrders() {
     setOpenInputPopup(true);
   };
 
-  const handleSubmitJob = async (values: {
-    items: { id: number; quantity: number }[];
-  }) => {
-    if (!nextJob) return;
-
-    const items = values.items.map((i) => ({
-      itemId: i.id,
-      quantity: i.quantity,
-    }));
-
-    await beginJob({ jobId: nextJob.jobId, items });
-
+  const handleSubmitJob = (values: { items: OrderItem[] }) => {
+    setPendingItems(values.items);
     setOpenInputPopup(false);
+    setOpenReviewPopup(true);
+  };
+
+  const handleConfirmJob = async () => {
+    if (!nextJob) return;
+    const items = pendingItems.map((item) => ({
+      itemId: item.id,
+      quantity: item.quantity,
+    }));
+    await beginJob({ jobId: nextJob.jobId, items });
+    setOpenReviewPopup(false);
+    setPendingItems([]);
+    setNextJob(null);
   };
 
   const filteredJobs =
@@ -72,150 +85,80 @@ export default function WorkerDashboardOrders() {
     ) ?? [];
 
   return (
-    <div className="p-8 font-dmsans">
-      <h1 className="text-2xl font-semibold text-claundry-blue mb-6">
+    <div className="p-4 md:p-8 font-dmsans">
+      <h1 className="text-xl md:text-2xl font-semibold text-claundry-blue mb-4 md:mb-6">
         Active Jobs
       </h1>
 
-      <div className="flex gap-4 mb-6">
-        {stations.map((station) => (
-          <button
-            key={station}
-            onClick={() =>
-              setCurrentStation(currentStation === station ? null : station)
-            }
-            className={`px-4 py-2 rounded ${
-              currentStation === station
-                ? "bg-claundry-blue text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            {station}
-          </button>
-        ))}
+      <StationFilterTabs
+        stations={stations}
+        currentStation={currentStation}
+        onSelectStation={setCurrentStation}
+      />
 
-        {currentStation && (
-          <button
-            onClick={() => setCurrentStation(null)}
-            className="px-4 py-2 rounded bg-red-200 text-red-700 hover:bg-red-300"
-          >
-            Clear Filter
-          </button>
-        )}
-      </div>
+      {isLoading && (
+        <div className="flex justify-center items-center">
+          <LoadingSpinner />
+        </div>
+      )}
 
-      <div className="bg-white shadow rounded-lg border border-[#BAD6F5] pb-4">
-        <table className="w-full text-left border-collapse">
-          <thead className="bg-[#BAD6F5] text-claundry-blue">
-            <tr>
-              <th className="p-4">Job ID</th>
-              <th className="p-4">Date</th>
-              <th className="p-4">Start Time</th>
-              <th className="p-4">Station</th>
-              <th className="p-4">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredJobs.map((job) => (
-              <tr
-                key={job.jobId}
-                className="border-t hover:bg-[#F3F8FE] transition-colors"
-              >
-                <td className="p-4 font-medium text-claundry-blue">
-                  {job.jobId}
-                </td>
-                <td className="p-4 text-sm text-gray-600">
-                  {removeTime(job.createdAt)}
-                </td>
-                <td className="p-4 text-sm text-gray-600">
-                  {removeDate(job.startTime)}
-                </td>
-                <td className="p-4 text-sm text-gray-600">{job.station}</td>
-                <td className="p-4">
-                  <button
-                    onClick={() => handleCompleteClick(job)}
-                    className="px-3 py-1 rounded text-sm bg-claundry-blue text-white hover:bg-blue-700"
-                  >
-                    Mark Complete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {activeJobs && (
-          <Pagination
-            currentPage={activeJobs.meta.page}
-            totalPages={Math.ceil(activeJobs.meta.total / activeJobs.meta.take)}
-            onPageChange={(pg) => setPage(pg)}
+      {!isLoading && filteredJobs.length === 0 && (
+        <div className="p-6 text-center text-gray-500">
+          No active jobs found.
+        </div>
+      )}
+
+      {!isLoading && filteredJobs.length > 0 && (
+        <div className="bg-white shadow rounded-lg border border-[#BAD6F5] pb-4">
+          <JobsTable
+            jobs={filteredJobs}
+            onCompleteClick={handleCompleteClick}
           />
-        )}
-      </div>
 
-      {/** popups */}
-      {selectedJob && (
-        <Popup
-          open={openCompletePopup}
-          onClose={() => setOpenCompletePopup(false)}
-        >
-          <div className="p-2">
-            <p className="mb-4 text-lg font-medium">
-              Mark this job as complete?
-            </p>
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={handleFinishYesClick}
-                className="px-4 py-1 bg-claundry-blue text-white rounded"
-              >
-                Yes
-              </button>
-              <button
-                onClick={() => setOpenCompletePopup(false)}
-                className="px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
-              >
-                No
-              </button>
-            </div>
-          </div>
-        </Popup>
+          {activeJobs && (
+            <Pagination
+              currentPage={activeJobs.meta.page}
+              totalPages={Math.ceil(
+                activeJobs.meta.total / activeJobs.meta.take,
+              )}
+              onPageChange={(pg) => setPage(pg)}
+            />
+          )}
+        </div>
       )}
-      {selectedJob && (
-        <Popup
-          open={openBeginNextPopup}
-          onClose={() => setOpenBeginNextPopup(false)}
-        >
-          <div className="p-2">
-            <p className="mb-4 text-lg font-medium">
-              Do you want to immediately begin the next job?
-            </p>
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={handleBeginYesClick}
-                className="px-4 py-1 bg-claundry-blue text-white rounded"
-              >
-                Yes
-              </button>
-              <button
-                onClick={() => setOpenBeginNextPopup(false)}
-                className="px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
-              >
-                No
-              </button>
-            </div>
-          </div>
-        </Popup>
-      )}
-      {selectedJob && (
-        <Popup open={openInputPopup} onClose={() => setOpenInputPopup(false)}>
-          <p className="absolute top-1 left-1 p-2">
-            Please input item quantities
-          </p>
-          <ConfirmItemsForm
-            orderItems={{ items: selectedJob.orderItems }}
-            onSubmit={handleSubmitJob}
-          />
-        </Popup>
-      )}
+
+      <CompleteJobPopup
+        isOpen={openCompletePopup}
+        onClose={() => setOpenCompletePopup(false)}
+        onConfirm={handleFinishYesClick}
+        isPending={finishJobPending}
+      />
+
+      <BeginNextJobPopup
+        isOpen={openBeginNextPopup}
+        onClose={() => setOpenBeginNextPopup(false)}
+        onConfirm={handleBeginYesClick}
+      />
+
+      <InputQuantitiesPopup
+        isOpen={openInputPopup}
+        onClose={() => setOpenInputPopup(false)}
+        selectedJob={selectedJob}
+        onSubmit={handleSubmitJob}
+      />
+
+      <ReviewInputQuantitiesPopup
+        isOpen={openReviewPopup}
+        onClose={() => setOpenReviewPopup(false)}
+        onBack={() => {
+          setOpenReviewPopup(false);
+          setOpenInputPopup(true);
+        }}
+        onConfirm={handleConfirmJob}
+        nextJob={nextJob}
+        pendingItems={pendingItems}
+        isPending={beginJobPending}
+      />
     </div>
   );
 }

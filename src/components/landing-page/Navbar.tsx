@@ -84,7 +84,7 @@ export default function Navbar() {
 
           {user && (
             <button
-              onClick={() => goToDashboard()}
+              onClick={async () => await goToDashboard()}
               className="flex items-center gap-2 hover:underline hover:text-blue-300 hover:cursor-pointer animate-text-color"
             >
               <p className="hidden md:block">Hi , {user.fullName} </p>

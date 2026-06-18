@@ -15,7 +15,7 @@ export default function Breadcrumbs() {
   });
 
   return (
-    <nav className="flex items-center text-gray-500 space-x-2">
+    <nav className="flex flex-wrap items-center text-gray-500 space-x-2">
       {crumbs.map((crumb, index) => {
         const isLast = index === crumbs.length - 1;
         const isFirst = index === 0;
