@@ -125,6 +125,10 @@ export const router = createBrowserRouter([
           { path: "settings", element: <AdminDashboardSettings />, loader: userDataLoader },
         ],
       },
+      {
+        path:"verify-mail",
+        element:<ReverifyEmail/>
+      }
     ],
   },
 ]);
