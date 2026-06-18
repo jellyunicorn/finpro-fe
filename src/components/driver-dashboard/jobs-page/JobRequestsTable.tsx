@@ -15,7 +15,7 @@ export function JobRequestsTable({
   onToggle,
 }: JobRequestsTableProps) {
   return (
-    <table className="w-full text-left rounded-lg overflow-hidden">
+    <table className="hidden md:table w-full text-left rounded-lg overflow-hidden">
       <thead className="bg-[#BAD6F5] text-claundry-blue">
         <tr>
           <th className="p-4">Order ID</th>

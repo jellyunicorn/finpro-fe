@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DriverActiveMap from "../../components/driver-dashboard/DriverActiveMap";
 import { ActiveJobCard } from "../../components/driver-dashboard/jobs-page/ActiveJobCard";
 import { JobRequestsTable } from "../../components/driver-dashboard/jobs-page/JobRequestsTable";
@@ -18,6 +18,7 @@ import {
 } from "../../utils/driverDashboardHelpers";
 import JobFilterTabs from "../../components/driver-dashboard/JobFilterTabs";
 import ConfirmPopup from "../../components/driver-dashboard/jobs-page/ConfirmPopup";
+import JobRequestsCardsList from "../../components/driver-dashboard/jobs-page/JobRequestsCardList";
 
 export default function DriverDashboardDeliveries() {
   const [pickupPage, setPickupPage] = useState(1);
@@ -42,26 +43,21 @@ export default function DriverDashboardDeliveries() {
 
   const isLoading = pickupsLoading || deliveriesLoading;
 
-  const pickupJobs: DriverJob[] | undefined = pickups?.data.map((pickup) => ({
-    ...pickup,
-    type: "pickup" as const,
-  }));
+  const pickupJobs: DriverJob[] =
+    pickups?.data.map((p) => ({ ...p, type: "pickup" })) ?? [];
+  const deliveryJobs: DriverJob[] =
+    deliveries?.data.map((d) => ({ ...d, type: "delivery" })) ?? [];
 
-  const deliveryJobs: DriverJob[] | undefined = deliveries?.data.map(
-    (delivery) => ({
-      ...delivery,
-      type: "delivery" as const,
-    }),
-  );
+  const hasPickups = pickupJobs.length > 0;
+  const hasDeliveries = deliveryJobs.length > 0;
 
-  const { mutateAsync: beginJob, isPending: isPendingBegin } =
-    useBeginDriverJob();
-  const { mutateAsync: nextJobStatus, isPending: isPendingAdvance } =
-    useNextDriverJobStatus();
-  const { mutateAsync: finishJob, isPending: isPendingComplete } =
-    useFinishDriverJob();
-  const { mutateAsync: cancelJob, isPending: isPendingCancel } =
-    useCancelDriverJob();
+  useEffect(() => {
+    if (!hasPickups && hasDeliveries) {
+      setActiveTab("delivery");
+    } else if (!hasDeliveries && hasPickups) {
+      setActiveTab("pickup");
+    }
+  }, [hasPickups, hasDeliveries]);
 
   const toggleRow = (id: string) => {
     setExpandedRow(expandedRow === id ? null : id);
@@ -76,6 +72,15 @@ export default function DriverDashboardDeliveries() {
     setPopupAction(action);
     setPopupOpen(true);
   };
+
+  const { mutateAsync: beginJob, isPending: isPendingBegin } =
+    useBeginDriverJob();
+  const { mutateAsync: nextJobStatus, isPending: isPendingAdvance } =
+    useNextDriverJobStatus();
+  const { mutateAsync: finishJob, isPending: isPendingComplete } =
+    useFinishDriverJob();
+  const { mutateAsync: cancelJob, isPending: isPendingCancel } =
+    useCancelDriverJob();
 
   const handleAcceptConfirm = async () => {
     if (!selectedJob) return;
@@ -103,6 +108,15 @@ export default function DriverDashboardDeliveries() {
 
   const isPending =
     isPendingBegin || isPendingAdvance || isPendingComplete || isPendingCancel;
+
+  let emptyMessage: string | null = null;
+  if (!hasPickups && !hasDeliveries && !isLoading && !activeJob) {
+    emptyMessage = "No pickup or delivery requests available.";
+  } else if (activeTab === "pickup" && !hasPickups && hasDeliveries) {
+    emptyMessage = "No pickup requests available.";
+  } else if (activeTab === "delivery" && !hasDeliveries && hasPickups) {
+    emptyMessage = "No delivery requests available.";
+  }
 
   return (
     <div className="p-6 sm:p-8 font-dmsans">
@@ -135,21 +149,32 @@ export default function DriverDashboardDeliveries() {
             </div>
           ) : (
             <>
-              <JobFilterTabs
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-              />
-              <div className="bg-white shadow rounded-lg border border-[#BAD6F5] pb-3">
-                <JobRequestsTable
-                  data={activeTab === "pickup" ? pickupJobs : deliveryJobs}
-                  expandedRow={expandedRow}
-                  onAccept={(id) => openConfirm(id, activeTab, "accept")}
-                  onToggle={toggleRow}
+              {(hasPickups || hasDeliveries) && (
+                <JobFilterTabs
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
                 />
+              )}
 
-                {activeTab === "pickup" &&
-                  pickups &&
-                  pickups?.data.length > 0 && (
+              {emptyMessage ? (
+                <div className="p-6 text-center text-gray-600">
+                  {emptyMessage}
+                </div>
+              ) : (
+                <div className="bg-white shadow rounded-lg border border-[#BAD6F5] pb-3">
+                  <JobRequestsCardsList
+                    jobs={activeTab === "pickup" ? pickupJobs : deliveryJobs}
+                    onAccept={(id) => openConfirm(id, activeTab, "accept")}
+                  />
+                  
+                  <JobRequestsTable
+                    data={activeTab === "pickup" ? pickupJobs : deliveryJobs}
+                    expandedRow={expandedRow}
+                    onAccept={(id) => openConfirm(id, activeTab, "accept")}
+                    onToggle={toggleRow}
+                  />
+
+                  {activeTab === "pickup" && hasPickups && pickups?.meta && (
                     <Pagination
                       currentPage={pickups.meta.page}
                       totalPages={Math.ceil(
@@ -159,18 +184,19 @@ export default function DriverDashboardDeliveries() {
                     />
                   )}
 
-                {activeTab === "delivery" &&
-                  deliveries &&
-                  deliveries?.data.length > 0 && (
-                    <Pagination
-                      currentPage={deliveries.meta.page}
-                      totalPages={Math.ceil(
-                        deliveries.meta.total / deliveries.meta.take,
-                      )}
-                      onPageChange={setDeliveryPage}
-                    />
-                  )}
-              </div>
+                  {activeTab === "delivery" &&
+                    hasDeliveries &&
+                    deliveries?.meta && (
+                      <Pagination
+                        currentPage={deliveries.meta.page}
+                        totalPages={Math.ceil(
+                          deliveries.meta.total / deliveries.meta.take,
+                        )}
+                        onPageChange={setDeliveryPage}
+                      />
+                    )}
+                </div>
+              )}
             </>
           )}
         </>
@@ -206,6 +232,17 @@ export default function DriverDashboardDeliveries() {
           jobType={selectedJob?.type}
         />
       )}
+      {popupAction === "cancel" && (
+        <ConfirmPopup
+          open={popupOpen}
+          onClose={() => setPopupOpen(false)}
+          onConfirm={handleCancelConfirm}
+          isPending={isPending}
+          action="cancel"
+          jobType={selectedJob?.type}
+        />
+      )}
+
       {popupAction === "cancel" && (
         <ConfirmPopup
           open={popupOpen}
