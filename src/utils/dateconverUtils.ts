@@ -9,7 +9,7 @@ export const toReadableDateTime = (iso: string | null | undefined): string => {
   const minutes = date.getMinutes().toString().padStart(2, "0");
   const ampm = hours >= 12 ? "PM" : "AM";
   const hour12 = hours % 12 || 12;
-  return (`${day}/${month} | ${hour12}:${minutes} ${ampm}`);
+  return `${day}/${month} | ${hour12}:${minutes} ${ampm}`;
 };
 
 export const toDateMonth = (iso: string | null | undefined): string => {
@@ -17,8 +17,8 @@ export const toDateMonth = (iso: string | null | undefined): string => {
   const date = new Date(iso);
   const month = date.getMonth() + 1;
   const day = date.getDate();
- 
-  return (`${day}/${month}`);
+
+  return `${day}/${month}`;
 };
 
 export const dateConverter = (iso: string | null | undefined): string => {
@@ -30,17 +30,16 @@ export const dateConverter = (iso: string | null | undefined): string => {
     month: "long",
     year: "numeric",
   });
-  
 };
-
 
 export const removeTime = (date: string) => {
   return date.split("T")[0];
-}
+};
 
 export const removeDate = (date: string | Date) => {
   const localDate = new Date(date);
-  const hours = localDate.getHours();
-  const minutes = localDate.getMinutes();
-  return `${hours}:${minutes}`;
-}
+  return localDate.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
