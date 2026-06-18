@@ -1,13 +1,13 @@
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import AddressEditMenu, {
   type addressdata,
 } from "../../../components/my-address/AddressEditMenu";
-import useCreateAddress from "../../../hooks/useCreateAddress";
-import useDeleteAddress from "../../../hooks/useDeleteAddress";
-import useSwitchPrimary from "../../../hooks/useSwitchPrimary";
-import useUpdateAddress from "../../../hooks/useUpdateAddress";
+import useCreateAddress from "../../../hooks/user/useCreateAddress";
+import useDeleteAddress from "../../../hooks/user/useDeleteAddress";
+import useSwitchPrimary from "../../../hooks/user/useSwitchPrimary";
+import useUpdateAddress from "../../../hooks/user/useUpdateAddress";
 import { axiosInstance } from "../../../lib/axios";
 import type { addressform } from "../../../lib/types";
 

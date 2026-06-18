@@ -6,6 +6,8 @@ import logo_home_blue from "../../img/svg/home_menu_icon_blue.svg";
 import logo_settings from "../../img/svg/settings_menu_icon.svg";
 import logo_settings_blue from "../../img/svg/settings_menu_icon_blue.svg";
 import { useState } from "react";
+import NotificationBell from "../../components/NotificationBell";
+import burger_menu from "../../img/svg/burger_menu.svg";
 
 export default function AdminDashboard() {
   const outlet = useOutlet();
@@ -41,10 +43,19 @@ export default function AdminDashboard() {
         ]}
       />
       <div className="  h-full flex flex-col flex-1">
-        <div className="border-b border-[#BAD6F5] text-neutral-400 font-medium w-full h-16 flex items-center px-10">
-          <Breadcrumbs />
+        <div className="border-b shrink-0 border-[#BAD6F5] relative justify-between  text-neutral-400 font-medium w-full h-16 flex items-center px-4 md:px-10">
+          <button
+            className="md:hidden z-20 "
+            onClick={() => setMobileMenu(!mobileMenu)}
+          >
+            <img src={burger_menu} alt="" />
+          </button>
+          <div className="hidden md:block">
+            <Breadcrumbs />
+          </div>
+          <NotificationBell />
         </div>
-        {outlet || (<div>Content</div>)}
+        {outlet || <div>Content</div>}
       </div>
     </div>
   );

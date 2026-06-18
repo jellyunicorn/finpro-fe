@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
-import { axiosInstance } from "../lib/axios";
+import { axiosInstance } from "../../lib/axios";
 import { useNavigate } from "react-router";
-import type { addressform } from "../lib/types";
+import type { addressform } from "../../lib/types";
 
 export default function useCreateAddress() {
   const navigate = useNavigate();

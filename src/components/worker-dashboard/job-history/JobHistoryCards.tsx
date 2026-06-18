@@ -18,7 +18,7 @@ export default function JobHistoryCardList({ jobs }: JobHistoryCardsProps) {
             #{job.jobId}
           </p>
           <p className="text-xs text-gray-600">
-            Date: {removeTime(job.createdAt)}
+            Date: {removeTime(job.startTime)}
           </p>
           <p className="text-xs text-gray-600">
             Start: {removeDate(job.startTime)}

@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
-import { axiosInstance } from "../lib/axios";
-import { useLoginStore } from "../store/useAppStore";
+import { axiosInstance } from "../../lib/axios";
+import { useLoginStore } from "../../store/useAppStore";
 
 export default function useLogout() {
   const navigate = useNavigate();

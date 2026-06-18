@@ -1,8 +1,8 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import toast from "react-hot-toast";
-import { axiosInstance } from "../lib/axios";
-import { useLoginStore } from "../store/useAppStore";
-import { goToDashboard } from "../utils/goToDashboard";
+import { axiosInstance } from "../../lib/axios";
+import { useLoginStore } from "../../store/useAppStore";
+import { goToDashboard } from "../../utils/goToDashboard";
 
 export default function useLoginGoogle() {
   const setUser = useLoginStore((state) => state.setUser);

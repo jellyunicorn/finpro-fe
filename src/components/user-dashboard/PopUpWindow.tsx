@@ -3,7 +3,7 @@ import xicon from "../../img/svg/x_icon.svg";
 import {
   useSendResetEmail,
   useSendVerifyEmail,
-} from "../../hooks/useSendEmail";
+} from "../../hooks/auth/useSendEmail";
 
 type resetpopupProps = {
   triggerfunction: React.Dispatch<React.SetStateAction<boolean>>;

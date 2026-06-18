@@ -8,7 +8,7 @@ export default function useClockIn() {
 
   return useMutation({
     mutationFn: async () => {
-      const response = await axiosInstance.put("/attendance/clock-in");
+      const response = await axiosInstance.post("/attendance/clock-in");
       return response.data;
     },
     onSuccess: () => {

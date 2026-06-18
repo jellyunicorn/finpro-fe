@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useChangeEmail } from "../../hooks/useChangeEmail";
 import xicon from "../../img/svg/x_icon.svg";
+import { useChangeEmail } from "../../hooks/auth/useChangeEmail";
 
 type resetpopupProps = {
   triggerfunction: React.Dispatch<React.SetStateAction<boolean>>;

@@ -8,7 +8,7 @@ export default function useClockOut() {
 
   return useMutation({
     mutationFn: async () => {
-      const response = await axiosInstance.put("/attendance/clock-out");
+      const response = await axiosInstance.post("/attendance/clock-out");
       return response.data;
     },
     onSuccess: () => {

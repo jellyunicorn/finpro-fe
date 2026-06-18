@@ -8,7 +8,7 @@ interface JobHistoryTableProps {
 
 export default function JobHistoryTable({ jobs }: JobHistoryTableProps) {
   return (
-    <div className="hidden sm:block overflow-x-auto rounded-lg">
+    <div className="hidden md:block overflow-x-auto rounded-lg">
       <table className="w-full text-left border-collapse">
         <thead className="bg-[#BAD6F5] text-claundry-blue">
           <tr>
@@ -32,7 +32,7 @@ export default function JobHistoryTable({ jobs }: JobHistoryTableProps) {
               <td className="p-4">{formatOrderItems(job.orderItems)}</td>
               <td className="p-4">{job.station}</td>
               <td className="p-4 text-sm text-gray-600">
-                {removeTime(job.createdAt)}
+                {removeTime(job.startTime)}
               </td>
               <td className="p-4 text-sm text-gray-600">
                 {removeDate(job.startTime)}

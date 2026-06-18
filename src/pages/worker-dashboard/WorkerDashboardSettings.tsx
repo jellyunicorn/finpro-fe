@@ -1,17 +1,16 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router";
+import z from "zod";
 import NewEmailPopUp from "../../components/user-dashboard/NewEmailPopUp";
-import ResetEmailPopUp, {
-  VerifyEmailPopUp,
-} from "../../components/user-dashboard/PopUpWindow";
+import ResetEmailPopUp, { VerifyEmailPopUp } from "../../components/user-dashboard/PopUpWindow";
 import Verifylabel from "../../components/Verifylabel";
 import useUpdateData from "../../hooks/useUpdateData";
 import editicon_white from "../../img/svg/edit-white.svg";
 import type { profiledata, profilepersonalForm } from "../../lib/types";
 import { toDateInput } from "../../utils/dateconverUtils";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import z from "zod";
+
 
 const editProfileSchema = z.object({
   fullName: z

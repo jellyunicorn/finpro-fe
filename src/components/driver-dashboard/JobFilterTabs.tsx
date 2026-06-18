@@ -14,7 +14,7 @@ export default function JobFilterTabs({ activeTab, setActiveTab }: JobFilterTabs
   ];
 
   return (
-    <div className="flex flex-wrap border-b border-gray-300 mb-6">
+    <div className="flex flex-wrap border-b border-gray-300 mb-4">
       {tabs.map((tab) => (
         <button
           key={tab.value}

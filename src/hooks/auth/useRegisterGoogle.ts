@@ -1,7 +1,7 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
-import { axiosInstance } from "../lib/axios";
+import { axiosInstance } from "../../lib/axios";
 
 export default function useRegisterGoogle() {
   const navigate = useNavigate();

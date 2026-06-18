@@ -40,7 +40,6 @@ const DriverDashboardDeliveryHistory = lazy(() => import("./pages/driver-dashboa
 const DriverDashboardSettings = lazy(() => import("./pages/driver-dashboard/DriverDashboardSettings.tsx"));
 
 const WorkerDashboardOrders = lazy(() => import("./pages/worker-dashboard/WorkerDashboardOrders.tsx"));
-const WorkerDashboardOpenOrders = lazy(() => import("./pages/worker-dashboard/WorkerDashboardOpenOrders.tsx"));
 const WorkerDashboardOrderHistory = lazy(() => import("./pages/worker-dashboard/WorkerDashboardOrderHistory.tsx"));
 const WorkerDashboardSettings = lazy(() => import("./pages/worker-dashboard/WorkerDashboardSettings.tsx"));
 
@@ -111,7 +110,6 @@ export const router = createBrowserRouter([
         loader: authLoader(["WORKER"]),
         children: [
           { path: "orders", element: <WorkerDashboardOrders /> },
-          { path: "orders/open", element: <WorkerDashboardOpenOrders /> },
           { path: "orders/history", element: <WorkerDashboardOrderHistory /> },
           { path: "settings", element: <WorkerDashboardSettings />, loader: userDataLoader },
         ],

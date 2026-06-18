@@ -16,8 +16,8 @@ export function useBeginJob() {
       return response.data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["availablePickups"] });
-      queryClient.invalidateQueries({ queryKey: ["availableDeliveries"] });
+      queryClient.invalidateQueries({ queryKey: ["activeJobs"] });
+      queryClient.invalidateQueries({ queryKey: ["availableJobs"] });
       toast.success(data.message || "Job accepted!");
     },
     onError: () => {

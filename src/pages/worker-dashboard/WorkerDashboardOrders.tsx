@@ -12,6 +12,7 @@ import CompleteJobPopup from "../../components/worker-dashboard/active-jobs/Comp
 import BeginNextJobPopup from "../../components/worker-dashboard/active-jobs/BeginNextJobPopup";
 import InputQuantitiesPopup from "../../components/worker-dashboard/active-jobs/InputQuantitiesPopup";
 import ReviewInputQuantitiesPopup from "../../components/worker-dashboard/active-jobs/ReviewInputQuantitiesPopup";
+import WorkerDashboardOpenOrders from "./WorkerDashboardOpenOrders";
 
 export default function WorkerDashboardOrders() {
   const stations = ["WASHING", "IRONING", "PACKING"];
@@ -85,80 +86,83 @@ export default function WorkerDashboardOrders() {
     ) ?? [];
 
   return (
-    <div className="p-4 md:p-8 font-dmsans">
-      <h1 className="text-xl md:text-2xl font-semibold text-claundry-blue mb-4 md:mb-6">
-        Active Jobs
-      </h1>
+    <>
+      <WorkerDashboardOpenOrders />
+      <div className="p-4 md:p-8 font-dmsans">
+        <h1 className="text-xl md:text-2xl font-semibold text-claundry-blue mb-4 md:mb-6">
+          Active Jobs
+        </h1>
 
-      <StationFilterTabs
-        stations={stations}
-        currentStation={currentStation}
-        onSelectStation={setCurrentStation}
-      />
+        <StationFilterTabs
+          stations={stations}
+          currentStation={currentStation}
+          onSelectStation={setCurrentStation}
+        />
 
-      {isLoading && (
-        <div className="flex justify-center items-center">
-          <LoadingSpinner />
-        </div>
-      )}
+        {isLoading && (
+          <div className="flex justify-center items-center">
+            <LoadingSpinner />
+          </div>
+        )}
 
-      {!isLoading && filteredJobs.length === 0 && (
-        <div className="p-6 text-center text-gray-500">
-          No active jobs found.
-        </div>
-      )}
+        {!isLoading && filteredJobs.length === 0 && (
+          <div className="p-6 text-center text-gray-500">
+            No active jobs found.
+          </div>
+        )}
 
-      {!isLoading && filteredJobs.length > 0 && (
-        <div className="bg-white shadow rounded-lg border border-[#BAD6F5] pb-4">
-          <JobsTable
-            jobs={filteredJobs}
-            onCompleteClick={handleCompleteClick}
-          />
-
-          {activeJobs && (
-            <Pagination
-              currentPage={activeJobs.meta.page}
-              totalPages={Math.ceil(
-                activeJobs.meta.total / activeJobs.meta.take,
-              )}
-              onPageChange={(pg) => setPage(pg)}
+        {!isLoading && filteredJobs.length > 0 && (
+          <div className="bg-white shadow rounded-lg border border-[#BAD6F5] pb-4">
+            <JobsTable
+              jobs={filteredJobs}
+              onCompleteClick={handleCompleteClick}
             />
-          )}
-        </div>
-      )}
 
-      <CompleteJobPopup
-        isOpen={openCompletePopup}
-        onClose={() => setOpenCompletePopup(false)}
-        onConfirm={handleFinishYesClick}
-        isPending={finishJobPending}
-      />
+            {activeJobs && (
+              <Pagination
+                currentPage={activeJobs.meta.page}
+                totalPages={Math.ceil(
+                  activeJobs.meta.total / activeJobs.meta.take,
+                )}
+                onPageChange={(pg) => setPage(pg)}
+              />
+            )}
+          </div>
+        )}
 
-      <BeginNextJobPopup
-        isOpen={openBeginNextPopup}
-        onClose={() => setOpenBeginNextPopup(false)}
-        onConfirm={handleBeginYesClick}
-      />
+        <CompleteJobPopup
+          isOpen={openCompletePopup}
+          onClose={() => setOpenCompletePopup(false)}
+          onConfirm={handleFinishYesClick}
+          isPending={finishJobPending}
+        />
 
-      <InputQuantitiesPopup
-        isOpen={openInputPopup}
-        onClose={() => setOpenInputPopup(false)}
-        selectedJob={selectedJob}
-        onSubmit={handleSubmitJob}
-      />
+        <BeginNextJobPopup
+          isOpen={openBeginNextPopup}
+          onClose={() => setOpenBeginNextPopup(false)}
+          onConfirm={handleBeginYesClick}
+        />
 
-      <ReviewInputQuantitiesPopup
-        isOpen={openReviewPopup}
-        onClose={() => setOpenReviewPopup(false)}
-        onBack={() => {
-          setOpenReviewPopup(false);
-          setOpenInputPopup(true);
-        }}
-        onConfirm={handleConfirmJob}
-        nextJob={nextJob}
-        pendingItems={pendingItems}
-        isPending={beginJobPending}
-      />
-    </div>
+        <InputQuantitiesPopup
+          isOpen={openInputPopup}
+          onClose={() => setOpenInputPopup(false)}
+          selectedJob={selectedJob}
+          onSubmit={handleSubmitJob}
+        />
+
+        <ReviewInputQuantitiesPopup
+          isOpen={openReviewPopup}
+          onClose={() => setOpenReviewPopup(false)}
+          onBack={() => {
+            setOpenReviewPopup(false);
+            setOpenInputPopup(true);
+          }}
+          onConfirm={handleConfirmJob}
+          nextJob={nextJob}
+          pendingItems={pendingItems}
+          isPending={beginJobPending}
+        />
+      </div>
+    </>
   );
 }

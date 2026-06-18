@@ -15,11 +15,10 @@ export default function AdminDashboardAttendance() {
 
   return (
     <div className="p-8 font-dmsans">
+      <h1 className="text-2xl font-semibold text-claundry-blue mb-6">
+        Attendance Report
+      </h1>
       <div className="w-full bg-white shadow rounded-lg border border-[#BAD6F5] pb-4">
-        <h1 className="text-2xl font-semibold text-claundry-blue mb-6 p-4">
-          Attendance Report
-        </h1>
-
         {reportData?.data && (
           <AttendanceTable
             employees={reportData.data}

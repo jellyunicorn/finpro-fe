@@ -4,7 +4,7 @@ import mainLogo from "../../../img/svg/main_logo_blue.svg";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Link } from "react-router";
-import { useSendResetEmail } from "../../../hooks/useSendEmail";
+import { useSendResetEmail } from "../../../hooks/auth/useSendEmail";
 
 const resetSchema = z.object({
   email: z.email("Invalid Email Address"),

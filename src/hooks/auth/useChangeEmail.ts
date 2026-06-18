@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
-import { axiosInstance } from "../lib/axios";
 import { useNavigate } from "react-router";
+import { axiosInstance } from "../../lib/axios";
 export const useChangeEmail = (newemail: string) => {
     const navigate = useNavigate();
   const payload = { email: newemail };
