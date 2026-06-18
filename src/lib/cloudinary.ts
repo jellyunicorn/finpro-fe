@@ -14,9 +14,10 @@ export const cloudimages = {
   stepbystep_4: `${BASE}/image/upload/v1778926660/stepbystep_illust_4_ruy7uj.png`,
   bg_testimonial: `${BASE}/image/upload/v1778940552/bg-testimonial_qydlwb.webp`,
   dashboard_img: `${BASE}/image/upload/v1780028188/dashboard_image_fxwltx.png`,
-  waitingworker: `${BASE}/image/upload/v1780998224/waitingworker_illus_emtcdj.png`
+  waitingworker: `${BASE}/image/upload/v1780998224/waitingworker_illus_emtcdj.png`,
+  noorderworker: `${BASE}/image/upload/v1781704662/noorder_illus_kibenx.png`,
+  navbarillus: `${BASE}/image/upload/v1781710138/navbar_illus_xlckew.png`
 };
-
 
 
 export const testi_icons = [

@@ -1,15 +1,15 @@
 import axios from "axios";
 
-const BASE_FE_URL = import.meta.env.VITE_API_URL;
+const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 
 export const axiosInstance = axios.create({
-  baseURL: BASE_FE_URL,
+  baseURL: BASE_API_URL,
   withCredentials: true,
 });
 
 export const refreshInstance = axios.create({
-  baseURL: BASE_FE_URL,
+  baseURL: BASE_API_URL,
   withCredentials: true,
 });
 

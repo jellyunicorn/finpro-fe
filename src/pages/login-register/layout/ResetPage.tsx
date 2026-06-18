@@ -28,7 +28,7 @@ export default function ResetPage() {
   };
 
   return (
-    <main className="w-full md:w-[50%] h-full   relative z-5 bg-white p-10  md:p-10 lg:p-10 items-center justify-center font-dmsans  rounded-2xl flex">
+    <main className="w-full md:w-[50%] h-full overflow-y-auto  relative z-5 bg-white p-10  md:p-10 lg:p-10 items-center justify-center font-dmsans  rounded-2xl flex">
       <Link to="/login">
         {" "}
         <button className="border border-claundry-blue rounded-full px-2 w-20 absolute top-0 left-0 m-8 py-2">

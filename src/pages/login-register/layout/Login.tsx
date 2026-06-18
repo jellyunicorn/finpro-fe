@@ -34,7 +34,7 @@ export default function Login() {
     login();
   };
   return (
-    <main className="w-full md:w-[50%] h-full md:h-full  relative z-5 bg-white px-10 py-10  md:p-10 lg:p-10 items-center justify-center font-dmsans  rounded-2xl flex">
+    <main className="w-full md:w-[50%] h-full md:h-full  overflow-y-auto  relative z-5 bg-white px-10 py-10  md:p-10 lg:p-10 items-center justify-center font-dmsans  rounded-2xl flex">
       <div className="max-w-125 w-full  h-full flex flex-col md:gap-5 justify-between items-center ">
         <Link to="/">
           <img src={mainLogo} alt="main-logo-blue" className="h-8" />
