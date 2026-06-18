@@ -3,13 +3,18 @@ import { axiosInstance } from "../../lib/axios";
 import type { PageableResponse } from "../../types/pagination";
 import type { Attendance } from "../../types/attendance";
 
-export default function useGetAttendanceLog(page: number, take?: number) {
+export default function useGetAttendanceLog(
+  page: number,
+  startDate?: string,
+  endDate?: string,
+  take?: number,
+) {
   return useQuery({
-    queryKey: ["attendanceLog", page, take],
+    queryKey: ["attendanceLog", page, take, startDate, endDate],
     queryFn: async () => {
       const { data } = await axiosInstance.get<PageableResponse<Attendance>>(
         "/attendance",
-        { params: { page: page, take: take } },
+        { params: { page, take, startDate, endDate } },
       );
       return data;
     },

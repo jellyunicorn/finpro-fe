@@ -8,20 +8,33 @@ import useGetAttendanceLog from "../../hooks/employee/useGetAttendanceLog";
 import { cloudimages } from "../../lib/cloudinary";
 import { useLoginStore } from "../../store/useAppStore";
 import { todaysdate } from "../../utils/todaysdateUtils";
+import type { AttendanceFilterSchema } from "../../schemas/attendanceFilterSchema";
+import AttendanceFilterForm from "../../components/AttendanceFilterForm";
 
 export default function WorkerDashboardMain() {
   const { user } = useLoginStore();
   const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState<AttendanceFilterSchema>({});
   const { mutateAsync: clockInMutation } = useClockIn();
   const { mutateAsync: clockOutMutation } = useClockOut();
-  const { data: attendanceLog, isLoading } = useGetAttendanceLog(page);
+  const { data: attendanceLog, isLoading } = useGetAttendanceLog(
+    page,
+    filters.startDate ?? undefined,
+    filters.endDate ?? undefined,
+    10
+  );
 
-  const handleClockIn = async () => {
-    await clockInMutation();
+  const handleClockIn = async () => await clockInMutation();
+  const handleClockOut = async () => await clockOutMutation();
+
+  const handleFilterSubmit = (data: AttendanceFilterSchema) => {
+    setPage(1);
+    setFilters(data);
   };
 
-  const handleClockOut = async () => {
-    await clockOutMutation();
+  const clearFilters = () => {
+    setFilters({});
+    setPage(1);
   };
 
   return (
@@ -31,7 +44,6 @@ export default function WorkerDashboardMain() {
         <h1 className="text-2xl sm:text-4xl text-claundry-blue text-center">
           Hello, {user?.fullName}
         </h1>
-
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mt-4 sm:mt-6 w-full sm:w-auto">
           <button
             onClick={handleClockIn}
@@ -46,7 +58,6 @@ export default function WorkerDashboardMain() {
             Clock Out
           </button>
         </div>
-
         <img
           src={cloudimages.dashboard_img}
           alt="Dashboard illustration"
@@ -59,6 +70,14 @@ export default function WorkerDashboardMain() {
           <h3 className="text-md font-semibold text-gray-700 mb-4">
             Attendance History
           </h3>
+
+          {attendanceLog && (
+            <AttendanceFilterForm
+              onSubmit={handleFilterSubmit}
+              onClear={clearFilters}
+            />
+          )}
+
           {isLoading ? (
             <p className="flex justify-center items-center">
               <LoadingSpinner />
@@ -69,7 +88,7 @@ export default function WorkerDashboardMain() {
               <Pagination
                 currentPage={attendanceLog.meta.page}
                 totalPages={Math.ceil(
-                  attendanceLog.meta.total / attendanceLog.meta.take,
+                  attendanceLog.meta.total / attendanceLog.meta.take
                 )}
                 onPageChange={(pg) => setPage(pg)}
               />

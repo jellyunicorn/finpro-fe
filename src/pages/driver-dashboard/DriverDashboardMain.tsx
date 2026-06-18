@@ -8,13 +8,22 @@ import useGetAttendanceLog from "../../hooks/employee/useGetAttendanceLog";
 import { cloudimages } from "../../lib/cloudinary";
 import { useLoginStore } from "../../store/useAppStore";
 import { todaysdate } from "../../utils/todaysdateUtils";
+import AttendanceFilterForm from "../../components/AttendanceFilterForm";
+import type { AttendanceFilterSchema } from "../../schemas/attendanceFilterSchema";
 
 export default function WorkerDashboardMain() {
   const { user } = useLoginStore();
   const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState<AttendanceFilterSchema>({});
+
   const { mutateAsync: clockInMutation } = useClockIn();
   const { mutateAsync: clockOutMutation } = useClockOut();
-  const { data: attendanceLog, isLoading } = useGetAttendanceLog(page);
+  const { data: attendanceLog, isLoading } = useGetAttendanceLog(
+    page,
+    filters.startDate ?? undefined,
+    filters.endDate ?? undefined,
+    10,
+  );
 
   const handleClockIn = async () => {
     await clockInMutation();
@@ -22,6 +31,16 @@ export default function WorkerDashboardMain() {
 
   const handleClockOut = async () => {
     await clockOutMutation();
+  };
+
+  const handleFilterSubmit = (data: AttendanceFilterSchema) => {
+    setPage(1);
+    setFilters(data);
+  };
+
+  const clearFilters = () => {
+    setFilters({});
+    setPage(1);
   };
 
   return (
@@ -59,6 +78,14 @@ export default function WorkerDashboardMain() {
           <h3 className="text-md font-semibold text-gray-700 mb-4">
             Attendance History
           </h3>
+
+          {attendanceLog && (
+            <AttendanceFilterForm
+              onSubmit={handleFilterSubmit}
+              onClear={clearFilters}
+            />
+          )}
+
           {isLoading ? (
             <p className="flex justify-center items-center">
               <LoadingSpinner />

@@ -1,4 +1,5 @@
 import type { Attendance } from "../../types/attendance";
+import { formatAttendanceType } from "../../utils/attendanceHelper";
 
 export default function AttendanceDropDown({
   attendance,
@@ -22,14 +23,17 @@ export default function AttendanceDropDown({
         </tr>
       </thead>
       <tbody>
-        {attendance.map((log) => (
-          <tr key={log.id} className="border-t">
-            <td className="p-2">
-              {new Date(log.startTime).toLocaleDateString()}
-            </td>
-            <td className="p-2">{log.type}</td>
-          </tr>
-        ))}
+        {attendance.map((log) => {
+          const { label, className } = formatAttendanceType(log.type);
+          return (
+            <tr key={log.id} className="border-t">
+              <td className="p-2">
+                {new Date(log.startTime).toLocaleDateString()}
+              </td>
+              <td className={className}>{label}</td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

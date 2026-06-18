@@ -13,11 +13,11 @@ export default function AttendanceTable({
   onToggle,
 }: AttendanceTableProps) {
   return (
-    <table className="w-full text-left border-collapse">
-      <thead className="bg-[#BAD6F5] text-claundry-blue">
+    <table className="w-full text-left border-collapse rounded-lg overflow-hidden">
+      <thead className="bg-[#BAD6F5] text-claundry-blue rounded-lg">
         <tr>
           <th className="p-4">Employee</th>
-          <th className="p-4">Total Days</th>
+          <th className="p-4">Total Entries</th>
           <th className="p-4">Details</th>
         </tr>
       </thead>
