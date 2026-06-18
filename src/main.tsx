@@ -110,7 +110,6 @@ export const router = createBrowserRouter([
         loader: authLoader(["WORKER"]),
         children: [
           { path: "orders", element: <WorkerDashboardOrders /> },
-          { path: "orders/open", element: <WorkerDashboardOpenOrders /> },
           { path: "orders/history", element: <WorkerDashboardOrderHistory /> },
           { path: "settings", element: <WorkerDashboardSettings />, loader: userDataLoader },
         ],

@@ -28,7 +28,6 @@ export default function WorkerDashboard() {
       label: "Jobs",
       to: "orders",
       children: [
-        { label: "Open", to: "orders/open" },
         { label: "History", to: "orders/history" },
       ],
     },
