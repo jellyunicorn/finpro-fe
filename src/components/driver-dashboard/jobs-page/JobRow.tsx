@@ -1,5 +1,8 @@
 import type { DriverJob } from "../../../types/driverJob";
-import { formatDateTime } from "../../../utils/driverDashboardHelpers";
+import {
+  addressBuilder,
+  formatDateTime,
+} from "../../../utils/driverDashboardHelpers";
 
 interface JobRowProps {
   item: DriverJob;
@@ -45,7 +48,12 @@ export function JobRow({ item, isExpanded, onAccept, onToggle }: JobRowProps) {
             </p>
             <p>
               <span className="font-semibold">Address:</span>{" "}
-              {item.address || "N/A"}
+              {addressBuilder(
+                item.address,
+                item.regency,
+                item.district,
+                item.village,
+              )}
             </p>
             <p>
               <span className="font-semibold">Postal Code:</span>{" "}

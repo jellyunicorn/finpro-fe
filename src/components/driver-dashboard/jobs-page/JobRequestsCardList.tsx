@@ -1,12 +1,18 @@
 import type { DriverJob } from "../../../types/driverJob";
-import { formatDateTime } from "../../../utils/driverDashboardHelpers";
+import {
+  addressBuilder,
+  formatDateTime,
+} from "../../../utils/driverDashboardHelpers";
 
 interface JobRequestsCardsListProps {
   jobs: DriverJob[];
   onAccept: (id: string, type: DriverJob["type"]) => void;
 }
 
-export default function JobRequestsCardsList({ jobs, onAccept }: JobRequestsCardsListProps) {
+export default function JobRequestsCardsList({
+  jobs,
+  onAccept,
+}: JobRequestsCardsListProps) {
   return (
     <div className="m-3 grid gap-4 sm:grid-cols-2 md:hidden">
       {jobs.map((job) => (
@@ -16,10 +22,24 @@ export default function JobRequestsCardsList({ jobs, onAccept }: JobRequestsCard
         >
           <div className="flex flex-col gap-1.5">
             <p className="text-claundry-blue font-semibold mb-0.5">#{job.id}</p>
-            <p className="text-sm text-gray-600">{formatDateTime(job.createdAt)}</p>
-            <p className="text-sm text-gray-600">Address: {job.address}</p>
-            <p className="text-sm text-gray-600">Postal Code: {job.postalCode}</p>
-            <p className="text-sm text-gray-600">Customer: {job.customerName}</p>
+            <p className="text-sm text-gray-600">
+              {formatDateTime(job.createdAt)}
+            </p>
+            <p className="text-sm text-gray-600">
+              Address:{" "}
+              {addressBuilder(
+                job.address,
+                job.regency,
+                job.district,
+                job.village,
+              )}
+            </p>
+            <p className="text-sm text-gray-600">
+              Postal Code: {job.postalCode}
+            </p>
+            <p className="text-sm text-gray-600">
+              Customer: {job.customerName}
+            </p>
             <p className="text-sm text-gray-600">Distance: {job.distance} km</p>
           </div>
 
