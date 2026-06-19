@@ -60,13 +60,11 @@ export default function OrderDetails() {
           </p>
         </div>
         <div className="flex gap-2">
-<Link to="/dashboard/user/orders">
-            <button
-              className="text-md bg-claundry-blue  px-5 py-2 rounded-md text-white hover:bg-claundry-blue/60"
-            >
+          <Link to="/dashboard/user/orders">
+            <button className="text-md bg-claundry-blue  px-5 py-2 rounded-md text-white hover:bg-claundry-blue/60">
               ← Back
             </button>
-</Link>
+          </Link>
         </div>
       </div>
 
@@ -107,15 +105,20 @@ export default function OrderDetails() {
             <p>{order.outlet?.name ?? "-"}</p>
           </div>
         </div>
-        <div className="flex text-sm justify-between gap-5">
-          <p className="text-neutral-400">
-            {order.address?.address ?? "-"}, {order.address?.city}{" "}
-            {order.address?.postalCode}
-          </p>
-          <p className="text-neutral-400">
-            {order.outlet?.address ?? "-"}, {order.outlet?.city}{" "}
-            {order.outlet?.postalCode}
-          </p>
+        <div className="flex text-sm justify-between gap-5 text-neutral-400">
+          <div className="flex-col flex">
+            <p >
+              {order.address?.address ?? "-"} ,
+              {order.address?.postalCode ?? "-"}
+            </p>
+            <p>{order.address?.regency?.name ?? "-"} </p>
+          </div>
+          <div className="flex-col flex">
+            <p >
+              {order.outlet?.address ?? "-"},{order.outlet?.postalCode ?? "-"}
+            </p>
+            <p>{order.outlet?.city ?? "-"} </p>
+          </div>
         </div>
       </div>
 
@@ -128,9 +131,15 @@ export default function OrderDetails() {
           <div className="w-full grid grid-cols-7 h-fit items-center text-sm px-5  text-claundry-blue ">
             <div className="col-span-3">item name</div>
             <div>Qty</div>
-            <div><span className="hidden md:block">Weight</span></div>
-            <div><span className="hidden md:block">Price/Pcs</span></div>
-            <div><span className="whitespace-nowrap">Sub-Total</span></div>
+            <div>
+              <span className="hidden md:block">Weight</span>
+            </div>
+            <div>
+              <span className="hidden md:block">Price/Pcs</span>
+            </div>
+            <div>
+              <span className="whitespace-nowrap">Sub-Total</span>
+            </div>
           </div>
         </div>
         <hr className="border-neutral-200 mt-2" />
@@ -163,9 +172,10 @@ export default function OrderDetails() {
       {/* //----> status progress */}
       <StatusProgress status={order.orderStatus} />
       {order.orderStatus === "ARRIVED_AT_CUSTOMER" && (
-        <button 
-        onClick={()=>handleConfirmOrder(order.orderId)}
-        className="bg-claundry-blue text-white text-md px-5 py-2 rounded-full">
+        <button
+          onClick={() => handleConfirmOrder(order.orderId)}
+          className="bg-claundry-blue text-white text-md px-5 py-2 rounded-full"
+        >
           {" "}
           Confirm Delivery{" "}
         </button>

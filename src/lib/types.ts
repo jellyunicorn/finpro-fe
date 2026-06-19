@@ -76,6 +76,9 @@ export type orderdata = {
     updatedAt: string;
     deletedAt: string | null;
     userId: number;
+    regency : {
+      name: string;
+    }
   };
 };
 
