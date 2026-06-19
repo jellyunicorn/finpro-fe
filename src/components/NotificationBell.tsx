@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import notification_bell from "../img/svg/notificationbell.svg";
 import { axiosInstance } from "../lib/axios";
 import type { notification } from "../lib/types";
-import { useState, type Dispatch, type SetStateAction } from "react";
 
 
 
