@@ -17,6 +17,7 @@ export default function UserDashboard() {
   const outlet = useOutlet();
   const [minimize, setMinimize] = useState<boolean>(false);
   const [mobileMenu, setMobileMenu] = useState<boolean>(false);
+
   return (
     <div className="w-full font-dmsans  h-dvh bg-[#FBFDFF] flex">
       <div className="h-dvh  ">
@@ -57,14 +58,16 @@ export default function UserDashboard() {
         <div className="border-b shrink-0 border-[#BAD6F5] relative justify-between  text-neutral-400 font-medium w-full h-16 flex items-center px-4 md:px-10">
           <button
             className="md:hidden z-20 "
-            onClick={() => setMobileMenu(!mobileMenu)}
+            onClick={() => {setMobileMenu(!mobileMenu)
+              
+            }}
           >
             <img src={burger_menu} alt="" />
           </button>
           <div className="hidden md:block">
             <Breadcrumbs />
           </div>
-          <NotificationBell />
+          <NotificationBell  />
         </div>
         <div className="flex-1 overflow-y-auto">
           {" "}

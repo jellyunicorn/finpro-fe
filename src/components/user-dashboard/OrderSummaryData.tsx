@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { STATUS, type OrderStatus } from "../../lib/statusLookup";
 import TimeSummary from "./TimeSummary";
 
@@ -21,31 +22,33 @@ export default function OrderSummaryData({
   index,
 }: Props) {
   return (
-    <div
-      className={` w-full h-fit text-sm py-1   grid grid-cols-6 ${index % 2 == 0 && "bg-neutral-100"}`}
-    >
-      <div className="col-span-3 md:col-span-1 flex items-center justify-center">
-        <div className="w-30 line-clamp-1">{orderId}</div>
-      </div>
-      <div className="col-span-3 md:col-span-1 flex items-center justify-center ">
-        <div
-          className={`border px-2 py-1 rounded-full ${STATUS[status]?.color} `}
-        >
-          {STATUS[status]?.label ?? status}
+    <Link to={`orders/${orderId}`}>
+      <div
+        className={` w-full hover:bg-blue-100 h-fit text-sm py-1 px-2  grid grid-cols-6 ${index % 2 == 0 && "bg-neutral-100"}`}
+      >
+        <div className="col-span-3 md:col-span-1 flex items-center justify-center">
+          <div className="w-30 px-2 wrap-anywhere text-[12px]">{orderId}</div>
+        </div>
+        <div className="col-span-3 md:col-span-1 flex items-center justify-center ">
+          <div
+            className={`border px-2 py-1 rounded-full text-center text-[12px] w-fit ${STATUS[status]?.color} `}
+          >
+            {STATUS[status]?.label ?? status}
+          </div>
+        </div>
+        <div className="hidden md:flex items-center justify-start">
+          <TimeSummary data={schedule}/>
+        </div>
+        <div className="hidden md:flex items-center justify-start">
+          <TimeSummary data={pick}/>
+        </div>
+        <div className="hidden md:flex items-center justify-start">
+          <TimeSummary data={delivery}/>
+        </div>
+        <div className="hidden md:flex items-center justify-start">
+          <TimeSummary data={complete}/>
         </div>
       </div>
-      <div className="hidden md:flex items-center justify-start">
-        <TimeSummary data={schedule}/>
-      </div>
-      <div className="hidden md:flex items-center justify-start">
-        <TimeSummary data={pick}/>
-      </div>
-      <div className="hidden md:flex items-center justify-start">
-        <TimeSummary data={delivery}/>
-      </div>
-      <div className="hidden md:flex items-center justify-start">
-        <TimeSummary data={complete}/>
-      </div>
-    </div>
+    </Link>
   );
 }
