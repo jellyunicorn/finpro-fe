@@ -57,3 +57,20 @@ export const getDestinationCoords = ({
 
   return { longitude: userLongitude, latitude: userLatitude };
 };
+
+export const addressBuilder = (
+  address?: string | null,
+  regency?: string | null,
+  district?: string | null,
+  village?: string | null,
+) => {
+  if (!address) return "N/A";
+
+  let result = address;
+
+  if (regency && regency != undefined) result += ", " + regency;
+  if (district && district != undefined) result += ", " + district;
+  if (village && village != undefined) result += ", " + village;
+
+  return result;
+};

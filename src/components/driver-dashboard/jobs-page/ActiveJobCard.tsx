@@ -1,4 +1,5 @@
 import type { DriverJob } from "../../../types/driverJob";
+import { addressBuilder } from "../../../utils/driverDashboardHelpers";
 
 interface ActiveJobCardProps {
   activeJob: DriverJob;
@@ -27,7 +28,13 @@ export function ActiveJobCard({
           {activeJob.customerName}
         </p>
         <p>
-          <span className="font-semibold">Address:</span> {activeJob.address}
+          <span className="font-semibold">Address:</span>{" "}
+          {addressBuilder(
+            activeJob.address,
+            activeJob.regency,
+            activeJob.district,
+            activeJob.village,
+          )}
         </p>
         <p>
           <span className="font-semibold">Postal Code:</span>{" "}

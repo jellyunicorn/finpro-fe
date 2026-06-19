@@ -1,6 +1,9 @@
 import React from "react";
 import type { DriverJob } from "../../../types/driverJob";
-import { formatDateTime } from "../../../utils/driverDashboardHelpers";
+import {
+  addressBuilder,
+  formatDateTime,
+} from "../../../utils/driverDashboardHelpers";
 
 interface TableProps {
   data: DriverJob[];
@@ -29,8 +32,12 @@ export default function JobHistoryTable({
           return (
             <React.Fragment key={item.id}>
               <tr className="border-t hover:bg-[#F3F8FE] transition-colors">
-                <td className="p-4 font-medium text-claundry-blue">{item.id}</td>
-                <td className="p-4 text-sm text-gray-600">{item.distance} km</td>
+                <td className="p-4 font-medium text-claundry-blue">
+                  {item.id}
+                </td>
+                <td className="p-4 text-sm text-gray-600">
+                  {item.distance} km
+                </td>
                 <td className="p-4 text-sm text-gray-600">
                   {formatDateTime(item.createdAt)}
                 </td>
@@ -58,7 +65,12 @@ export default function JobHistoryTable({
                     </p>
                     <p>
                       <span className="font-semibold">Address:</span>{" "}
-                      {item.address || "N/A"}
+                      {addressBuilder(
+                        item.address,
+                        item.regency,
+                        item.district,
+                        item.village,
+                      )}
                     </p>
                     <p>
                       <span className="font-semibold">Postal Code:</span>{" "}
