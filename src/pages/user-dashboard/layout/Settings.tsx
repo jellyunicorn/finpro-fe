@@ -17,7 +17,7 @@ const editProfileSchema = z.object({
   fullName: z.string().min(1, "Full name is required").regex(/^[^\d]+$/, "Full name cannot contain numbers"),
   phone: z
     .string()
-    .regex(/^\+?[0-9\s\-]{8,13}$/, "Invalid phone number")
+    .regex(/^\+?[0-9\s\-]{8,13}$/, "Phone number must be 8-13 numbers in length")
     .nullable()
     .optional(),
   birthDate: z.string().nullable().optional(),
