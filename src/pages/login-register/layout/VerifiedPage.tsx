@@ -26,6 +26,7 @@ export default function VerifiedPage() {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [isPasswordSame, setIsPasswordSame] = useState<boolean>(true);
   const [passwordError, setPasswordError] = useState<string>("");
+  
 
   useEffect(() => {
     const checktoken = async () => {
@@ -68,13 +69,13 @@ export default function VerifiedPage() {
       await toast.promise(createUser, {
         loading: "Processing..",
         success: "Account has been activated and verified! Please login again",
-        error: (err) => err.response?.data?.message || "Registration failed.",
+        error: () =>  "Registration failed.",
       });
-    } catch (error) {}
-
-    navigate("/");
+    } catch (error) {
+      setPasswordError("Please enter a password to complete activation")
+    }
   };
-  2;
+
 
   return (
     <main className="w-full md:w-[50%] h-full md:h-full  relative z-5 bg-white p-5  items-center justify-center font-dmsans  rounded-2xl flex">

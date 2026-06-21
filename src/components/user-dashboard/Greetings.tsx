@@ -1,7 +1,7 @@
 import { useLoaderData } from "react-router";
 
 export default function Greetings() {
-  const firstname = useLoaderData().userdata.userdata.fullName.split(" ")[0];
+   const firstname = useLoaderData()?.userdata?.userdata?.fullName?.split(" ")[0] ?? "there";
 
   const hour = new Date().getHours();
   const randomnumber = Math.floor(Math.random() * 3);

@@ -10,7 +10,7 @@ export const passwordSchema = z
     path: ["confirmPassword"],
   });
 
-  export const registerAccountSchema = z.object({
+export const registerAccountSchema = z.object({
     email: z.email(),
     fullName: z
       .string()
