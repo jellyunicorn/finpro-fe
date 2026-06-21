@@ -14,13 +14,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 
 const editProfileSchema = z.object({
-  fullName: z.string().min(1, "Full name is required").regex(/^[^\d]+$/, "Full name cannot contain numbers"),
+  fullName: z
+    .string()
+    .min(1, "Full name is required")
+    .regex(/^[^\d]+$/, "Full name cannot contain numbers"),
   phone: z
     .string()
-    .regex(/^\+?[0-9\s\-]{8,13}$/, "Phone number must be 8-13 numbers in length")
-    .nullable()
-    .optional(),
-  birthDate: z.string().nullable().optional(),
+    .min(1,"Phone Number is required")
+    .regex(
+      /^\+?[0-9\s\-]{8,13}$/,
+      "Phone number must be 8-13 numbers in length",
+    ),
+  birthDate: z.string().min(1, "Birth date is required"),
 });
 
 export default function Settings() {
@@ -70,7 +75,7 @@ export default function Settings() {
     return () => sub.unsubscribe();
   }, [watch]);
 
-useEffect(() => {
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setIsReset(false);
@@ -159,8 +164,8 @@ useEffect(() => {
               }
             />
             {errors.fullName && (
-            <p className="text-red-500 text-sm">{errors.fullName.message}</p>
-          )}
+              <p className="text-red-500 text-sm">{errors.fullName.message}</p>
+            )}
             {!isEditing && <hr className="border-neutral-200" />}
           </div>
           <div className="flex flex-col gap-1">
