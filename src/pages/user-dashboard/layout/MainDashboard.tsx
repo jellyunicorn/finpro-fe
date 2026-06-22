@@ -1,12 +1,12 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link, useLoaderData } from "react-router";
-import { cloudimages } from "../../../lib/cloudinary";
 import Greetings from "../../../components/user-dashboard/Greetings";
-import addressicon from "../../../img/svg/address_blue.svg";
 import OrderSummaryData from "../../../components/user-dashboard/OrderSummaryData";
+import addressicon from "../../../img/svg/address_blue.svg";
+import { axiosInstance } from "../../../lib/axios";
+import { cloudimages } from "../../../lib/cloudinary";
 import type { addressdata, orderdata } from "../../../lib/types";
 import { todaysdate } from "../../../utils/todaysdateUtils";
-import { Query, useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "../../../lib/axios";
 
 export default function MainDashboard() {
   const { userdata: loaderdata, addresses } = useLoaderData();
