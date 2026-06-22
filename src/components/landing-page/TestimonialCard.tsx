@@ -21,7 +21,7 @@ export default function TestimonialCard(
           className="absolute scale-55 right-0 bottom-0 z-1"
         />
       </div>
-      <div className="w-full relative flex-1 p-5 justify-end flex-col flex  bg-[#BEE6E1]">
+      <div className="w-full relative flex-1 p-5 justify-end flex-col flex  bg-claundry-accent">
 
         <span className="font-dmsans font-medium text-claundry-blue">
           {" "}

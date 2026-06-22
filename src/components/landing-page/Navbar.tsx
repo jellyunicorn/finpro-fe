@@ -49,7 +49,7 @@ export default function Navbar() {
         onClick={open === false ? onEnter : onLeave}
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
-        className="text-white border flex flex-col animate-bg-color h-17 border-neutral-50/50 font-dmsans  z-10 inset-x-0 mt-8 mx-10 py-5 rounded-[50px] px-8 w-[100%] lg:w-[35%]  bg-white/10 backdrop-blur-sm overflow-hidden"
+        className="text-white border flex flex-col animate-bg-color h-17 border-neutral-50/50 font-dmsans  z-10 inset-x-0 mt-8 mx-10 py-5 rounded-[50px] px-8 w-full lg:w-[35%]  bg-white/10 backdrop-blur-sm overflow-hidden"
       >
         <nav className=" flex justify-center gap-10 md:justify-between max-h-10 items-center h-6 mb-7">
           <div className="relative flex ">

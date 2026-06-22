@@ -5,7 +5,7 @@ import addressicon from "../../../img/svg/address_blue.svg";
 import OrderSummaryData from "../../../components/user-dashboard/OrderSummaryData";
 import type { addressdata, orderdata } from "../../../lib/types";
 import { todaysdate } from "../../../utils/todaysdateUtils";
-import { useQuery } from "@tanstack/react-query";
+import { Query, useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "../../../lib/axios";
 
 export default function MainDashboard() {
@@ -17,19 +17,27 @@ export default function MainDashboard() {
   const { data: userorder, isLoading } = useQuery<orderdata[]>({
     queryKey: ["orders"],
     queryFn: async () => {
-      const result = await axiosInstance.get("/order/");
+      const result = await axiosInstance.get("/order/", {});
       return result.data?.data ?? result.data;
     },
   });
 
-  const OngoingOrders = userorder?.filter(
-    (e: orderdata) =>
-      (e.confirmedAt === null || e.confirmedAt === "") &&
-      e.orderStatus !== "CANCELLED",
-  );
-  const PendingPayment = userorder?.filter(
-    (e: orderdata) => e.orderStatus === "WAITING_FOR_PAYMENT",
-  );
+  const { data: recentOrder } = useQuery({
+    queryKey: ["countActiveOrder"],
+    queryFn: async () => {
+      const res = await axiosInstance.get("/order/countactive");
+      return res.data;
+    },
+  });
+  const { data: pendingPayment } = useQuery({
+    queryKey: ["countPendingPayment"],
+    queryFn: async () => {
+      const res = await axiosInstance.get("/order/countpendingpayment");
+      return res.data;
+    },
+  });
+
+
 
   return (
     <main className="bg-[#f7fcff] p-5 flex flex-col relative gap-5">
@@ -97,13 +105,13 @@ export default function MainDashboard() {
             <div className="flex flex-col w-full justify-between bg-white border rounded-xl h-40 border-[#BEE6E1] p-5">
               <h3 className="text-xl font-medium">Ongoing Laundry</h3>
               <span className="text-4xl font-bold text-claundry-blue">
-                {OngoingOrders?.length}
+                {recentOrder}
               </span>
             </div>
             <div className="flex flex-col w-full justify-between bg-white border rounded-xl h-40 border-[#BEE6E1] p-5">
               <h3 className="text-xl font-medium">Pending Payments</h3>
               <span className="text-4xl font-bold text-claundry-blue">
-                {PendingPayment?.length}
+                {pendingPayment}
               </span>
             </div>
           </div>

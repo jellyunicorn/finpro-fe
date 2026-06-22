@@ -132,6 +132,10 @@ export default function AddressEditMenu({
     formMode === "create" ? createAddress(merged) : updateAddress(merged);
   };
 
+  useEffect(()=>{
+    console.log(addressForm)
+  },[addressForm])
+
   return (
     <>
       {isEditing && (
