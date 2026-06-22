@@ -69,7 +69,7 @@ export default function WorkerDashboardMain() {
         <img
           src={cloudimages.dashboard_img}
           alt="Dashboard illustration"
-          className="hidden lg:block absolute right-0 top-0 h-full max-h-64 object-contain mr-6"
+          className="hidden lg:block absolute right-0 top-0 h-full max-h-64 w-auto object-contain lg:max-xl:max-h-48"
         />
       </div>
 
