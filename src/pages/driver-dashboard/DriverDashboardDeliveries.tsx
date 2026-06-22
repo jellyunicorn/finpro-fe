@@ -125,14 +125,15 @@ export default function DriverDashboardDeliveries() {
       </h1>
 
       {activeJob ? (
-        <div className="w-full flex gap-6">
+        <div className="w-full flex flex-col md:flex-row gap-6">
           <ActiveJobCard
             activeJob={activeJob}
             onAdvance={(id, type) => openConfirm(id, type, "advance")}
             onComplete={(id, type) => openConfirm(id, type, "complete")}
             onCancel={(id, type) => openConfirm(id, type, "cancel")}
           />
-          <div className="w-1/2 bg-gray-200 shadow rounded-lg border border-gray-300 flex items-center justify-center">
+
+          <div className="w-full md:w-1/2 h-screen md:h-auto bg-gray-200 shadow rounded-lg border border-gray-300 flex items-center justify-center">
             <DriverActiveMap
               fromLongitude={getFromCoords(activeJob).longitude}
               fromLatitude={getFromCoords(activeJob).latitude}
@@ -166,7 +167,7 @@ export default function DriverDashboardDeliveries() {
                     jobs={activeTab === "pickup" ? pickupJobs : deliveryJobs}
                     onAccept={(id) => openConfirm(id, activeTab, "accept")}
                   />
-                  
+
                   <JobRequestsTable
                     data={activeTab === "pickup" ? pickupJobs : deliveryJobs}
                     expandedRow={expandedRow}
